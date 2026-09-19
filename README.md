@@ -35,19 +35,27 @@ npm install
 
 ## Running
 
-### Backend
+### Run everything at once (Windows)
 
-```bash
-# From the backend/ folder
+```cmd
+start.bat
+```
+
+Opens two terminal windows — one for the backend, one for the frontend.
+
+### Backend only
+
+```cmd
+cd backend
 uv run fastapi dev src/backend/main.py
 ```
 
 Server will start at `http://127.0.0.1:8000`
 
-### Frontend
+### Frontend only
 
-```bash
-# From the frontend/ folder
+```cmd
+cd frontend
 npm run dev
 ```
 
