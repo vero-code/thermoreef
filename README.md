@@ -1,27 +1,41 @@
 # ThermoReef
 
+## Tech Stack
+
+- **Backend:** Python, FastAPI, uv
+- **Frontend:** React, TypeScript, Vite
+
 ## Installation
 
 ### Requirements
 
 - [Python 3.14+](https://www.python.org/)
 - [uv](https://docs.astral.sh/uv/)
+- [Node.js](https://nodejs.org/)
 
-### Steps
+### Backend
 
 ```bash
 # Clone the repository
 git clone https://github.com/vero-code/thermoreef.git
-cd thermoreef
-
-# Navigate to the backend folder
-cd backend
+cd thermoreef/backend
 
 # Install dependencies
 uv add "fastapi[standard]"
 ```
 
+### Frontend
+
+```bash
+cd thermoreef/frontend
+
+# Install dependencies
+npm install
+```
+
 ## Running
+
+### Backend
 
 ```bash
 # From the backend/ folder
@@ -30,9 +44,18 @@ uv run fastapi dev src/backend/main.py
 
 Server will start at `http://127.0.0.1:8000`
 
+### Frontend
+
+```bash
+# From the frontend/ folder
+npm run dev
+```
+
+App will start at `http://localhost:5173`
+
 ## API Documentation
 
-Once the server is running, two documentation interfaces are available:
+Once the backend is running, two documentation interfaces are available:
 
 ### Swagger UI
 
