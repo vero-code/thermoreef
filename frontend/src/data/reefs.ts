@@ -1,14 +1,14 @@
-export type AlertLevel = 'normal' | 'watch' | 'warning' | 'alert1' | 'alert2'
+export type AlertLevel = 'normal' | 'watch' | 'warning' | 'alert1' | 'alert2';
 
 export interface Reef {
-  id: string
-  name: string
-  lat: number
-  lng: number
-  alertLevel: AlertLevel
-  tempAnomaly: number
-  dhw: number
-  country: string
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+  alertLevel: AlertLevel;
+  tempAnomaly: number;
+  dhw: number;
+  country: string;
 }
 
 export const REEFS: Reef[] = [

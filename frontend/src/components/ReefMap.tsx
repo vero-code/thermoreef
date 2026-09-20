@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { APIProvider, Map, AdvancedMarker, Pin } from '@vis.gl/react-google-maps'
-import { REEFS, ALERT_COLORS, ALERT_LABELS, type Reef } from '../data/reefs'
+import { useState } from 'react';
+import { APIProvider, Map, AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
+import { REEFS, ALERT_COLORS, ALERT_LABELS, type Reef } from '../data/reefs';
 
-const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string;
 
 export default function ReefMap() {
-  const [selected, setSelected] = useState<Reef | null>(null)
+  const [selected, setSelected] = useState<Reef | null>(null);
 
   return (
     <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
@@ -14,6 +14,8 @@ export default function ReefMap() {
           mapId="thermoreef-map"
           defaultCenter={{ lat: 10, lng: 20 }}
           defaultZoom={2}
+          mapTypeId="hybrid"
+          streetViewControl={false}
           style={{ width: '100%', height: '100%' }}
         >
           {REEFS.map((reef) => (
