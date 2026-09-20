@@ -76,3 +76,38 @@ Interactive documentation — browse all endpoints, fill in parameters and send 
 Open `http://127.0.0.1:8000/redoc`
 
 Alternative documentation in a clean, readable format.
+
+## Data Sources
+
+Reef heat stress data is sourced from **NOAA Coral Reef Watch** via the **PacIOOS ERDDAP server**.
+
+Each reef is monitored using the following satellite-derived metrics:
+
+| Field | Description |
+|---|---|
+| `sst` | Sea Surface Temperature (°C) |
+| `tempAnomaly` | SST Anomaly — how many °C above the historical norm |
+| `dhw` | Degree Heating Weeks — accumulated heat stress over 12 weeks |
+| `baa` | Bleaching Alert Area — alert level (0–4) |
+
+### Alert Levels
+
+| Level | DHW | Meaning |
+|---|---|---|
+| 🟢 Normal | 0 | No stress |
+| 🟡 Watch | < 4 | Possible bleaching |
+| 🟠 Warning | 4–8 | Bleaching likely |
+| 🔴 Alert Level 1 | 8–16 | Significant bleaching |
+| 🔴 Alert Level 2 | > 16 | Severe/mortality likely |
+
+### Monitored Reefs
+
+| Reef | Location |
+|---|---|
+| Great Barrier Reef | Australia |
+| Coral Triangle | Indonesia |
+| Red Sea Reefs | Egypt / Saudi Arabia |
+| Caribbean Reefs | Caribbean |
+| Maldives Reefs | Maldives |
+| Hawaiian Reefs | USA (Hawaii) |
+| Florida Reef Tract | USA (Florida) |
