@@ -1,92 +1,127 @@
 # ThermoReef
 
+AI-powered coral bleaching early warning system. Monitors ocean thermal stress using NOAA satellite data and displays 17,504 real coral reef polygons from UNEP-WCMC on an interactive map.
+
+## Architecture
+
+```
+UNEP-WCMC (coral reef polygons)
+        ↓
+Google Maps Dataset Layer (renders polygons)
+        +
+NOAA ERDDAP (live SST, DHW, BAA per reef)
+        ↓
+FastAPI backend
+        ↓
+React frontend (Google Maps, info card)
+        ↓      [coming soon]
+Tavily Search + Nebius/NVIDIA Nemotron
+        ↓
+AI-generated intervention protocol
+```
+
 ## Tech Stack
 
 - **Backend:** Python, FastAPI, uv
-- **Frontend:** React, TypeScript, Vite
+- **Frontend:** React, TypeScript, Vite, @vis.gl/react-google-maps
+- **Map:** Google Maps Platform (Vector, Dataset Layer)
+- **Reef data:** UNEP-WCMC Global Distribution of Coral Reefs (17,504 polygons)
+- **Thermal data:** NOAA Coral Reef Watch via PacIOOS ERDDAP
 
 ## Installation
 
 ### Requirements
 
-- [Python 3.14+](https://www.python.org/)
+- [Python 3.12+](https://www.python.org/)
 - [uv](https://docs.astral.sh/uv/)
 - [Node.js](https://nodejs.org/)
+
+### Environment variables
+
+Create `backend/.env`:
+```
+# coming soon
+TAVILY_API_KEY=...
+NEBIUS_API_KEY=...
+```
+
+Create `frontend/.env`:
+```
+VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+```
 
 ### Backend
 
 ```bash
-# Clone the repository
-git clone https://github.com/vero-code/thermoreef.git
 cd thermoreef/backend
-
-# Install dependencies
-uv add "fastapi[standard]"
+uv sync
 ```
 
 ### Frontend
 
 ```bash
 cd thermoreef/frontend
-
-# Install dependencies
 npm install
 ```
 
 ## Running
 
-### Run everything at once (Windows)
+### Backend
 
-```cmd
-start.bat
-```
-
-Opens two terminal windows — one for the backend, one for the frontend.
-
-### Backend only
-
-```cmd
+```bash
 cd backend
 uv run fastapi dev src/backend/main.py
 ```
 
-Server will start at `http://127.0.0.1:8000`
+Server starts at `http://127.0.0.1:8000`
 
-### Frontend only
+### Frontend
 
-```cmd
+```bash
 cd frontend
 npm run dev
 ```
 
-App will start at `http://localhost:5173`
+App starts at `http://localhost:5173`
 
-## API Documentation
+## Reef Data Pipeline
 
-Once the backend is running, two documentation interfaces are available:
+Coral reef polygons are downloaded from UNEP-WCMC and uploaded to Google Maps Datasets:
 
-### Swagger UI
+```bash
+cd backend
 
-Open `http://127.0.0.1:8000/docs`
+# 1. Download all 17,504 reef polygons
+uv run python scripts/download_reefs.py
 
-Interactive documentation — browse all endpoints, fill in parameters and send requests directly from the browser.
+# 2. Upload coral_reefs.geojson to Google Cloud Console → Datasets
+```
 
-### ReDoc
+The downloaded `coral_reefs.geojson` is excluded from git (see `.gitignore`).
 
-Open `http://127.0.0.1:8000/redoc`
+## API Endpoints
 
-Alternative documentation in a clean, readable format.
+| Endpoint | Description |
+|---|---|
+| `GET /reefs` | All reef centroids `{id, lat, lng}` |
+| `GET /reefs/{id}/stress` | Live NOAA thermal stress data for a reef |
+
+Full docs at `http://127.0.0.1:8000/docs`
 
 ## Data Sources
 
-Reef heat stress data is sourced from **NOAA Coral Reef Watch** via the **PacIOOS ERDDAP server**.
+### Reef Polygons
+**UNEP-WCMC** — Global Distribution of Coral Reefs (WCMC008_CoralReef2021_Py_v4_1)
+17,504 polygons, CC BY 4.0 license.
+[data-gis.unep-wcmc.org](https://data-gis.unep-wcmc.org/server/rest/services/HabitatsAndBiotopes/Global_Distribution_of_Coral_Reefs/FeatureServer/1)
 
-Each reef is monitored using the following satellite-derived metrics:
+### Thermal Stress
+**NOAA Coral Reef Watch** via PacIOOS ERDDAP server.
 
 | Field | Description |
 |---|---|
 | `sst` | Sea Surface Temperature (°C) |
-| `tempAnomaly` | SST Anomaly — how many °C above the historical norm |
+| `tempAnomaly` | SST Anomaly — °C above historical norm |
 | `dhw` | Degree Heating Weeks — accumulated heat stress over 12 weeks |
 | `baa` | Bleaching Alert Area — alert level (0–4) |
 
@@ -98,16 +133,4 @@ Each reef is monitored using the following satellite-derived metrics:
 | 🟡 Watch | < 4 | Possible bleaching |
 | 🟠 Warning | 4–8 | Bleaching likely |
 | 🔴 Alert Level 1 | 8–16 | Significant bleaching |
-| 🔴 Alert Level 2 | > 16 | Severe/mortality likely |
-
-### Monitored Reefs
-
-| Reef | Location |
-|---|---|
-| Great Barrier Reef | Australia |
-| Coral Triangle | Indonesia |
-| Red Sea Reefs | Egypt / Saudi Arabia |
-| Caribbean Reefs | Caribbean |
-| Maldives Reefs | Maldives |
-| Hawaiian Reefs | USA (Hawaii) |
-| Florida Reef Tract | USA (Florida) |
+| 🔴 Alert Level 2 | > 16 | Severe / mortality likely |
