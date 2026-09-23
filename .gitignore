@@ -28,6 +28,5 @@ frontend/dist/
 frontend/dist-ssr/
 frontend/*.local
 
-# Generated data files (run scripts/download_reefs.py + make_centroids.py to regenerate)
+# Generated data files (scripts/download_reefs.py)
 backend/src/backend/coral_reefs.geojson
-backend/src/backend/coral_reefs.json
