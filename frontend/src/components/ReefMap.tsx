@@ -29,7 +29,7 @@ function ReefDatasetLayer({ selectedId, onSelectReef }: DatasetLayerProps) {
     const datasetLayer = map.getDatasetFeatureLayer(DATASET_ID);
 
     datasetLayer.style = (options: google.maps.FeatureStyleFunctionOptions) => {
-      console.log('Feature detected in viewport:', options.feature);
+      // console.log('Feature detected in viewport:', options.feature);
       const feature = options.feature as google.maps.DatasetFeature;
       const attrs = feature.datasetAttributes;
       const rawId = attrs['OBJECTID'] ?? attrs['objectid'];
@@ -37,6 +37,7 @@ function ReefDatasetLayer({ selectedId, onSelectReef }: DatasetLayerProps) {
       const isSelected = selectedId !== null && String(rawId) === String(selectedId);
 
       return {
+        // Vector polygon style for reefs on the map
         fillColor: isSelected ? '#f59e0b' : '#06b6d4',
         fillOpacity: isSelected ? 0.85 : 0.55,
         strokeColor: isSelected ? '#ffffff' : '#0891b2',
@@ -85,7 +86,6 @@ export default function ReefMap() {
           mapId={MAP_ID}
           defaultCenter={{ lat: 10, lng: 20 }}
           defaultZoom={2}
-          // mapTypeId="hybrid"
           mapTypeControl={false}
           streetViewControl={false}
           fullscreenControl={false}
@@ -123,7 +123,7 @@ export default function ReefMap() {
             ✕
           </button>
 
-          <h2 style={{ margin: '0 0 8px' }}>Reef #{selected.id}</h2>
+          <h2 style={{ margin: '0 0 8px' }}>Reef #{Math.round(Number(selected.id))}</h2>
           
           <p style={{ margin: '0 0 16px', color: '#666', fontSize: 13 }}>
             Coordinates: {selected.lat.toFixed(4)}, {selected.lng.toFixed(4)}
@@ -143,9 +143,22 @@ export default function ReefMap() {
             </div>
 
             {selected.metadataId && (
-              <div>
-                <span style={{ fontSize: 12, color: '#64748b' }}>Source Metadata ID: </span>
-                <span style={{ fontSize: 14, fontWeight: 600 }}>{selected.metadataId}</span>
+              <div style={{ fontSize: 13, marginTop: 6 }}>
+                <span style={{ color: '#64748b' }}>Data Source: </span>
+                <a
+                  href={`https://data-gis.unep-wcmc.org/server/rest/services/HabitatsAndBiotopes/Global_Distribution_of_Coral_Reefs/FeatureServer/2/${Math.round(Number(selected.metadataId))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: '#0284c7',
+                    textDecoration: 'none',
+                    fontWeight: 600,
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                >
+                  UNEP-WCMC (Record #{Math.round(Number(selected.metadataId))}) ↗
+                </a>
               </div>
             )}
           </div>
