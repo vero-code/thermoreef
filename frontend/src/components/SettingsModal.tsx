@@ -9,6 +9,8 @@ interface Props {
 
 type ModeTab = 'mock' | 'custom' | 'dev';
 
+const API_BASE = 'http://localhost:8000';
+
 export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
   const [activeTab, setActiveTab] = useState<ModeTab>(() => {
     const saved = localStorage.getItem('thermoreef_setting_tab');
@@ -20,6 +22,9 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
   const [tavilyKey, setTavilyKey] = useState('');
   const [nebiusInvalid, setNebiusInvalid] = useState(false);
   const [tavilyInvalid, setTavilyInvalid] = useState(false);
+  const [devError, setDevError] = useState<string | null>(null);
+  const [devChecking, setDevChecking] = useState(false);
+  const [devInvalid, setDevInvalid] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -27,6 +32,8 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
     setTavilyKey(localStorage.getItem('thermoreef_tavily_key') || '');
     setNebiusInvalid(false);
     setTavilyInvalid(false);
+    setDevError(null);
+    setDevInvalid(false);
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -35,9 +42,11 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
     setActiveTab(tab);
     setNebiusInvalid(false);
     setTavilyInvalid(false);
+    setDevError(null);
+    setDevInvalid(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (activeTab === 'custom') {
       const hasNebius = !!nebiusKey.trim();
       const hasTavily = !!tavilyKey.trim();
@@ -48,6 +57,32 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
       if (!hasNebius || !hasTavily) {
         return;
       }
+    }
+
+    if (activeTab === 'dev') {
+      setDevChecking(true);
+      setDevError(null);
+      setDevInvalid(false);
+      try {
+        const res = await fetch(`${API_BASE}/config/dev-check`);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        if (!data.ready) {
+          const missingStr = data.missing?.join(' and ') || 'API keys';
+          setDevError(`Missing ${missingStr} in backend/.env`);
+          setDevInvalid(true);
+          setDevChecking(false);
+          return;
+        }
+      } catch (err: any) {
+        setDevError(`Backend check failed: ${err.message}. Is backend running?`);
+        setDevInvalid(true);
+        setDevChecking(false);
+        return;
+      }
+      setDevChecking(false);
     }
 
     localStorage.setItem('thermoreef_setting_tab', activeTab);
@@ -305,17 +340,19 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
           {activeTab === 'dev' && (
             <div
               style={{
-                background: 'rgba(168, 85, 247, 0.08)',
-                border: '1px solid rgba(168, 85, 247, 0.25)',
+                background: devInvalid ? 'rgba(239, 68, 68, 0.08)' : 'rgba(168, 85, 247, 0.08)',
+                border: devInvalid ? '1.5px solid #ef4444' : '1px solid rgba(168, 85, 247, 0.25)',
+                boxShadow: devInvalid ? '0 0 12px rgba(239, 68, 68, 0.45)' : 'none',
                 borderRadius: '10px',
                 padding: '14px',
                 fontSize: '12px',
                 color: '#e2e8f0',
                 lineHeight: 1.5,
+                transition: 'border-color 0.2s, box-shadow 0.2s',
               }}
             >
-              <div style={{ fontWeight: 700, color: '#c084fc', marginBottom: '4px', fontSize: '13px' }}>
-                🛠️ Running Locally from Source
+              <div style={{ fontWeight: 700, color: devInvalid ? '#f87171' : '#c084fc', marginBottom: '4px', fontSize: '13px' }}>
+                {devInvalid ? '⚠️ Missing Required Keys in backend/.env' : '🛠️ Running Locally from Source'}
               </div>
               <div>
                 If running locally on your computer, configure your keys directly in <code style={{ color: '#c084fc', background: 'rgba(168,85,247,0.15)', padding: '2px 6px', borderRadius: '4px' }}>backend/.env</code>:
@@ -323,7 +360,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
               <pre
                 style={{
                   background: 'rgba(0, 0, 0, 0.4)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  border: devInvalid ? '1px solid rgba(239, 68, 68, 0.4)' : '1px solid rgba(255, 255, 255, 0.1)',
                   borderRadius: '6px',
                   padding: '8px 10px',
                   fontSize: '11px',
@@ -335,6 +372,27 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
 NEBIUS_API_KEY=your_key_here
 TAVILY_API_KEY=your_key_here
               </pre>
+
+              {devError && (
+                <div
+                  style={{
+                    marginTop: '10px',
+                    padding: '8px 10px',
+                    borderRadius: '6px',
+                    background: 'rgba(239, 68, 68, 0.15)',
+                    border: '1px solid rgba(239, 68, 68, 0.35)',
+                    color: '#fca5a5',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <span>⚠️</span>
+                  <span>{devError}</span>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -364,19 +422,20 @@ TAVILY_API_KEY=your_key_here
           </button>
           <button
             onClick={handleSave}
+            disabled={devChecking}
             style={{
-              background: saved ? '#10b981' : '#0ea5e9',
+              background: saved ? '#10b981' : (devChecking ? '#64748b' : '#0ea5e9'),
               color: '#ffffff',
               border: 'none',
               borderRadius: '8px',
               padding: '8px 18px',
               fontSize: '13px',
               fontWeight: 600,
-              cursor: 'pointer',
+              cursor: devChecking ? 'wait' : 'pointer',
               transition: 'background 0.2s ease',
             }}
           >
-            {saved ? '✓ Saved!' : 'Apply Settings'}
+            {devChecking ? 'Checking .env...' : (saved ? '✓ Saved!' : 'Apply Settings')}
           </button>
         </div>
       </div>

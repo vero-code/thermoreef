@@ -155,6 +155,40 @@ async def get_reef_intervention(
     }
 
 
+@app.get("/config/dev-check")
+def check_dev_config():
+    """Verify whether local .env configuration has both required keys for developers."""
+    import os
+    from pathlib import Path
+    from dotenv import load_dotenv
+
+    env_backend = Path(__file__).resolve().parent.parent.parent / ".env"
+    if env_backend.exists():
+        load_dotenv(env_backend, override=True)
+    else:
+        load_dotenv(override=True)
+
+    nebius_key = os.getenv("NEBIUS_API_KEY", "").strip()
+    tavily_key = os.getenv("TAVILY_API_KEY", "").strip()
+
+    # Consider empty or template placeholders as missing
+    has_nebius = bool(nebius_key and not nebius_key.startswith("your_"))
+    has_tavily = bool(tavily_key and not tavily_key.startswith("your_"))
+
+    missing: list[str] = []
+    if not has_nebius:
+        missing.append("NEBIUS_API_KEY")
+    if not has_tavily:
+        missing.append("TAVILY_API_KEY")
+
+    return {
+        "has_nebius": has_nebius,
+        "has_tavily": has_tavily,
+        "ready": has_nebius and has_tavily,
+        "missing": missing,
+    }
+
+
 @app.get("/")
 def read_root():
     return {"status": "ok"}

@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import asyncio
+from pathlib import Path
 from typing import Any, Optional
 import httpx
 from dotenv import load_dotenv
@@ -9,7 +10,11 @@ from dotenv import load_dotenv
 from .prompts import SYSTEM_PROMPT, build_user_prompt
 from .mock import get_mock_intervention
 
-load_dotenv()
+_ENV_PATH = Path(__file__).resolve().parent.parent.parent.parent / ".env"
+if _ENV_PATH.exists():
+    load_dotenv(_ENV_PATH)
+else:
+    load_dotenv()
 
 logger = logging.getLogger("thermoreef.nemotron")
 

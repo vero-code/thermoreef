@@ -1,10 +1,15 @@
 import os
 import logging
+from pathlib import Path
 from typing import Any, Optional
 import httpx
 from dotenv import load_dotenv
 
-load_dotenv()
+_ENV_PATH = Path(__file__).resolve().parent.parent.parent / ".env"
+if _ENV_PATH.exists():
+    load_dotenv(_ENV_PATH)
+else:
+    load_dotenv()
 
 logger = logging.getLogger("thermoreef.tavily")
 
