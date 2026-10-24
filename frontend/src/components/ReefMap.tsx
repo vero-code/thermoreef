@@ -11,6 +11,7 @@ import type { ReefData } from './map/types';
 import { ReefDatasetLayer } from './map/ReefDatasetLayer';
 import { MapHeader } from './map/MapHeader';
 import { ReefInfoCard } from './map/ReefInfoCard';
+import './map/map.css';
 import {
   API_BASE,
   GOOGLE_MAPS_API_KEY,
@@ -95,7 +96,7 @@ export default function ReefMap() {
   };
 
   return (
-    <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
+    <div className="reef-map-container">
       <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
         <Map
           mapId={GOOGLE_MAPS_MAP_ID}
@@ -104,7 +105,7 @@ export default function ReefMap() {
           mapTypeControl={false}
           streetViewControl={false}
           fullscreenControl={false}
-          style={{ width: '100%', height: '100%' }}
+          className="reef-map-canvas"
         >
           <ReefDatasetLayer
             selectedId={selected?.id ?? null}

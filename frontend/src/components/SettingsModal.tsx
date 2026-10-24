@@ -6,6 +6,7 @@ import { LiveCloudTab } from './settings/LiveCloudTab';
 import { DevTab } from './settings/DevTab';
 
 import { API_BASE, STORAGE_KEYS } from '../constants';
+import './settings/settings.css';
 
 interface Props {
   isOpen: boolean;
@@ -111,68 +112,24 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
   };
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        backgroundColor: 'rgba(5, 10, 18, 0.75)',
-        backdropFilter: 'blur(8px)',
-        zIndex: 10000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '20px',
-      }}
-    >
-      <div
-        style={{
-          width: '100%',
-          maxWidth: '560px',
-          backgroundColor: '#0f172a',
-          border: '1px solid rgba(56, 189, 248, 0.25)',
-          borderRadius: '16px',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.6)',
-          display: 'flex',
-          flexDirection: 'column',
-          color: '#f8fafc',
-          fontFamily: "'Roboto', system-ui, -apple-system, sans-serif",
-          overflow: 'hidden',
-        }}
-      >
+    <div className="settings-modal-overlay">
+      <div className="settings-modal-card">
         {/* Header */}
-        <div
-          style={{
-            padding: '16px 20px',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            background: 'linear-gradient(180deg, rgba(14, 165, 233, 0.1) 0%, rgba(15, 23, 42, 0) 100%)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '18px' }}>⚙️</span>
-            <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700 }}>Settings</h3>
+        <div className="settings-modal-header">
+          <div className="settings-modal-title-group">
+            <span className="settings-modal-icon">⚙️</span>
+            <h3 className="settings-modal-title">Settings</h3>
           </div>
           <button
             onClick={onClose}
-            style={{
-              background: 'rgba(255, 255, 255, 0.08)',
-              border: 'none',
-              borderRadius: '8px',
-              color: '#94a3b8',
-              width: '32px',
-              height: '32px',
-              cursor: 'pointer',
-              fontSize: '16px',
-            }}
+            className="settings-modal-close-btn"
           >
             ✕
           </button>
         </div>
 
         {/* Content */}
-        <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="settings-modal-body">
           <ModeSelector activeTab={activeTab} onSelectTab={handleSelectTab} />
 
           {activeTab === 'mock' && <JudgeTab />}
@@ -198,42 +155,17 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
         </div>
 
         {/* Footer */}
-        <div
-          style={{
-            padding: '14px 20px',
-            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '8px',
-          }}
-        >
+        <div className="settings-modal-footer">
           <button
             onClick={onClose}
-            style={{
-              background: 'transparent',
-              color: '#94a3b8',
-              border: 'none',
-              padding: '8px 14px',
-              fontSize: '16px',
-              cursor: 'pointer',
-            }}
+            className="settings-btn-cancel"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={devChecking}
-            style={{
-              background: saved ? '#10b981' : devChecking ? '#64748b' : '#0ea5e9',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '8px 18px',
-              fontSize: '16px',
-              fontWeight: 600,
-              cursor: devChecking ? 'wait' : 'pointer',
-              transition: 'background 0.2s ease',
-            }}
+            className={`settings-btn-apply ${saved ? 'is-saved' : ''} ${devChecking ? 'is-checking' : ''}`}
           >
             {devChecking ? 'Checking .env...' : saved ? '✓ Saved!' : 'Apply Settings'}
           </button>

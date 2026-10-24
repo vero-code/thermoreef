@@ -6,31 +6,28 @@ interface Props {
 
 export function ShadingTab({ shading }: Props) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-      <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '12px', borderRadius: '8px' }}>
-        <div style={{ fontSize: '14px', color: '#64748b', textTransform: 'uppercase' }}>Shading Needed</div>
+    <div className="intervention-tab-stack">
+      <div className="intervention-info-card">
+        <div className="intervention-card-label">Shading Needed</div>
         <div
-          style={{
-            fontSize: '18px',
-            fontWeight: 700,
-            color: shading.needed ? '#f59e0b' : '#10b981',
-            marginTop: '2px',
-          }}
+          className={`intervention-card-value large ${
+            shading.needed ? 'highlight-warning' : 'highlight-safe'
+          }`}
         >
           {shading.needed ? 'YES — Urgent Deployment' : 'NO — Standby Mode'}
         </div>
       </div>
 
-      <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '12px', borderRadius: '8px' }}>
-        <div style={{ fontSize: '14px', color: '#64748b', textTransform: 'uppercase' }}>Recommended Method</div>
-        <div style={{ fontSize: '16px', fontWeight: 600, color: '#38bdf8', marginTop: '2px' }}>
+      <div className="intervention-info-card">
+        <div className="intervention-card-label">Recommended Method</div>
+        <div className="intervention-card-value primary">
           {shading.recommended_method}
         </div>
       </div>
 
-      <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '12px', borderRadius: '8px' }}>
-        <div style={{ fontSize: '14px', color: '#64748b', textTransform: 'uppercase' }}>Target Hours & Cooling Delta</div>
-        <div style={{ fontSize: '16px', color: '#cbd5e1', marginTop: '2px' }}>
+      <div className="intervention-info-card">
+        <div className="intervention-card-label">Target Hours & Cooling Delta</div>
+        <div className="intervention-card-value">
           Hours: <strong>{shading.target_hours}</strong> | Expected delta: <strong>{shading.expected_cooling_delta}</strong>
         </div>
       </div>

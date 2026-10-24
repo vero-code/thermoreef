@@ -1,4 +1,5 @@
 import type { ModeTab } from '../settings/types';
+import './map.css';
 
 interface Props {
   executionMode: ModeTab;
@@ -6,86 +7,49 @@ interface Props {
 }
 
 export function MapHeader({ executionMode, onOpenSettings }: Props) {
-  const getBadgeConfig = () => {
+  const getBadgeClassAndLabel = () => {
     switch (executionMode) {
       case 'mock':
         return {
-          bg: 'rgba(245, 158, 11, 0.15)',
-          border: 'rgba(245, 158, 11, 0.4)',
-          color: '#fbbf24',
+          className: 'mode-mock',
           label: '🟡 Demo Mode',
         };
       case 'dev':
         return {
-          bg: 'rgba(168, 85, 247, 0.15)',
-          border: 'rgba(168, 85, 247, 0.4)',
-          color: '#c084fc',
+          className: 'mode-dev',
           label: '🟣 For Devs',
         };
       case 'custom':
       default:
         return {
-          bg: 'rgba(16, 185, 129, 0.15)',
-          border: 'rgba(16, 185, 129, 0.4)',
-          color: '#34d399',
+          className: 'mode-custom',
           label: '🟢 Live API',
         };
     }
   };
 
-  const badge = getBadgeConfig();
+  const badge = getBadgeClassAndLabel();
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        top: 20,
-        left: 20,
-        background: 'rgba(15, 23, 42, 0.88)',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(56, 189, 248, 0.25)',
-        borderRadius: 12,
-        padding: '10px 14px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-        zIndex: 10,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-        color: '#f8fafc',
-        fontFamily: "'Roboto', system-ui, -apple-system, sans-serif",
-      }}
-    >
+    <div className="map-header">
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, fontSize: '18px' }}>
+        <div className="map-title-row">
           <span>🌊</span>
-          <span style={{ color: '#38bdf8' }}>ThermoReef</span>
+          <span className="map-brand-name">ThermoReef</span>
         </div>
-        <div style={{ fontSize: '14px', color: '#94a3b8' }}>AI Coral Rescue</div>
+        <div className="map-brand-subtitle">AI Coral Rescue</div>
       </div>
 
-      <div style={{ height: '22px', width: '1px', background: 'rgba(255,255,255,0.15)' }} />
+      <div className="map-header-divider" />
 
       {/* Mode Indicator & Settings Trigger */}
       <button
         onClick={onOpenSettings}
-        style={{
-          background: badge.bg,
-          border: `1px solid ${badge.border}`,
-          borderRadius: 8,
-          padding: '6px 12px',
-          color: badge.color,
-          fontSize: '14px',
-          fontWeight: 600,
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          fontFamily: 'inherit',
-        }}
+        className={`map-mode-badge ${badge.className}`}
         title="Switch between Demo, Live Cloud, and Developer modes or set custom keys"
       >
         <span>{badge.label}</span>
-        <span style={{ opacity: 0.8 }}>⚙️</span>
+        <span className="map-mode-gear">⚙️</span>
       </button>
     </div>
   );
