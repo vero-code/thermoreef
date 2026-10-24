@@ -11,6 +11,7 @@ import type { ReefData } from './map/types';
 import { ReefDatasetLayer } from './map/ReefDatasetLayer';
 import { MapHeader } from './map/MapHeader';
 import { ReefInfoCard } from './map/ReefInfoCard';
+import { MapFooter } from './map/MapFooter';
 import '../styles/map.css';
 import {
   API_BASE,
@@ -143,6 +144,9 @@ export default function ReefMap() {
           onClose={() => setInterventionData(null)}
         />
       )}
+
+      {/* Map Footer (Copyright & Author) */}
+      <MapFooter />
 
       {/* Settings & Custom API Keys Modal */}
       <SettingsModal

@@ -134,3 +134,33 @@
 .noaa-metric-cell .val.neg { color: #10b981; }
 .noaa-metric-cell .val.warning { color: #f59e0b; }
 .noaa-error-box { font-size: 14px; color: #ef4444; padding: 8px; background: #fef2f2; border-radius: 6px; }
+
+/* Map Footer Overlay */
+.map-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #94a3b8;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+.map-footer-divider { color: rgba(255, 255, 255, 0.2); }
+.map-footer a {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+.map-footer a:hover {
+  color: #7dd3fc;
+  text-decoration: underline;
+}
