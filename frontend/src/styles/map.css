@@ -20,7 +20,8 @@
   gap: 12px;
   color: #f8fafc;
 }
-.map-title-row { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 18px; }
+.map-title-row { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; }
+.map-logo { width: 24px; height: 24px; border-radius: 4px; object-fit: contain; }
 .map-brand-name { color: #38bdf8; }
 .map-brand-sub { font-size: 14px; color: #94a3b8; }
 .map-divider { height: 22px; width: 1px; background: rgba(255, 255, 255, 0.15); }

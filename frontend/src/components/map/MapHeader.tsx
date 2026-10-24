@@ -1,4 +1,5 @@
 import type { ModeTab } from '../settings/types';
+import logo from '../../assets/logo.png';
 import '../../styles/map.css';
 
 interface Props {
@@ -34,7 +35,7 @@ export function MapHeader({ executionMode, onOpenSettings }: Props) {
     <div className="map-header">
       <div>
         <div className="map-title-row">
-          <span>🌊</span>
+          <img src={logo} alt="ThermoReef Logo" className="map-logo" />
           <span className="map-brand-name">ThermoReef</span>
         </div>
         <div className="map-brand-sub">AI Coral Rescue</div>
