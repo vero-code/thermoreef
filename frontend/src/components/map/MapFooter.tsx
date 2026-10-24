@@ -1,8 +1,9 @@
 interface Props {
-  onOpenPolicy: () => void;
+  onOpenTerms: () => void;
+  onOpenPrivacy: () => void;
 }
 
-export function MapFooter({ onOpenPolicy }: Props) {
+export function MapFooter({ onOpenTerms, onOpenPrivacy }: Props) {
   return (
     <footer className="map-footer">
       <span>© 2026 ThermoReef</span>
@@ -20,11 +21,19 @@ export function MapFooter({ onOpenPolicy }: Props) {
       </span>
       <span className="map-footer-divider">•</span>
       <button
-        onClick={onOpenPolicy}
+        onClick={onOpenTerms}
         className="map-footer-btn"
-        title="View Privacy Policy and Terms of Use"
+        title="View Terms of Service"
       >
-        Policy & Terms
+        Terms of Service
+      </button>
+      <span className="map-footer-divider">•</span>
+      <button
+        onClick={onOpenPrivacy}
+        className="map-footer-btn"
+        title="View Privacy Policy"
+      >
+        Privacy Policy
       </button>
     </footer>
   );

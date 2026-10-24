@@ -6,7 +6,8 @@ import {
 } from '../data/reefs';
 import InterventionModal from './InterventionModal';
 import { SettingsModal } from './SettingsModal';
-import { PolicyModal } from './PolicyModal';
+import { TermsModal } from './TermsModal';
+import { PrivacyModal } from './PrivacyModal';
 import type { ModeTab } from './settings/types';
 import type { ReefData } from './map/types';
 import { ReefDatasetLayer } from './map/ReefDatasetLayer';
@@ -37,7 +38,8 @@ export default function ReefMap() {
     return 'custom';
   });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isPolicyOpen, setIsPolicyOpen] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
   const handleSelectReef = useCallback((reef: ReefData) => {
     setSelected(reef);
@@ -147,13 +149,22 @@ export default function ReefMap() {
         />
       )}
 
-      {/* Map Footer (Copyright, Author & Policy) */}
-      <MapFooter onOpenPolicy={() => setIsPolicyOpen(true)} />
+      {/* Map Footer (Copyright, Author, Terms, Privacy) */}
+      <MapFooter
+        onOpenTerms={() => setIsTermsOpen(true)}
+        onOpenPrivacy={() => setIsPrivacyOpen(true)}
+      />
 
-      {/* Policy & Terms Modal */}
-      <PolicyModal
-        isOpen={isPolicyOpen}
-        onClose={() => setIsPolicyOpen(false)}
+      {/* Terms of Service Modal */}
+      <TermsModal
+        isOpen={isTermsOpen}
+        onClose={() => setIsTermsOpen(false)}
+      />
+
+      {/* Privacy Policy Modal */}
+      <PrivacyModal
+        isOpen={isPrivacyOpen}
+        onClose={() => setIsPrivacyOpen(false)}
       />
 
       {/* Settings & Custom API Keys Modal */}
