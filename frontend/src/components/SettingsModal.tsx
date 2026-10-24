@@ -5,6 +5,8 @@ import { JudgeTab } from './settings/JudgeTab';
 import { LiveCloudTab } from './settings/LiveCloudTab';
 import { DevTab } from './settings/DevTab';
 
+import { API_BASE, STORAGE_KEYS } from '../constants';
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -12,11 +14,9 @@ interface Props {
   onModeChange: (mode: ModeTab) => void;
 }
 
-const API_BASE = 'http://localhost:8000';
-
 export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
   const [activeTab, setActiveTab] = useState<ModeTab>(() => {
-    const saved = localStorage.getItem('thermoreef_setting_tab');
+    const saved = localStorage.getItem(STORAGE_KEYS.SETTING_TAB);
     if (saved === 'mock' || saved === 'custom' || saved === 'dev') return saved;
     return mode;
   });
@@ -31,8 +31,8 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    setNebiusKey(localStorage.getItem('thermoreef_nebius_key') || '');
-    setTavilyKey(localStorage.getItem('thermoreef_tavily_key') || '');
+    setNebiusKey(localStorage.getItem(STORAGE_KEYS.NEBIUS_KEY) || '');
+    setTavilyKey(localStorage.getItem(STORAGE_KEYS.TAVILY_KEY) || '');
     setNebiusInvalid(false);
     setTavilyInvalid(false);
     setDevError(null);
@@ -88,19 +88,19 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
       setDevChecking(false);
     }
 
-    localStorage.setItem('thermoreef_setting_tab', activeTab);
-    localStorage.setItem('thermoreef_mode', activeTab);
+    localStorage.setItem(STORAGE_KEYS.SETTING_TAB, activeTab);
+    localStorage.setItem(STORAGE_KEYS.MODE, activeTab);
     onModeChange(activeTab);
 
     if (activeTab === 'mock') {
       // Offline simulation
     } else if (activeTab === 'custom') {
-      localStorage.setItem('thermoreef_nebius_key', nebiusKey.trim());
-      localStorage.setItem('thermoreef_tavily_key', tavilyKey.trim());
+      localStorage.setItem(STORAGE_KEYS.NEBIUS_KEY, nebiusKey.trim());
+      localStorage.setItem(STORAGE_KEYS.TAVILY_KEY, tavilyKey.trim());
     } else {
       // Local dev mode: clear overrides and use backend .env
-      localStorage.removeItem('thermoreef_nebius_key');
-      localStorage.removeItem('thermoreef_tavily_key');
+      localStorage.removeItem(STORAGE_KEYS.NEBIUS_KEY);
+      localStorage.removeItem(STORAGE_KEYS.TAVILY_KEY);
     }
 
     setSaved(true);

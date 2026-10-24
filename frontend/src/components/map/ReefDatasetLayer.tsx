@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useMap } from '@vis.gl/react-google-maps';
+import { UNEP_DATASET_ID } from '../../constants';
 import type { ReefData } from './types';
-
-const DATASET_ID = '43b2e1f3-d661-4a63-b2fe-535c743d144f';
 
 interface Props {
   selectedId: string | number | null;
@@ -13,11 +12,11 @@ export function ReefDatasetLayer({ selectedId, onSelectReef }: Props) {
   const map = useMap();
 
   useEffect(() => {
-    if (!map || !DATASET_ID) return;
+    if (!map || !UNEP_DATASET_ID) return;
 
     let datasetLayer: google.maps.FeatureLayer;
     try {
-      datasetLayer = map.getDatasetFeatureLayer(DATASET_ID);
+      datasetLayer = map.getDatasetFeatureLayer(UNEP_DATASET_ID);
     } catch (err) {
       console.warn('Dataset layer not ready:', err);
       return;

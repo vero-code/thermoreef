@@ -11,10 +11,14 @@ import type { ReefData } from './map/types';
 import { ReefDatasetLayer } from './map/ReefDatasetLayer';
 import { MapHeader } from './map/MapHeader';
 import { ReefInfoCard } from './map/ReefInfoCard';
-
-const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string;
-const API_BASE = 'http://localhost:8000';
-const MAP_ID = '68c9e89037b719b73d702155';
+import {
+  API_BASE,
+  GOOGLE_MAPS_API_KEY,
+  GOOGLE_MAPS_MAP_ID,
+  DEFAULT_MAP_CENTER,
+  DEFAULT_MAP_ZOOM,
+  STORAGE_KEYS,
+} from '../constants';
 
 export default function ReefMap() {
   const [selected, setSelected] = useState<ReefData | null>(null);
@@ -25,7 +29,7 @@ export default function ReefMap() {
   const [inspecting, setInspecting] = useState(false);
   const [interventionData, setInterventionData] = useState<InterventionResponse | null>(null);
   const [executionMode, setExecutionMode] = useState<ModeTab>(() => {
-    const saved = localStorage.getItem('thermoreef_mode') as ModeTab;
+    const saved = localStorage.getItem(STORAGE_KEYS.MODE) as ModeTab;
     if (saved === 'mock' || saved === 'custom' || saved === 'dev') return saved;
     return 'custom';
   });
@@ -59,8 +63,8 @@ export default function ReefMap() {
     setInspecting(true);
 
     try {
-      const customNebius = localStorage.getItem('thermoreef_nebius_key');
-      const customTavily = localStorage.getItem('thermoreef_tavily_key');
+      const customNebius = localStorage.getItem(STORAGE_KEYS.NEBIUS_KEY);
+      const customTavily = localStorage.getItem(STORAGE_KEYS.TAVILY_KEY);
 
       const headers: Record<string, string> = {};
       if (executionMode === 'mock') {
@@ -92,11 +96,11 @@ export default function ReefMap() {
 
   return (
     <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-      <APIProvider apiKey={API_KEY} language="en">
+      <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
         <Map
-          mapId={MAP_ID}
-          defaultCenter={{ lat: 10, lng: 20 }}
-          defaultZoom={2}
+          mapId={GOOGLE_MAPS_MAP_ID}
+          defaultCenter={DEFAULT_MAP_CENTER}
+          defaultZoom={DEFAULT_MAP_ZOOM}
           mapTypeControl={false}
           streetViewControl={false}
           fullscreenControl={false}
