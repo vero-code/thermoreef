@@ -95,6 +95,9 @@ cd backend
 uv run python scripts/download_reefs.py
 
 # 2. Upload coral_reefs.geojson to Google Cloud Console → Datasets
+
+# 3. Extraction centroids for backend
+uv run python scripts/geojson_to_centroids.py
 ```
 
 The downloaded `coral_reefs.geojson` is excluded from git (see `.gitignore`).
@@ -137,7 +140,7 @@ Full docs at `http://127.0.0.1:8000/docs`
 
 ## Structure
 
-`
+```
 thermoreef/
 ├── backend/                  # FastAPI backend (uv)
 │   ├── pyproject.toml        # Dependencies
@@ -168,3 +171,7 @@ thermoreef/
 ├── LICENSE
 └── .gitignore
 ```
+
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.

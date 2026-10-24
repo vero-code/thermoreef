@@ -31,3 +31,4 @@ frontend/*.local
 
 # Generated data files (scripts/download_reefs.py)
 backend/src/backend/coral_reefs.geojson
+backend/src/backend/coral_reefs.json
