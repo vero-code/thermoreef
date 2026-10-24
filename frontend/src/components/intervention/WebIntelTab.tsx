@@ -26,10 +26,10 @@ export function WebIntelTab({ intel }: Props) {
         }}
       >
         <div style={{ fontSize: '24px', marginBottom: '8px' }}>🌐</div>
-        <div style={{ fontSize: '15px', fontWeight: 600, color: '#f1f5f9', marginBottom: '6px' }}>
+        <div style={{ fontSize: '18px', fontWeight: 600, color: '#f1f5f9', marginBottom: '6px' }}>
           Tavily Web Intelligence Standby
         </div>
-        <p style={{ fontSize: '13px', lineHeight: 1.5, margin: 0, maxWidth: '480px', marginInline: 'auto' }}>
+        <p style={{ fontSize: '14px', lineHeight: 1.5, margin: 0, maxWidth: '480px', marginInline: 'auto' }}>
           Add <code style={{ color: '#38bdf8', background: 'rgba(56,189,248,0.1)', padding: '2px 6px', borderRadius: '4px' }}>TAVILY_API_KEY</code> to{' '}
           <code style={{ color: '#38bdf8', background: 'rgba(56,189,248,0.1)', padding: '2px 6px', borderRadius: '4px' }}>backend/.env</code> to enable real-time regional coral news, environmental alerts, and local field reports search before prompting Nemotron.
         </p>
@@ -46,7 +46,7 @@ export function WebIntelTab({ intel }: Props) {
           padding: '16px',
           borderRadius: '10px',
           color: '#fca5a5',
-          fontSize: '13px',
+          fontSize: '14px',
         }}
       >
         ⚠️ Tavily search could not be completed ({intel.error || 'Network error'}). Nemotron generated protocol using satellite telemetry.
@@ -59,7 +59,7 @@ export function WebIntelTab({ intel }: Props) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '6px' }}>
         <span
           style={{
-            fontSize: '11px',
+            fontSize: '14px',
             color: '#38bdf8',
             background: 'rgba(56, 189, 248, 0.12)',
             padding: '3px 10px',
@@ -69,7 +69,7 @@ export function WebIntelTab({ intel }: Props) {
         >
           🔍 Query: {intel.query}
         </span>
-        <span style={{ fontSize: '11px', color: '#64748b' }}>Powered by Tavily Search</span>
+        <span style={{ fontSize: '14px', color: '#64748b' }}>Powered by Tavily Search</span>
       </div>
 
       {intel.answer && (
@@ -81,21 +81,21 @@ export function WebIntelTab({ intel }: Props) {
             borderRadius: '10px',
           }}
         >
-          <div style={{ fontSize: '11px', color: '#38bdf8', textTransform: 'uppercase', fontWeight: 700, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ fontSize: '14px', color: '#38bdf8', textTransform: 'uppercase', fontWeight: 700, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span>⚡</span>
             <span>Tavily Intelligence Brief</span>
           </div>
-          <div style={{ fontSize: '13px', lineHeight: 1.55, color: '#e2e8f0' }}>{intel.answer}</div>
+          <div style={{ fontSize: '16px', lineHeight: 1.55, color: '#e2e8f0' }}>{intel.answer}</div>
         </div>
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', fontWeight: 600 }}>
+        <div style={{ fontSize: '14px', color: '#64748b', textTransform: 'uppercase', fontWeight: 600 }}>
           Regional Field Reports & Ecological News ({intel.results.length})
         </div>
 
         {intel.results.length === 0 ? (
-          <div style={{ fontSize: '13px', color: '#94a3b8' }}>No local news or reports found for these exact coordinates.</div>
+          <div style={{ fontSize: '14px', color: '#94a3b8' }}>No local news or reports found for these exact coordinates.</div>
         ) : (
           intel.results.map((res, idx) => {
             const domain = getDomain(res.url);
@@ -122,7 +122,7 @@ export function WebIntelTab({ intel }: Props) {
                     rel="noopener noreferrer"
                     title="Click to open source document in new tab"
                     style={{
-                      fontSize: '13px',
+                      fontSize: '16px',
                       fontWeight: 600,
                       color: '#38bdf8',
                       textDecoration: 'none',
@@ -133,13 +133,13 @@ export function WebIntelTab({ intel }: Props) {
                     onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
                     onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
                   >
-                    🔗 {res.title} <span style={{ fontSize: '12px', opacity: 0.8 }}>↗</span>
+                    🔗 {res.title} <span style={{ fontSize: '14px', opacity: 0.8 }}>↗</span>
                   </a>
 
                   {domain && (
                     <span
                       style={{
-                        fontSize: '10px',
+                        fontSize: '14px',
                         color: '#94a3b8',
                         background: 'rgba(255, 255, 255, 0.06)',
                         padding: '2px 6px',
@@ -152,7 +152,7 @@ export function WebIntelTab({ intel }: Props) {
                   )}
                 </div>
 
-                <p style={{ margin: 0, fontSize: '12px', color: '#cbd5e1', lineHeight: 1.45 }}>
+                <p style={{ margin: 0, fontSize: '14px', color: '#cbd5e1', lineHeight: 1.45 }}>
                   {snippetText}
                 </p>
               </div>

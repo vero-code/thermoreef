@@ -52,15 +52,15 @@ export function MapHeader({ executionMode, onOpenSettings }: Props) {
         alignItems: 'center',
         gap: 12,
         color: '#f8fafc',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontFamily: "'Roboto', system-ui, -apple-system, sans-serif",
       }}
     >
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, fontSize: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, fontSize: '18px' }}>
           <span>🌊</span>
           <span style={{ color: '#38bdf8' }}>ThermoReef</span>
         </div>
-        <div style={{ fontSize: '10px', color: '#94a3b8' }}>AI Coral Rescue</div>
+        <div style={{ fontSize: '14px', color: '#94a3b8' }}>AI Coral Rescue</div>
       </div>
 
       <div style={{ height: '22px', width: '1px', background: 'rgba(255,255,255,0.15)' }} />
@@ -72,14 +72,15 @@ export function MapHeader({ executionMode, onOpenSettings }: Props) {
           background: badge.bg,
           border: `1px solid ${badge.border}`,
           borderRadius: 8,
-          padding: '5px 9px',
+          padding: '6px 12px',
           color: badge.color,
-          fontSize: '11px',
+          fontSize: '14px',
           fontWeight: 600,
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
-          gap: 5,
+          gap: 6,
+          fontFamily: 'inherit',
         }}
         title="Switch between Demo, Live Cloud, and Developer modes or set custom keys"
       >

@@ -8,7 +8,7 @@ interface Props {
 export function ModeSelector({ activeTab, onSelectTab }: Props) {
   return (
     <div>
-      <label style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
+      <label style={{ fontSize: '14px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
         Execution Mode
       </label>
 
@@ -27,8 +27,8 @@ export function ModeSelector({ activeTab, onSelectTab }: Props) {
           }}
         >
           <div style={{ fontSize: '16px', marginBottom: '2px' }}>🟡</div>
-          <div style={{ fontWeight: 700, fontSize: '12px', color: '#f59e0b' }}>For Judges</div>
-          <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>No API key needed</div>
+          <div style={{ fontWeight: 700, fontSize: '16px', color: '#f59e0b' }}>For Judges</div>
+          <div style={{ fontSize: '14px', color: '#94a3b8', marginTop: '2px' }}>No API key needed</div>
         </div>
 
         {/* Card 2: Live Cloud API */}
@@ -45,8 +45,8 @@ export function ModeSelector({ activeTab, onSelectTab }: Props) {
           }}
         >
           <div style={{ fontSize: '16px', marginBottom: '2px' }}>🟢</div>
-          <div style={{ fontWeight: 700, fontSize: '12px', color: '#38bdf8' }}>Live Cloud API</div>
-          <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>Enter your own keys</div>
+          <div style={{ fontWeight: 700, fontSize: '16px', color: '#38bdf8' }}>Live Cloud API</div>
+          <div style={{ fontSize: '14px', color: '#94a3b8', marginTop: '2px' }}>Enter your own keys</div>
         </div>
 
         {/* Card 3: For Developers */}
@@ -63,8 +63,8 @@ export function ModeSelector({ activeTab, onSelectTab }: Props) {
           }}
         >
           <div style={{ fontSize: '16px', marginBottom: '2px' }}>💻</div>
-          <div style={{ fontWeight: 700, fontSize: '12px', color: '#c084fc' }}>For Developers</div>
-          <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>Local .env setup</div>
+          <div style={{ fontWeight: 700, fontSize: '16px', color: '#c084fc' }}>For Developers</div>
+          <div style={{ fontSize: '14px', color: '#94a3b8', marginTop: '2px' }}>Local .env setup</div>
         </div>
       </div>
     </div>

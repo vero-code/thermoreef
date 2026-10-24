@@ -19,7 +19,7 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props)
     <div style={{ marginBottom: 16 }}>
       <div
         style={{
-          fontSize: '11px',
+          fontSize: '14px',
           fontWeight: 700,
           color: '#64748b',
           textTransform: 'uppercase',
@@ -32,7 +32,7 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props)
       {loadingStress ? (
         <div
           style={{
-            fontSize: '13px',
+            fontSize: '14px',
             color: '#0284c7',
             padding: '12px',
             background: '#f0f9ff',
@@ -59,12 +59,12 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props)
               marginBottom: 8,
             }}
           >
-            <span style={{ fontSize: '12px', color: '#334155', fontWeight: 500 }}>Alert Level:</span>
+            <span style={{ fontSize: '14px', color: '#334155', fontWeight: 500 }}>Alert Level:</span>
             <span
               style={{
                 background: alertColor,
                 color: '#ffffff',
-                fontSize: '11px',
+                fontSize: '14px',
                 fontWeight: 700,
                 padding: '2px 8px',
                 borderRadius: 4,
@@ -77,14 +77,14 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props)
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, textAlign: 'center' }}>
             <div style={{ background: '#ffffff', padding: '6px 4px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
-              <div style={{ fontSize: '10px', color: '#64748b' }}>SST</div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a' }}>{stress.sst}°C</div>
+              <div style={{ fontSize: '14px', color: '#64748b' }}>SST</div>
+              <div style={{ fontSize: '18px', fontWeight: 700, color: '#0f172a' }}>{stress.sst}°C</div>
             </div>
             <div style={{ background: '#ffffff', padding: '6px 4px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
-              <div style={{ fontSize: '10px', color: '#64748b' }}>Anomaly</div>
+              <div style={{ fontSize: '14px', color: '#64748b' }}>Anomaly</div>
               <div
                 style={{
-                  fontSize: '13px',
+                  fontSize: '18px',
                   fontWeight: 700,
                   color: stress.tempAnomaly > 0 ? '#ef4444' : '#10b981',
                 }}
@@ -93,10 +93,10 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props)
               </div>
             </div>
             <div style={{ background: '#ffffff', padding: '6px 4px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
-              <div style={{ fontSize: '10px', color: '#64748b' }}>DHW</div>
+              <div style={{ fontSize: '14px', color: '#64748b' }}>DHW</div>
               <div
                 style={{
-                  fontSize: '13px',
+                  fontSize: '18px',
                   fontWeight: 700,
                   color: stress.dhw > 0 ? '#f59e0b' : '#0f172a',
                 }}
@@ -107,7 +107,7 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props)
           </div>
         </div>
       ) : stressError ? (
-        <div style={{ fontSize: '12px', color: '#ef4444', padding: 8, background: '#fef2f2', borderRadius: 6 }}>
+        <div style={{ fontSize: '14px', color: '#ef4444', padding: 8, background: '#fef2f2', borderRadius: 6 }}>
           {stressError}
         </div>
       ) : null}

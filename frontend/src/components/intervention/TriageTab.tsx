@@ -8,7 +8,7 @@ export function TriageTab({ triage }: Props) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '12px', borderRadius: '8px' }}>
-        <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', marginBottom: '6px' }}>
+        <div style={{ fontSize: '14px', color: '#64748b', textTransform: 'uppercase', marginBottom: '6px' }}>
           Species at Risk
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
@@ -19,7 +19,7 @@ export function TriageTab({ triage }: Props) {
                 style={{
                   background: 'rgba(239, 68, 68, 0.2)',
                   color: '#f87171',
-                  fontSize: '12px',
+                  fontSize: '14px',
                   padding: '2px 8px',
                   borderRadius: '6px',
                 }}
@@ -28,16 +28,16 @@ export function TriageTab({ triage }: Props) {
               </span>
             ))
           ) : (
-            <span style={{ fontSize: '13px', color: '#94a3b8' }}>None identified for current status</span>
+            <span style={{ fontSize: '14px', color: '#94a3b8' }}>None identified for current status</span>
           )}
         </div>
       </div>
 
       <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '12px', borderRadius: '8px' }}>
-        <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>Donor Relocation</div>
+        <div style={{ fontSize: '14px', color: '#64748b', textTransform: 'uppercase' }}>Donor Relocation</div>
         <div
           style={{
-            fontSize: '14px',
+            fontSize: '16px',
             fontWeight: 600,
             color: triage.donor_relocation ? '#f59e0b' : '#94a3b8',
             marginTop: '2px',
@@ -48,14 +48,14 @@ export function TriageTab({ triage }: Props) {
       </div>
 
       <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '12px', borderRadius: '8px' }}>
-        <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', marginBottom: '6px' }}>
+        <div style={{ fontSize: '14px', color: '#64748b', textTransform: 'uppercase', marginBottom: '6px' }}>
           Action Items
         </div>
         <ul
           style={{
             margin: 0,
             paddingLeft: '18px',
-            fontSize: '13px',
+            fontSize: '16px',
             color: '#cbd5e1',
             display: 'flex',
             flexDirection: 'column',

@@ -51,7 +51,7 @@ export default function InterventionModal({ data, onClose }: Props) {
           flexDirection: 'column',
           overflow: 'hidden',
           color: '#f8fafc',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
+          fontFamily: "'Roboto', system-ui, -apple-system, sans-serif",
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -77,7 +77,7 @@ export default function InterventionModal({ data, onClose }: Props) {
                     background: 'rgba(245, 158, 11, 0.2)',
                     border: '1px solid rgba(245, 158, 11, 0.5)',
                     color: '#fbbf24',
-                    fontSize: '11px',
+                    fontSize: '14px',
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     padding: '2px 8px',
@@ -95,7 +95,7 @@ export default function InterventionModal({ data, onClose }: Props) {
                     background: 'rgba(168, 85, 247, 0.2)',
                     border: '1px solid rgba(168, 85, 247, 0.5)',
                     color: '#c084fc',
-                    fontSize: '11px',
+                    fontSize: '14px',
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     padding: '2px 8px',
@@ -113,7 +113,7 @@ export default function InterventionModal({ data, onClose }: Props) {
                     background: 'rgba(14, 165, 233, 0.2)',
                     border: '1px solid rgba(14, 165, 233, 0.5)',
                     color: '#38bdf8',
-                    fontSize: '11px',
+                    fontSize: '14px',
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     padding: '2px 8px',
@@ -124,10 +124,10 @@ export default function InterventionModal({ data, onClose }: Props) {
                 </span>
               )}
             </div>
-            <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 700 }}>
+            <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 700 }}>
               Rescue Protocol — {protocol.reef_name || 'Reef #' + protocol.reef_id}
             </h2>
-            <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px' }}>
+            <div style={{ fontSize: '14px', color: '#94a3b8', marginTop: '2px' }}>
               Coords: {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)} | SST: {stress.sst}°C | DHW: {stress.dhw}
             </div>
           </div>
@@ -142,7 +142,7 @@ export default function InterventionModal({ data, onClose }: Props) {
               width: '32px',
               height: '32px',
               cursor: 'pointer',
-              fontSize: '16px',
+              fontSize: '18px',
             }}
           >
             ✕
@@ -166,14 +166,14 @@ export default function InterventionModal({ data, onClose }: Props) {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '12px', color: '#94a3b8' }}>URGENCY:</span>
+                <span style={{ fontSize: '14px', color: '#94a3b8' }}>URGENCY:</span>
                 <span
                   style={{
                     backgroundColor: `${urgencyColor}22`,
                     color: urgencyColor,
                     border: `1px solid ${urgencyColor}88`,
                     fontWeight: 700,
-                    fontSize: '13px',
+                    fontSize: '14px',
                     padding: '2px 8px',
                     borderRadius: '6px',
                   }}
@@ -181,12 +181,12 @@ export default function InterventionModal({ data, onClose }: Props) {
                   {protocol.urgency_level}
                 </span>
               </div>
-              <div style={{ fontSize: '13px', fontWeight: 600, color: '#38bdf8' }}>
+              <div style={{ fontSize: '14px', fontWeight: 600, color: '#38bdf8' }}>
                 ⏱ Window: {protocol.intervention_window}
               </div>
             </div>
 
-            <div style={{ fontSize: '14px', lineHeight: 1.5, color: '#cbd5e1', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '10px' }}>
+            <div style={{ fontSize: '16px', lineHeight: 1.5, color: '#cbd5e1', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '10px' }}>
               {protocol.executive_summary}
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function InterventionModal({ data, onClose }: Props) {
                   background: activeTab === tab.id ? 'rgba(6, 182, 212, 0.2)' : 'transparent',
                   color: activeTab === tab.id ? '#38bdf8' : '#94a3b8',
                   fontWeight: 600,
-                  fontSize: '13px',
+                  fontSize: '16px',
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
                 }}
@@ -230,7 +230,7 @@ export default function InterventionModal({ data, onClose }: Props) {
 
         {/* Footer */}
         <div style={{ padding: '16px 24px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontSize: '12px', color: '#64748b' }}>
+          <div style={{ fontSize: '14px', color: '#64748b' }}>
             Model: <span style={{ color: '#94a3b8' }}>{protocol.model_used}</span>
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
@@ -242,7 +242,7 @@ export default function InterventionModal({ data, onClose }: Props) {
                 border: '1px solid rgba(56, 189, 248, 0.3)',
                 borderRadius: '8px',
                 padding: '8px 14px',
-                fontSize: '13px',
+                fontSize: '16px',
                 fontWeight: 600,
                 cursor: 'pointer',
               }}
@@ -257,7 +257,7 @@ export default function InterventionModal({ data, onClose }: Props) {
                 border: 'none',
                 borderRadius: '8px',
                 padding: '8px 16px',
-                fontSize: '13px',
+                fontSize: '16px',
                 fontWeight: 600,
                 cursor: 'pointer',
               }}

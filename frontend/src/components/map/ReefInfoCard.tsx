@@ -33,7 +33,7 @@ export function ReefInfoCard({
         width: 320,
         boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
         zIndex: 10,
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontFamily: "'Roboto', system-ui, -apple-system, sans-serif",
       }}
     >
       <button
@@ -43,7 +43,7 @@ export function ReefInfoCard({
           background: 'none',
           border: 'none',
           cursor: 'pointer',
-          fontSize: 18,
+          fontSize: '18px',
           color: '#94a3b8',
         }}
       >
@@ -54,7 +54,7 @@ export function ReefInfoCard({
         Reef #{Math.round(Number(selected.id))}
       </h2>
 
-      <p style={{ margin: '0 0 12px', color: '#64748b', fontSize: '12px' }}>
+      <p style={{ margin: '0 0 12px', color: '#64748b', fontSize: '14px' }}>
         Coordinates: {selected.lat.toFixed(4)}, {selected.lng.toFixed(4)}
       </p>
 
@@ -65,7 +65,7 @@ export function ReefInfoCard({
           borderRadius: 8,
           padding: '10px 12px',
           marginBottom: 12,
-          fontSize: '13px',
+          fontSize: '14px',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
@@ -110,7 +110,7 @@ export function ReefInfoCard({
           color: inspecting || loadingStress || !stress ? '#94a3b8' : '#ffffff',
           border: 'none',
           borderRadius: 8,
-          fontSize: '14px',
+          fontSize: '16px',
           fontWeight: 600,
           cursor: inspecting || loadingStress || !stress ? 'not-allowed' : 'pointer',
           display: 'flex',

@@ -135,7 +135,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
           display: 'flex',
           flexDirection: 'column',
           color: '#f8fafc',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
+          fontFamily: "'Roboto', system-ui, -apple-system, sans-serif",
           overflow: 'hidden',
         }}
       >
@@ -152,7 +152,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '18px' }}>⚙️</span>
-            <h3 style={{ margin: 0, fontSize: '17px', fontWeight: 700 }}>Settings</h3>
+            <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700 }}>Settings</h3>
           </div>
           <button
             onClick={onClose}
@@ -214,7 +214,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
               color: '#94a3b8',
               border: 'none',
               padding: '8px 14px',
-              fontSize: '13px',
+              fontSize: '16px',
               cursor: 'pointer',
             }}
           >
@@ -229,7 +229,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
               border: 'none',
               borderRadius: '8px',
               padding: '8px 18px',
-              fontSize: '13px',
+              fontSize: '16px',
               fontWeight: 600,
               cursor: devChecking ? 'wait' : 'pointer',
               transition: 'background 0.2s ease',

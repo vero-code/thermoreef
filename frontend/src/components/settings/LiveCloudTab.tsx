@@ -28,16 +28,16 @@ export function LiveCloudTab({
       }}
     >
       <div>
-        <div style={{ fontWeight: 700, fontSize: '13px', color: '#38bdf8', marginBottom: '2px' }}>
+        <div style={{ fontWeight: 700, fontSize: '16px', color: '#38bdf8', marginBottom: '2px' }}>
           Connect Your Own Keys
         </div>
-        <div style={{ fontSize: '11px', color: '#94a3b8' }}>
+        <div style={{ fontSize: '14px', color: '#94a3b8' }}>
           Keys stay safely in your browser session only and are never saved to our servers:
         </div>
       </div>
 
       <div>
-        <label style={{ fontSize: '11px', color: '#cbd5e1', display: 'block', marginBottom: '4px', fontWeight: 600 }}>
+        <label style={{ fontSize: '14px', color: '#cbd5e1', display: 'block', marginBottom: '4px', fontWeight: 600 }}>
           Nebius API Key (Token Factory):
         </label>
         <input
@@ -53,7 +53,7 @@ export function LiveCloudTab({
             padding: '8px 12px',
             borderRadius: '8px',
             color: '#f8fafc',
-            fontSize: '13px',
+            fontSize: '16px',
             outline: 'none',
             boxSizing: 'border-box',
             transition: 'border-color 0.2s, box-shadow 0.2s',
@@ -62,7 +62,7 @@ export function LiveCloudTab({
       </div>
 
       <div>
-        <label style={{ fontSize: '11px', color: '#cbd5e1', display: 'block', marginBottom: '4px', fontWeight: 600 }}>
+        <label style={{ fontSize: '14px', color: '#cbd5e1', display: 'block', marginBottom: '4px', fontWeight: 600 }}>
           Tavily Search API Key:
         </label>
         <input
@@ -78,7 +78,7 @@ export function LiveCloudTab({
             padding: '8px 12px',
             borderRadius: '8px',
             color: '#f8fafc',
-            fontSize: '13px',
+            fontSize: '16px',
             outline: 'none',
             boxSizing: 'border-box',
             transition: 'border-color 0.2s, box-shadow 0.2s',
