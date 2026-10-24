@@ -2,11 +2,17 @@
 
 AI-powered coral bleaching early warning system. Monitors ocean thermal stress using NOAA satellite data across 17,504 coral reef polygons from UNEP-WCMC and generates emergency rescue protocols via NVIDIA Nemotron models hosted on Nebius Token Factory.
 
-## AI Models & Infrastructure
+## AI Models
 
 - **Platform:** Nebius Token Factory (`https://api.tokenfactory.nebius.com/v1`, OpenAI-compatible)
 - **Primary Model:** `nvidia/Nemotron-3-Ultra-550b-a55b` (MoE 550B / A55B, deep reasoning for complex ecological triage & rescue protocol synthesis)
 - **Fallback Model:** `nvidia/nemotron-3-super-120b-a12b` (MoE 120B / A12B, automatic high-availability failover)
+
+## System Components
+
+- **NVIDIA Nemotron-3 Ultra (550B MoE):** Synthesizes multi-variable data (NOAA SST anomalies, DHW, solar zenith hours, species heat limits) into structured JSON intervention protocols.
+- **Nebius Token Factory:** Serverless OpenAI-compatible API hosting 550B MoE models on NVIDIA GPU clusters, providing on-demand inference without dedicated multi-node infrastructure.
+- **Tavily Search API:** Retrieves regional field reports and local news by reef coordinates to augment 5km-grid satellite telemetry with current ground observations and cited sources.
 
 ## Architecture
 
@@ -16,18 +22,21 @@ UNEP-WCMC (17,504 reef polygons)
 Google Maps Dataset Layer (vector polygons)
         +
 NOAA ERDDAP (live SST, DHW, BAA per reef)
+        +
+Tavily Search API (real-time regional ecological reports & news)
         ↓
 FastAPI backend (/reefs/{id}/intervention)
         ↓
 NVIDIA Nemotron-3 Ultra (via Nebius Token Factory)
         ↓
 Structured Emergency Rescue Protocol (JSON)
-(Shading parameters, biological triage, nursery relocation, ranger alerts)
+(Shading parameters, biological triage, nursery relocation, ranger alerts, web intelligence)
 ```
 
 ## Tech Stack
 
 - **AI Inference:** NVIDIA Nemotron-3 Ultra (550B) / Super (120B) on Nebius Token Factory
+- **Web Intelligence:** Tavily Search API (environmental news & field observations)
 - **Backend:** Python 3.12+, FastAPI, uv, HTTPX, Pydantic
 - **Frontend:** React, TypeScript, Vite, @vis.gl/react-google-maps
 - **Map:** Google Maps Platform (Vector, Dataset Feature Layer)
@@ -50,6 +59,7 @@ NEBIUS_API_KEY=your_nebius_api_key
 NEBIUS_BASE_URL=https://api.tokenfactory.nebius.com/v1
 NEBIUS_MODEL=nvidia/Nemotron-3-Ultra-550b-a55b
 NEBIUS_BACKUP_MODEL=nvidia/nemotron-3-super-120b-a12b
+TAVILY_API_KEY=your_tavily_api_key
 ```
 
 Create `frontend/.env`:
