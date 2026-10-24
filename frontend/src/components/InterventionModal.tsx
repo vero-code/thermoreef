@@ -86,15 +86,15 @@ export default function InterventionModal({ data, onClose }: Props) {
                 >
                   🟡 DEMO SIMULATION (MOCK MODE)
                 </span>
-              ) : (
+              ) : data.execution_mode === 'live_nebius' ? (
                 <span
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
-                    background: 'rgba(118, 185, 0, 0.2)',
-                    border: '1px solid rgba(118, 185, 0, 0.5)',
-                    color: '#84cc16',
+                    background: 'rgba(168, 85, 247, 0.2)',
+                    border: '1px solid rgba(168, 85, 247, 0.5)',
+                    color: '#c084fc',
                     fontSize: '11px',
                     fontWeight: 700,
                     textTransform: 'uppercase',
@@ -102,7 +102,25 @@ export default function InterventionModal({ data, onClose }: Props) {
                     borderRadius: '20px',
                   }}
                 >
-                  ● NVIDIA Nemotron-3 Ultra • Nebius Token Factory
+                  🟣 FOR DEVELOPERS • LOCAL .ENV
+                </span>
+              ) : (
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(14, 165, 233, 0.2)',
+                    border: '1px solid rgba(14, 165, 233, 0.5)',
+                    color: '#38bdf8',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    padding: '2px 8px',
+                    borderRadius: '20px',
+                  }}
+                >
+                  🟢 LIVE CLOUD API • CUSTOM KEYS
                 </span>
               )}
             </div>

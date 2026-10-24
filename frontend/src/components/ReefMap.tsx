@@ -6,6 +6,7 @@ import {
 } from '../data/reefs';
 import InterventionModal from './InterventionModal';
 import { SettingsModal } from './SettingsModal';
+import type { ModeTab } from './settings/types';
 import type { ReefData } from './map/types';
 import { ReefDatasetLayer } from './map/ReefDatasetLayer';
 import { MapHeader } from './map/MapHeader';
@@ -23,8 +24,10 @@ export default function ReefMap() {
 
   const [inspecting, setInspecting] = useState(false);
   const [interventionData, setInterventionData] = useState<InterventionResponse | null>(null);
-  const [executionMode, setExecutionMode] = useState<'live' | 'mock'>(() => {
-    return (localStorage.getItem('thermoreef_mode') as 'live' | 'mock') || 'live';
+  const [executionMode, setExecutionMode] = useState<ModeTab>(() => {
+    const saved = localStorage.getItem('thermoreef_mode') as ModeTab;
+    if (saved === 'mock' || saved === 'custom' || saved === 'dev') return saved;
+    return 'custom';
   });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -62,12 +65,13 @@ export default function ReefMap() {
       const headers: Record<string, string> = {};
       if (executionMode === 'mock') {
         headers['x-mock-mode'] = 'true';
-      }
-      if (customNebius) {
-        headers['x-nebius-key'] = customNebius;
-      }
-      if (customTavily) {
-        headers['x-tavily-key'] = customTavily;
+      } else if (executionMode === 'custom') {
+        if (customNebius) {
+          headers['x-nebius-key'] = customNebius;
+        }
+        if (customTavily) {
+          headers['x-tavily-key'] = customTavily;
+        }
       }
 
       const url = `${API_BASE}/reefs/${selected.id}/intervention${executionMode === 'mock' ? '?mock=true' : ''}`;

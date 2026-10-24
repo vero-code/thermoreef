@@ -8,8 +8,8 @@ import { DevTab } from './settings/DevTab';
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  mode: 'live' | 'mock';
-  onModeChange: (mode: 'live' | 'mock') => void;
+  mode: ModeTab;
+  onModeChange: (mode: ModeTab) => void;
 }
 
 const API_BASE = 'http://localhost:8000';
@@ -18,7 +18,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
   const [activeTab, setActiveTab] = useState<ModeTab>(() => {
     const saved = localStorage.getItem('thermoreef_setting_tab');
     if (saved === 'mock' || saved === 'custom' || saved === 'dev') return saved;
-    return mode === 'mock' ? 'mock' : 'custom';
+    return mode;
   });
 
   const [nebiusKey, setNebiusKey] = useState('');
@@ -89,19 +89,16 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
     }
 
     localStorage.setItem('thermoreef_setting_tab', activeTab);
+    localStorage.setItem('thermoreef_mode', activeTab);
+    onModeChange(activeTab);
 
     if (activeTab === 'mock') {
-      onModeChange('mock');
-      localStorage.setItem('thermoreef_mode', 'mock');
+      // Offline simulation
     } else if (activeTab === 'custom') {
-      onModeChange('live');
-      localStorage.setItem('thermoreef_mode', 'live');
       localStorage.setItem('thermoreef_nebius_key', nebiusKey.trim());
       localStorage.setItem('thermoreef_tavily_key', tavilyKey.trim());
     } else {
       // Local dev mode: clear overrides and use backend .env
-      onModeChange('live');
-      localStorage.setItem('thermoreef_mode', 'live');
       localStorage.removeItem('thermoreef_nebius_key');
       localStorage.removeItem('thermoreef_tavily_key');
     }
