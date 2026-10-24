@@ -43,6 +43,16 @@ Structured Emergency Rescue Protocol (JSON)
 - **Reef data:** UNEP-WCMC Global Distribution of Coral Reefs (17,504 polygons)
 - **Thermal data:** NOAA Coral Reef Watch 5km via PacIOOS ERDDAP
 
+## Execution Modes
+
+The application supports three operating modes configured in Settings:
+
+- **For Judges (Mock):** Uses pre-generated offline responses without requiring API keys.
+- **Live Cloud API:** Uses Nebius and Tavily API keys entered in the UI and stored in the browser session.
+- **For Developers:** Uses `NEBIUS_API_KEY` and `TAVILY_API_KEY` defined in `backend/.env`.
+
+---
+
 ## Installation
 
 ### Requirements
@@ -53,7 +63,11 @@ Structured Emergency Rescue Protocol (JSON)
 
 ### Environment Variables
 
-Create `backend/.env`:
+Where to get API keys:
+- **Nebius Token Factory:** [tokenfactory.nebius.com/project/api-keys](https://tokenfactory.nebius.com/project/api-keys)
+- **Tavily Search API:** [app.tavily.com/home](https://app.tavily.com/home)
+
+Create `backend/.env` (optional if using *For Judges* mode or entering keys in the UI):
 ```env
 NEBIUS_API_KEY=your_nebius_api_key
 NEBIUS_BASE_URL=https://api.tokenfactory.nebius.com/v1
@@ -105,14 +119,18 @@ App starts at `http://localhost:5173`
 |---|---|---|
 | `GET` | `/reefs` | Centroids for all 17,504 reefs (`id, lat, lng`) |
 | `GET` | `/reefs/{id}/stress` | Live NOAA thermal stress data (`sst, tempAnomaly, dhw, baa, alertLevel`) |
-| `GET` | `/reefs/{id}/intervention` | AI emergency rescue protocol generated via NVIDIA Nemotron-3 Ultra |
+| `GET` | `/reefs/{id}/intervention` | AI rescue protocol (supports `x-nebius-key`, `x-tavily-key`, `x-execution-mode`) |
+| `GET` | `/config/dev-check` | Diagnostics checking if `NEBIUS_API_KEY` and `TAVILY_API_KEY` are set in `.env` |
 | `GET` | `/` | Health check (`{"status": "ok"}`) |
 
-## Testing Nebius & Nemotron Inference
+## Testing & Diagnostics
 
 ```bash
 # Verify connection to Nebius Token Factory & model catalog:
 python backend/scripts/test_nebius.py
+
+# Test live Tavily ecological search & prompt augmentation:
+python backend/scripts/test_tavily_live.py
 
 # Test end-to-end live satellite fetch + Nemotron-3 Ultra protocol generation:
 python backend/scripts/test_intervention_live.py
@@ -129,11 +147,14 @@ thermoreef/
 │   │   ├── download_reefs.py
 │   │   ├── geojson_to_centroids.py
 │   │   ├── test_nebius.py
+│   │   ├── test_tavily_live.py
 │   │   └── test_intervention_live.py
 │   └── src/backend/
-│       ├── main.py              # FastAPI application (100 lines)
-│       ├── reefs.py
-│       ├── coral_reefs.json     # Centroids dataset
+│       ├── main.py              # FastAPI application & route endpoints
+│       ├── constants.py         # Backend configuration & environment loaders
+│       ├── reefs.py             # Centroids loader & NOAA ERDDAP fetcher
+│       ├── tavily.py            # Tavily regional news & ecological intelligence
+│       ├── coral_reefs.json     # 17,504 reef centroids dataset
 │       └── nemotron/            # Modular Nemotron package
 │           ├── __init__.py
 │           ├── client.py        # Token Factory API client & failover
@@ -143,10 +164,21 @@ thermoreef/
 ├── frontend/
 │   ├── src/
 │   │   ├── App.tsx
+│   │   ├── constants.ts         # Maps IDs & LocalStorage keys
 │   │   ├── components/
-│   │   │   └── ReefMap.tsx
+│   │   │   ├── ReefMap.tsx      # Main map component with vector layer
+│   │   │   ├── SettingsModal.tsx# Settings dialog (3 modes & key inputs)
+│   │   │   ├── InterventionModal.tsx # Emergency rescue protocol dialog
+│   │   │   ├── map/             # Header, reef info card, NOAA stress metrics
+│   │   │   ├── settings/        # Mode selector, Judge, Cloud, Dev tabs
+│   │   │   └── intervention/    # Shading, Triage, Monitoring, Web Intel tabs
+│   │   ├── styles/              # Dedicated CSS styling
+│   │   │   ├── common.css       # Shared modal, buttons, badges, utilities
+│   │   │   ├── map.css          # Map controls & NOAA stress card
+│   │   │   ├── settings.css     # Settings dialog & mode selectors
+│   │   │   └── intervention.css # Protocol tabs & urgency views
 │   │   └── data/
-│   │       └── reefs.ts
+│   │       └── reefs.ts         # TypeScript types & client API fetchers
 │   └── package.json
 ├── README.md
 ├── LICENSE
