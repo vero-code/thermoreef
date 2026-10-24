@@ -164,3 +164,17 @@
   color: #7dd3fc;
   text-decoration: underline;
 }
+.map-footer-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+.map-footer-btn:hover {
+  color: #38bdf8;
+  text-decoration: underline;
+}

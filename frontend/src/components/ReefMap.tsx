@@ -6,6 +6,7 @@ import {
 } from '../data/reefs';
 import InterventionModal from './InterventionModal';
 import { SettingsModal } from './SettingsModal';
+import { PolicyModal } from './PolicyModal';
 import type { ModeTab } from './settings/types';
 import type { ReefData } from './map/types';
 import { ReefDatasetLayer } from './map/ReefDatasetLayer';
@@ -36,6 +37,7 @@ export default function ReefMap() {
     return 'custom';
   });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isPolicyOpen, setIsPolicyOpen] = useState(false);
 
   const handleSelectReef = useCallback((reef: ReefData) => {
     setSelected(reef);
@@ -145,8 +147,14 @@ export default function ReefMap() {
         />
       )}
 
-      {/* Map Footer (Copyright & Author) */}
-      <MapFooter />
+      {/* Map Footer (Copyright, Author & Policy) */}
+      <MapFooter onOpenPolicy={() => setIsPolicyOpen(true)} />
+
+      {/* Policy & Terms Modal */}
+      <PolicyModal
+        isOpen={isPolicyOpen}
+        onClose={() => setIsPolicyOpen(false)}
+      />
 
       {/* Settings & Custom API Keys Modal */}
       <SettingsModal
