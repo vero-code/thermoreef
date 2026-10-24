@@ -1,6 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { APIProvider, Map, useMap } from '@vis.gl/react-google-maps';
-import { ALERT_COLORS, ALERT_LABELS, type Reef, type ReefStress, type AlertLevel } from '../data/reefs';
+import {
+  ALERT_COLORS,
+  ALERT_LABELS,
+  type ReefStress,
+  type InterventionResponse,
+  type AlertLevel,
+} from '../data/reefs';
+import InterventionModal from './InterventionModal';
 
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string;
 const API_BASE = 'http://localhost:8000';
@@ -26,10 +33,15 @@ function ReefDatasetLayer({ selectedId, onSelectReef }: DatasetLayerProps) {
   useEffect(() => {
     if (!map || !DATASET_ID) return;
 
-    const datasetLayer = map.getDatasetFeatureLayer(DATASET_ID);
+    let datasetLayer: google.maps.FeatureLayer;
+    try {
+      datasetLayer = map.getDatasetFeatureLayer(DATASET_ID);
+    } catch (err) {
+      console.warn('Dataset layer not ready:', err);
+      return;
+    }
 
     datasetLayer.style = (options: google.maps.FeatureStyleFunctionOptions) => {
-      // console.log('Feature detected in viewport:', options.feature);
       const feature = options.feature as google.maps.DatasetFeature;
       const attrs = feature.datasetAttributes;
       const rawId = attrs['OBJECTID'] ?? attrs['objectid'];
@@ -37,7 +49,6 @@ function ReefDatasetLayer({ selectedId, onSelectReef }: DatasetLayerProps) {
       const isSelected = selectedId !== null && String(rawId) === String(selectedId);
 
       return {
-        // Vector polygon style for reefs on the map
         fillColor: isSelected ? '#f59e0b' : '#06b6d4',
         fillOpacity: isSelected ? 0.85 : 0.55,
         strokeColor: isSelected ? '#ffffff' : '#0891b2',
@@ -56,9 +67,10 @@ function ReefDatasetLayer({ selectedId, onSelectReef }: DatasetLayerProps) {
         const rawId = attrs['OBJECTID'] ?? attrs['objectid'];
 
         if (!rawId || !event.latLng) return;
+        const cleanId = String(rawId).split('.')[0];
 
         onSelectReef({
-          id: rawId,
+          id: cleanId,
           lat: event.latLng.lat(),
           lng: event.latLng.lng(),
           area: attrs['gis_area_k'],
@@ -78,6 +90,55 @@ function ReefDatasetLayer({ selectedId, onSelectReef }: DatasetLayerProps) {
 
 export default function ReefMap() {
   const [selected, setSelected] = useState<ReefData | null>(null);
+  const [stress, setStress] = useState<ReefStress | null>(null);
+  const [loadingStress, setLoadingStress] = useState(false);
+  const [stressError, setStressError] = useState<string | null>(null);
+
+  const [inspecting, setInspecting] = useState(false);
+  const [interventionData, setInterventionData] = useState<InterventionResponse | null>(null);
+
+  const handleSelectReef = useCallback((reef: ReefData) => {
+    setSelected(reef);
+    setStress(null);
+    setStressError(null);
+    setLoadingStress(true);
+
+    fetch(`${API_BASE}/reefs/${reef.id}/stress`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data: ReefStress) => {
+        setStress(data);
+      })
+      .catch((err) => {
+        console.warn('Failed to fetch NOAA stress:', err);
+        setStressError('Live NOAA satellite data unavailable for this reef');
+      })
+      .finally(() => {
+        setLoadingStress(false);
+      });
+  }, []);
+
+  const handleInspectReef = async () => {
+    if (!selected) return;
+    setInspecting(true);
+
+    try {
+      const res = await fetch(`${API_BASE}/reefs/${selected.id}/intervention`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data: InterventionResponse = await res.json();
+      setInterventionData(data);
+    } catch (err) {
+      console.error('Failed to generate rescue protocol:', err);
+      alert('Failed to generate rescue protocol. Check if backend is running on http://localhost:8000');
+    } finally {
+      setInspecting(false);
+    }
+  };
+
+  const alertLvl: AlertLevel = stress?.alertLevel || 'normal';
+  const alertColor = ALERT_COLORS[alertLvl] || '#10b981';
 
   return (
     <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
@@ -93,93 +154,175 @@ export default function ReefMap() {
         >
           <ReefDatasetLayer
             selectedId={selected?.id ?? null}
-            onSelectReef={setSelected}
+            onSelectReef={handleSelectReef}
           />
         </Map>
       </APIProvider>
 
+      {/* Reef Info & Heat Stress Card */}
       {selected && (
-        <div style={{
-          position: 'absolute',
-          top: 20,
-          right: 20,
-          background: '#fff',
-          borderRadius: 12,
-          padding: 24,
-          width: 300,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-          zIndex: 10,
-        }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 20,
+            background: '#ffffff',
+            borderRadius: 12,
+            padding: 20,
+            width: 320,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+            zIndex: 10,
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+          }}
+        >
           <button
-            onClick={() => setSelected(null)}
+            onClick={() => {
+              setSelected(null);
+              setStress(null);
+            }}
             style={{
               float: 'right',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
               fontSize: 18,
+              color: '#94a3b8',
             }}
           >
             ✕
           </button>
 
-          <h2 style={{ margin: '0 0 8px' }}>Reef #{Math.round(Number(selected.id))}</h2>
-          
-          <p style={{ margin: '0 0 16px', color: '#666', fontSize: 13 }}>
+          <h2 style={{ margin: '0 0 6px', fontSize: '18px', color: '#0f172a' }}>
+            Reef #{Math.round(Number(selected.id))}
+          </h2>
+
+          <p style={{ margin: '0 0 12px', color: '#64748b', fontSize: '12px' }}>
             Coordinates: {selected.lat.toFixed(4)}, {selected.lng.toFixed(4)}
           </p>
 
-          <div style={{
-            background: '#f8fafc',
-            borderRadius: 8,
-            padding: 12,
-            marginBottom: 16,
-          }}>
-            <div style={{ marginBottom: 8 }}>
-              <span style={{ fontSize: 12, color: '#64748b' }}>Area: </span>
-              <span style={{ fontSize: 14, fontWeight: 600 }}>
+          {/* Area & Source */}
+          <div
+            style={{
+              background: '#f8fafc',
+              borderRadius: 8,
+              padding: '10px 12px',
+              marginBottom: 12,
+              fontSize: '13px',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+              <span style={{ color: '#64748b' }}>Area:</span>
+              <span style={{ fontWeight: 600 }}>
                 {selected.area ? `${Number(selected.area).toFixed(2)} km²` : 'N/A'}
               </span>
             </div>
 
             {selected.metadataId && (
-              <div style={{ fontSize: 13, marginTop: 6 }}>
-                <span style={{ color: '#64748b' }}>Data Source: </span>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#64748b' }}>Source:</span>
                 <a
                   href={`https://data-gis.unep-wcmc.org/server/rest/services/HabitatsAndBiotopes/Global_Distribution_of_Coral_Reefs/FeatureServer/2/${Math.round(Number(selected.metadataId))}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    color: '#0284c7',
-                    textDecoration: 'none',
-                    fontWeight: 600,
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                  style={{ color: '#0284c7', textDecoration: 'none', fontWeight: 600 }}
                 >
-                  UNEP-WCMC (Record #{Math.round(Number(selected.metadataId))}) ↗
+                  UNEP-WCMC ↗
                 </a>
               </div>
             )}
           </div>
 
+          {/* NOAA Thermal Stress Indicators */}
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 6 }}>
+              NOAA Thermal Stress
+            </div>
+
+            {loadingStress ? (
+              <div style={{ fontSize: '13px', color: '#0284c7', padding: '12px', background: '#f0f9ff', borderRadius: 8, textAlign: 'center' }}>
+                Fetching live satellite data...
+              </div>
+            ) : stress ? (
+              <div
+                style={{
+                  border: `1px solid ${alertColor}`,
+                  borderRadius: 8,
+                  padding: 10,
+                  background: `${alertColor}15`,
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                  <span style={{ fontSize: '12px', color: '#334155', fontWeight: 500 }}>Alert Level:</span>
+                  <span
+                    style={{
+                      background: alertColor,
+                      color: '#ffffff',
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      padding: '2px 8px',
+                      borderRadius: 4,
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {ALERT_LABELS[alertLvl]}
+                  </span>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, textAlign: 'center' }}>
+                  <div style={{ background: '#ffffff', padding: '6px 4px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                    <div style={{ fontSize: '10px', color: '#64748b' }}>SST</div>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a' }}>{stress.sst}°C</div>
+                  </div>
+                  <div style={{ background: '#ffffff', padding: '6px 4px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                    <div style={{ fontSize: '10px', color: '#64748b' }}>Anomaly</div>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: stress.tempAnomaly > 0 ? '#ef4444' : '#10b981' }}>
+                      {stress.tempAnomaly > 0 ? `+${stress.tempAnomaly}` : stress.tempAnomaly}°C
+                    </div>
+                  </div>
+                  <div style={{ background: '#ffffff', padding: '6px 4px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                    <div style={{ fontSize: '10px', color: '#64748b' }}>DHW</div>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: stress.dhw > 0 ? '#f59e0b' : '#0f172a' }}>{stress.dhw}</div>
+                  </div>
+                </div>
+              </div>
+            ) : stressError ? (
+              <div style={{ fontSize: '12px', color: '#ef4444', padding: 8, background: '#fef2f2', borderRadius: 6 }}>
+                {stressError}
+              </div>
+            ) : null}
+          </div>
+
+          {/* Action Button */}
           <button
             style={{
               width: '100%',
               padding: '12px',
-              background: '#0ea5e9',
-              color: '#fff',
+              background: inspecting ? '#94a3b8' : '#0ea5e9',
+              color: '#ffffff',
               border: 'none',
               borderRadius: 8,
-              fontSize: 14,
+              fontSize: '14px',
               fontWeight: 600,
-              cursor: 'pointer',
+              cursor: inspecting ? 'wait' : 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
             }}
-            onClick={() => console.log('Reef selected:', selected)}
+            disabled={inspecting}
+            onClick={handleInspectReef}
           >
-            Inspect Reef
+            {inspecting ? '✨ Nemotron-3 Ultra reasoning...' : '✨ Inspect Reef with Nemotron AI'}
           </button>
         </div>
+      )}
+
+      {/* Emergency Intervention Modal */}
+      {interventionData && (
+        <InterventionModal
+          data={interventionData}
+          onClose={() => setInterventionData(null)}
+        />
       )}
     </div>
   );

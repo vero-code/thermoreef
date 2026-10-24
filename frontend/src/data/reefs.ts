@@ -14,13 +14,54 @@ export interface ReefStress {
   alertLevel: AlertLevel;
 }
 
+export interface ShadingAction {
+  needed: boolean;
+  recommended_method: string;
+  target_hours: string;
+  expected_cooling_delta: string;
+  priority: string;
+}
+
+export interface BiologicalTriage {
+  species_at_risk: string[];
+  donor_relocation: boolean;
+  antioxidant_or_feeding: string;
+  action_items: string[];
+}
+
+export interface MonitoringProtocol {
+  survey_frequency: string;
+  recommended_tools: string[];
+  alert_dispatch: string;
+}
+
+export interface InterventionProtocol {
+  reef_id: string;
+  reef_name?: string;
+  urgency_level: string;
+  intervention_window: string;
+  executive_summary: string;
+  shading: ShadingAction;
+  triage: BiologicalTriage;
+  monitoring: MonitoringProtocol;
+  model_used?: string;
+  generated_by?: string;
+}
+
+export interface InterventionResponse {
+  reef_id: string;
+  coordinates: { lat: number; lng: number };
+  stress: ReefStress;
+  protocol: InterventionProtocol;
+}
+
 export const ALERT_COLORS: Record<AlertLevel, string> = {
-  normal:  '#22c55e',
+  normal:  '#10b981',
   watch:   '#eab308',
   warning: '#f97316',
   alert1:  '#ef4444',
   alert2:  '#7f1d1d',
-}
+};
 
 export const ALERT_LABELS: Record<AlertLevel, string> = {
   normal:  'Normal',
@@ -28,4 +69,4 @@ export const ALERT_LABELS: Record<AlertLevel, string> = {
   warning: 'Warning',
   alert1:  'Alert Level 1',
   alert2:  'Alert Level 2',
-}
+};

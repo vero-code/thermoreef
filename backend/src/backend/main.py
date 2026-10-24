@@ -72,10 +72,15 @@ async def get_reefs():
     return _REEFS
 
 
+def get_clean_reef(reef_id: str):
+    clean_id = str(reef_id).split(".")[0]
+    return _REEFS_BY_ID.get(clean_id) or _REEFS_BY_ID.get(str(reef_id))
+
+
 @app.get("/reefs/{reef_id}/stress")
 async def get_reef_stress(reef_id: str):
     """Fetch live NOAA thermal stress data for a reef by its id."""
-    reef = _REEFS_BY_ID.get(str(reef_id))
+    reef = get_clean_reef(reef_id)
     if not reef:
         raise HTTPException(status_code=404, detail="Reef not found")
     return await fetch_noaa(reef["lat"], reef["lng"])
@@ -84,20 +89,20 @@ async def get_reef_stress(reef_id: str):
 @app.get("/reefs/{reef_id}/intervention")
 async def get_reef_intervention(reef_id: str):
     """Generate emergency rescue protocol using NVIDIA Nemotron on Nebius Token Factory."""
-    reef = _REEFS_BY_ID.get(str(reef_id))
+    reef = get_clean_reef(reef_id)
     if not reef:
         raise HTTPException(status_code=404, detail="Reef not found")
 
     stress_data = await fetch_noaa(reef["lat"], reef["lng"])
     protocol = await generate_intervention_protocol(
-        reef_id=str(reef_id),
+        reef_id=str(reef_id).split(".")[0],
         stress_data=stress_data,
         lat=reef["lat"],
         lng=reef["lng"],
         reef_name=reef.get("name"),
     )
     return {
-        "reef_id": str(reef_id),
+        "reef_id": str(reef_id).split(".")[0],
         "coordinates": {"lat": reef["lat"], "lng": reef["lng"]},
         "stress": stress_data,
         "protocol": protocol,
