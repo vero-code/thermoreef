@@ -134,3 +134,37 @@ Full docs at `http://127.0.0.1:8000/docs`
 | 🟠 Warning | 4–8 | Bleaching likely |
 | 🔴 Alert Level 1 | 8–16 | Significant bleaching |
 | 🔴 Alert Level 2 | > 16 | Severe / mortality likely |
+
+## Structure
+
+`
+thermoreef/
+├── backend/                  # FastAPI backend (uv)
+│   ├── pyproject.toml        # Dependencies
+│   ├── uv.lock
+│   ├── .python-version
+│   ├── scripts/
+│   │   └── download_reefs.py # Fetch reef polygons
+│   └── src/backend/
+│       ├── main.py           # FastAPI app
+│       ├── reefs.py          # Sample reefs
+│       ├── coral_reefs.geojson # Polygons cache (.gitignore)
+│       └── __init__.py
+├── frontend/                 # React + TS + Vite
+│   ├── src/
+│   │   ├── App.tsx           # Root component
+│   │   ├── main.tsx          # Entry point
+│   │   ├── index.css / App.css
+│   │   ├── components/
+│   │   │   └── ReefMap.tsx   # Map & info card
+│   │   └── data/
+│   │       └── reefs.ts      # Types & alert styles
+│   ├── public/
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   └── assets/
+├── start.bat                 # Launch script
+├── README.md                 # Documentation
+├── LICENSE
+└── .gitignore
+```
