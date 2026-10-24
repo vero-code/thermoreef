@@ -156,19 +156,45 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
 
         {/* Footer */}
         <div className="modal-footer">
-          <button
-            onClick={onClose}
-            className="btn-ghost"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSave}
-            disabled={devChecking}
-            className="btn-primary"
-          >
-            {devChecking ? 'Checking .env...' : saved ? '✓ Saved!' : 'Apply Settings'}
-          </button>
+          {activeTab !== 'mock' ? (
+            <div className="settings-footer-links">
+              <span>Get keys:</span>
+              <a
+                href="https://tokenfactory.nebius.com/project/api-keys"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="settings-footer-link"
+                title="Open Nebius Token Factory API keys"
+              >
+                Nebius ↗
+              </a>
+              <a
+                href="https://app.tavily.com/home"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="settings-footer-link"
+                title="Open Tavily Search API keys"
+              >
+                Tavily ↗
+              </a>
+            </div>
+          ) : <div />}
+
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <button
+              onClick={onClose}
+              className="btn-ghost"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={devChecking}
+              className="btn-primary"
+            >
+              {devChecking ? 'Checking .env...' : saved ? '✓ Saved!' : 'Apply Settings'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

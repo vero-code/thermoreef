@@ -18,15 +18,6 @@ export function LiveCloudTab({
   return (
     <div className="live-cloud-tab">
       <div>
-        <div className="live-cloud-title">
-          Connect Your Own Keys
-        </div>
-        <div className="live-cloud-subtitle">
-          Keys stay safely in your browser session only and are never saved to our servers:
-        </div>
-      </div>
-
-      <div>
         <label className="info-label">
           Nebius API Key (Token Factory):
         </label>
