@@ -4,6 +4,7 @@ import { getUrgencyColor, formatProtocolAsText } from './intervention/formatProt
 import { ShadingTab } from './intervention/ShadingTab';
 import { TriageTab } from './intervention/TriageTab';
 import { MonitoringTab } from './intervention/MonitoringTab';
+import { WebIntelTab } from './intervention/WebIntelTab';
 
 interface Props {
   data: InterventionResponse;
@@ -11,7 +12,7 @@ interface Props {
 }
 
 export default function InterventionModal({ data, onClose }: Props) {
-  const [activeTab, setActiveTab] = useState<'shading' | 'triage' | 'monitoring'>('shading');
+  const [activeTab, setActiveTab] = useState<'shading' | 'triage' | 'monitoring' | 'webintel'>('shading');
   const [copied, setCopied] = useState(false);
 
   const { protocol, stress, coordinates } = data;
@@ -36,7 +37,6 @@ export default function InterventionModal({ data, onClose }: Props) {
         justifyContent: 'center',
         padding: '20px',
       }}
-      onClick={onClose}
     >
       <div
         style={{
@@ -154,12 +154,13 @@ export default function InterventionModal({ data, onClose }: Props) {
           </div>
 
           {/* Tab Selector */}
-          <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '8px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '8px', marginBottom: '16px', overflowX: 'auto' }}>
             {(
               [
                 { id: 'shading', label: '🛡️ Shading' },
                 { id: 'triage', label: '🧬 Biological Triage' },
                 { id: 'monitoring', label: '📡 Monitoring' },
+                { id: 'webintel', label: '🌐 Web Intel (Tavily)' },
               ] as const
             ).map((tab) => (
               <button
@@ -174,6 +175,7 @@ export default function InterventionModal({ data, onClose }: Props) {
                   fontWeight: 600,
                   fontSize: '13px',
                   cursor: 'pointer',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {tab.label}
@@ -185,6 +187,7 @@ export default function InterventionModal({ data, onClose }: Props) {
           {activeTab === 'shading' && <ShadingTab shading={protocol.shading} />}
           {activeTab === 'triage' && <TriageTab triage={protocol.triage} />}
           {activeTab === 'monitoring' && <MonitoringTab monitoring={protocol.monitoring} />}
+          {activeTab === 'webintel' && <WebIntelTab intel={data.web_intelligence} />}
         </div>
 
         {/* Footer */}

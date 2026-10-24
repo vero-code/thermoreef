@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import httpx
 
 from .nemotron import generate_intervention_protocol
+from .tavily import search_reef_context
 
 app = FastAPI(title="ThermoReef API")
 
@@ -38,8 +39,22 @@ def alert_level(baa: float) -> str:
     return "normal"
 
 
+import time
+
+_STRESS_CACHE: dict[tuple[float, float], tuple[float, dict]] = {}
+_CACHE_TTL_SECONDS = 3600  # NOAA satellite data updates once daily, 1h cache is optimal
+
+
 async def fetch_noaa(lat: float, lng: float) -> dict:
-    """Sends a request to the NOAA ERDDAP API using coordinates."""
+    """Sends a request to the NOAA ERDDAP API using coordinates, with in-memory caching."""
+    cache_key = (round(lat, 3), round(lng, 3))
+    now = time.time()
+
+    if cache_key in _STRESS_CACHE:
+        cached_time, cached_data = _STRESS_CACHE[cache_key]
+        if now - cached_time < _CACHE_TTL_SECONDS:
+            return cached_data
+
     url = (
         f"{ERDDAP_BASE}"
         f"?CRW_BAA[(last)][({lat})][({lng})]"
@@ -56,14 +71,16 @@ async def fetch_noaa(lat: float, lng: float) -> dict:
     if not rows:
         raise HTTPException(status_code=404, detail="No NOAA data")
 
-    time, lat_, lng_, baa, dhw, ssta, sst = rows[0]
-    return {
+    time_, lat_, lng_, baa, dhw, ssta, sst = rows[0]
+    result = {
         "baa": baa,
         "dhw": round(dhw, 1),
         "tempAnomaly": round(ssta, 1),
         "sst": round(sst, 1),
         "alertLevel": alert_level(baa),
     }
+    _STRESS_CACHE[cache_key] = (now, result)
+    return result
 
 
 @app.get("/reefs")
@@ -88,23 +105,33 @@ async def get_reef_stress(reef_id: str):
 
 @app.get("/reefs/{reef_id}/intervention")
 async def get_reef_intervention(reef_id: str):
-    """Generate emergency rescue protocol using NVIDIA Nemotron on Nebius Token Factory."""
+    """Generate emergency rescue protocol using NVIDIA Nemotron on Nebius Token Factory enriched with Tavily search."""
     reef = get_clean_reef(reef_id)
     if not reef:
         raise HTTPException(status_code=404, detail="Reef not found")
 
     stress_data = await fetch_noaa(reef["lat"], reef["lng"])
+    
+    # Query real-time regional ecological reports & news via Tavily
+    tavily_data = await search_reef_context(
+        lat=reef["lat"],
+        lng=reef["lng"],
+        reef_name=reef.get("name"),
+    )
+
     protocol = await generate_intervention_protocol(
         reef_id=str(reef_id).split(".")[0],
         stress_data=stress_data,
         lat=reef["lat"],
         lng=reef["lng"],
         reef_name=reef.get("name"),
+        tavily_context=tavily_data,
     )
     return {
         "reef_id": str(reef_id).split(".")[0],
         "coordinates": {"lat": reef["lat"], "lng": reef["lng"]},
         "stress": stress_data,
+        "web_intelligence": tavily_data,
         "protocol": protocol,
     }
 

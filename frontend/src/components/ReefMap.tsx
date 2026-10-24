@@ -297,22 +297,33 @@ export default function ReefMap() {
             style={{
               width: '100%',
               padding: '12px',
-              background: inspecting ? '#94a3b8' : '#0ea5e9',
-              color: '#ffffff',
+              background: inspecting
+                ? '#64748b'
+                : loadingStress || !stress
+                ? '#334155'
+                : '#0ea5e9',
+              color: inspecting || loadingStress || !stress ? '#94a3b8' : '#ffffff',
               border: 'none',
               borderRadius: 8,
               fontSize: '14px',
               fontWeight: 600,
-              cursor: inspecting ? 'wait' : 'pointer',
+              cursor: inspecting || loadingStress || !stress ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: 8,
+              transition: 'all 0.2s ease',
             }}
-            disabled={inspecting}
+            disabled={inspecting || loadingStress || !stress}
             onClick={handleInspectReef}
           >
-            {inspecting ? '✨ Nemotron-3 Ultra reasoning...' : '✨ Inspect Reef with Nemotron AI'}
+            {inspecting
+              ? '✨ Nemotron-3 Ultra reasoning...'
+              : loadingStress
+              ? '⏳ Loading NOAA thermal stress...'
+              : !stress
+              ? '⚠️ Waiting for satellite data'
+              : '✨ Inspect Reef with Nemotron AI'}
           </button>
         </div>
       )}

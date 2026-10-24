@@ -13,6 +13,9 @@ async def main():
     print("\n--- NOAA Satellite Stress Data ---")
     print(json.dumps(res["stress"], indent=2))
 
+    print("\n--- Tavily Web Intelligence ---")
+    print(json.dumps(res.get("web_intelligence"), indent=2, ensure_ascii=False))
+
     print("\n--- NVIDIA Nemotron-3 Ultra Rescue Protocol ---")
     print(json.dumps(res["protocol"], indent=2, ensure_ascii=False))
 

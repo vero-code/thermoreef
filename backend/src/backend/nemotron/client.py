@@ -26,13 +26,22 @@ async def generate_intervention_protocol(
     lng: float,
     area_km2: Optional[float] = None,
     reef_name: Optional[str] = None,
+    tavily_context: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
     """Call NVIDIA Nemotron on Nebius Token Factory to generate a structured rescue protocol."""
     if not NEBIUS_API_KEY:
         logger.warning("NEBIUS_API_KEY not configured; using fallback protocol.")
         return get_mock_intervention(reef_id, stress_data, reef_name, NEBIUS_MODEL)
 
-    user_prompt = build_user_prompt(reef_id, stress_data, lat, lng, area_km2, reef_name)
+    user_prompt = build_user_prompt(
+        reef_id=reef_id,
+        stress_data=stress_data,
+        lat=lat,
+        lng=lng,
+        area_km2=area_km2,
+        reef_name=reef_name,
+        tavily_context=tavily_context,
+    )
     headers = {
         "Authorization": f"Bearer {NEBIUS_API_KEY}",
         "Content-Type": "application/json",
@@ -52,7 +61,7 @@ async def generate_intervention_protocol(
                     {"role": "user", "content": user_prompt},
                 ],
                 "temperature": 0.2,
-                "max_tokens": 1200,
+                "max_tokens": 2500,
             }
 
             for attempt in range(2):
