@@ -4,6 +4,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
 
+from .nemotron import generate_intervention_protocol
+
 app = FastAPI(title="ThermoReef API")
 
 app.add_middleware(
@@ -20,15 +22,21 @@ _REEFS_FILE = Path(__file__).parent / "coral_reefs.json"
 with open(_REEFS_FILE, encoding="utf-8") as _f:
     _REEFS: list[dict] = json.load(_f)
 
-_REEFS_BY_ID: dict[str, dict] = {r["id"]: r for r in _REEFS}
+_REEFS_BY_ID: dict[str, dict] = {str(r["id"]): r for r in _REEFS}
+
 
 def alert_level(baa: float) -> str:
     """Converts the NOAA number (0-4) into a text-based alert level."""
-    if baa >= 4: return "alert2"
-    if baa >= 3: return "alert1"
-    if baa >= 2: return "warning"
-    if baa >= 1: return "watch"
+    if baa >= 4:
+        return "alert2"
+    if baa >= 3:
+        return "alert1"
+    if baa >= 2:
+        return "warning"
+    if baa >= 1:
+        return "watch"
     return "normal"
+
 
 async def fetch_noaa(lat: float, lng: float) -> dict:
     """Sends a request to the NOAA ERDDAP API using coordinates."""
@@ -57,18 +65,44 @@ async def fetch_noaa(lat: float, lng: float) -> dict:
         "alertLevel": alert_level(baa),
     }
 
+
 @app.get("/reefs")
 async def get_reefs():
     """Return all reef centroids (id, lat, lng)."""
     return _REEFS
 
+
 @app.get("/reefs/{reef_id}/stress")
 async def get_reef_stress(reef_id: str):
     """Fetch live NOAA thermal stress data for a reef by its id."""
-    reef = _REEFS_BY_ID.get(reef_id)
+    reef = _REEFS_BY_ID.get(str(reef_id))
     if not reef:
         raise HTTPException(status_code=404, detail="Reef not found")
     return await fetch_noaa(reef["lat"], reef["lng"])
+
+
+@app.get("/reefs/{reef_id}/intervention")
+async def get_reef_intervention(reef_id: str):
+    """Generate emergency rescue protocol using NVIDIA Nemotron on Nebius Token Factory."""
+    reef = _REEFS_BY_ID.get(str(reef_id))
+    if not reef:
+        raise HTTPException(status_code=404, detail="Reef not found")
+
+    stress_data = await fetch_noaa(reef["lat"], reef["lng"])
+    protocol = await generate_intervention_protocol(
+        reef_id=str(reef_id),
+        stress_data=stress_data,
+        lat=reef["lat"],
+        lng=reef["lng"],
+        reef_name=reef.get("name"),
+    )
+    return {
+        "reef_id": str(reef_id),
+        "coordinates": {"lat": reef["lat"], "lng": reef["lng"]},
+        "stress": stress_data,
+        "protocol": protocol,
+    }
+
 
 @app.get("/")
 def read_root():

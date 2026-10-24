@@ -1,32 +1,38 @@
 # ThermoReef
 
-AI-powered coral bleaching early warning system. Monitors ocean thermal stress using NOAA satellite data and displays 17,504 real coral reef polygons from UNEP-WCMC on an interactive map.
+AI-powered coral bleaching early warning system. Monitors ocean thermal stress using NOAA satellite data across 17,504 coral reef polygons from UNEP-WCMC and generates emergency rescue protocols via NVIDIA Nemotron models hosted on Nebius Token Factory.
+
+## AI Models & Infrastructure
+
+- **Platform:** Nebius Token Factory (`https://api.tokenfactory.nebius.com/v1`, OpenAI-compatible)
+- **Primary Model:** `nvidia/Nemotron-3-Ultra-550b-a55b` (MoE 550B / A55B, deep reasoning for complex ecological triage & rescue protocol synthesis)
+- **Fallback Model:** `nvidia/nemotron-3-super-120b-a12b` (MoE 120B / A12B, automatic high-availability failover)
 
 ## Architecture
 
 ```
-UNEP-WCMC (coral reef polygons)
+UNEP-WCMC (17,504 reef polygons)
         ↓
-Google Maps Dataset Layer (renders polygons)
+Google Maps Dataset Layer (vector polygons)
         +
 NOAA ERDDAP (live SST, DHW, BAA per reef)
         ↓
-FastAPI backend
+FastAPI backend (/reefs/{id}/intervention)
         ↓
-React frontend (Google Maps, info card)
-        ↓      [coming soon]
-Tavily Search + Nebius/NVIDIA Nemotron
+NVIDIA Nemotron-3 Ultra (via Nebius Token Factory)
         ↓
-AI-generated intervention protocol
+Structured Emergency Rescue Protocol (JSON)
+(Shading parameters, biological triage, nursery relocation, ranger alerts)
 ```
 
 ## Tech Stack
 
-- **Backend:** Python, FastAPI, uv
+- **AI Inference:** NVIDIA Nemotron-3 Ultra (550B) / Super (120B) on Nebius Token Factory
+- **Backend:** Python 3.12+, FastAPI, uv, HTTPX, Pydantic
 - **Frontend:** React, TypeScript, Vite, @vis.gl/react-google-maps
-- **Map:** Google Maps Platform (Vector, Dataset Layer)
+- **Map:** Google Maps Platform (Vector, Dataset Feature Layer)
 - **Reef data:** UNEP-WCMC Global Distribution of Coral Reefs (17,504 polygons)
-- **Thermal data:** NOAA Coral Reef Watch via PacIOOS ERDDAP
+- **Thermal data:** NOAA Coral Reef Watch 5km via PacIOOS ERDDAP
 
 ## Installation
 
@@ -36,31 +42,32 @@ AI-generated intervention protocol
 - [uv](https://docs.astral.sh/uv/)
 - [Node.js](https://nodejs.org/)
 
-### Environment variables
+### Environment Variables
 
 Create `backend/.env`:
-```
-# coming soon
-TAVILY_API_KEY=...
-NEBIUS_API_KEY=...
+```env
+NEBIUS_API_KEY=your_nebius_api_key
+NEBIUS_BASE_URL=https://api.tokenfactory.nebius.com/v1
+NEBIUS_MODEL=nvidia/Nemotron-3-Ultra-550b-a55b
+NEBIUS_BACKUP_MODEL=nvidia/nemotron-3-super-120b-a12b
 ```
 
 Create `frontend/.env`:
-```
+```env
 VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 ```
 
 ### Backend
 
 ```bash
-cd thermoreef/backend
+cd backend
 uv sync
 ```
 
 ### Frontend
 
 ```bash
-cd thermoreef/frontend
+cd frontend
 npm install
 ```
 
@@ -72,8 +79,7 @@ npm install
 cd backend
 uv run fastapi dev src/backend/main.py
 ```
-
-Server starts at `http://127.0.0.1:8000`
+Server starts at `http://127.0.0.1:8000` (Docs at `http://127.0.0.1:8000/docs`)
 
 ### Frontend
 
@@ -81,93 +87,58 @@ Server starts at `http://127.0.0.1:8000`
 cd frontend
 npm run dev
 ```
-
 App starts at `http://localhost:5173`
-
-## Reef Data Pipeline
-
-Coral reef polygons are downloaded from UNEP-WCMC and uploaded to Google Maps Datasets:
-
-```bash
-cd backend
-
-# 1. Download all 17,504 reef polygons
-uv run python scripts/download_reefs.py
-
-# 2. Upload coral_reefs.geojson to Google Cloud Console → Datasets
-
-# 3. Extraction centroids for backend
-uv run python scripts/geojson_to_centroids.py
-```
-
-The downloaded `coral_reefs.geojson` is excluded from git (see `.gitignore`).
 
 ## API Endpoints
 
-| Endpoint | Description |
-|---|---|
-| `GET /reefs` | All reef centroids `{id, lat, lng}` |
-| `GET /reefs/{id}/stress` | Live NOAA thermal stress data for a reef |
-
-Full docs at `http://127.0.0.1:8000/docs`
-
-## Data Sources
-
-### Reef Polygons
-**UNEP-WCMC** — Global Distribution of Coral Reefs (WCMC008_CoralReef2021_Py_v4_1)
-17,504 polygons, CC BY 4.0 license.
-[data-gis.unep-wcmc.org](https://data-gis.unep-wcmc.org/server/rest/services/HabitatsAndBiotopes/Global_Distribution_of_Coral_Reefs/FeatureServer/1)
-
-### Thermal Stress
-**NOAA Coral Reef Watch** via PacIOOS ERDDAP server.
-
-| Field | Description |
-|---|---|
-| `sst` | Sea Surface Temperature (°C) |
-| `tempAnomaly` | SST Anomaly — °C above historical norm |
-| `dhw` | Degree Heating Weeks — accumulated heat stress over 12 weeks |
-| `baa` | Bleaching Alert Area — alert level (0–4) |
-
-### Alert Levels
-
-| Level | DHW | Meaning |
+| Method | Endpoint | Description |
 |---|---|---|
-| 🟢 Normal | 0 | No stress |
-| 🟡 Watch | < 4 | Possible bleaching |
-| 🟠 Warning | 4–8 | Bleaching likely |
-| 🔴 Alert Level 1 | 8–16 | Significant bleaching |
-| 🔴 Alert Level 2 | > 16 | Severe / mortality likely |
+| `GET` | `/reefs` | Centroids for all 17,504 reefs (`id, lat, lng`) |
+| `GET` | `/reefs/{id}/stress` | Live NOAA thermal stress data (`sst, tempAnomaly, dhw, baa, alertLevel`) |
+| `GET` | `/reefs/{id}/intervention` | AI emergency rescue protocol generated via NVIDIA Nemotron-3 Ultra |
+| `GET` | `/` | Health check (`{"status": "ok"}`) |
+
+## Testing Nebius & Nemotron Inference
+
+```bash
+# Verify connection to Nebius Token Factory & model catalog:
+python backend/scripts/test_nebius.py
+
+# Test end-to-end live satellite fetch + Nemotron-3 Ultra protocol generation:
+python backend/scripts/test_intervention_live.py
+```
 
 ## Structure
 
 ```
 thermoreef/
-├── backend/                  # FastAPI backend (uv)
-│   ├── pyproject.toml        # Dependencies
+├── backend/
+│   ├── pyproject.toml
 │   ├── uv.lock
-│   ├── .python-version
 │   ├── scripts/
-│   │   └── download_reefs.py # Fetch reef polygons
+│   │   ├── download_reefs.py
+│   │   ├── geojson_to_centroids.py
+│   │   ├── test_nebius.py
+│   │   └── test_intervention_live.py
 │   └── src/backend/
-│       ├── main.py           # FastAPI app
-│       ├── reefs.py          # Sample reefs
-│       ├── coral_reefs.geojson # Polygons cache (.gitignore)
-│       └── __init__.py
-├── frontend/                 # React + TS + Vite
+│       ├── main.py              # FastAPI application (100 lines)
+│       ├── reefs.py
+│       ├── coral_reefs.json     # Centroids dataset
+│       └── nemotron/            # Modular Nemotron package
+│           ├── __init__.py
+│           ├── client.py        # Token Factory API client & failover
+│           ├── schemas.py       # Pydantic data contracts
+│           ├── prompts.py       # Structured triage prompt templates
+│           └── mock.py          # Offline fallback generator
+├── frontend/
 │   ├── src/
-│   │   ├── App.tsx           # Root component
-│   │   ├── main.tsx          # Entry point
-│   │   ├── index.css / App.css
+│   │   ├── App.tsx
 │   │   ├── components/
-│   │   │   └── ReefMap.tsx   # Map & info card
+│   │   │   └── ReefMap.tsx
 │   │   └── data/
-│   │       └── reefs.ts      # Types & alert styles
-│   ├── public/
-│   │   ├── favicon.svg
-│   │   └── icons.svg
-│   └── assets/
-├── start.bat                 # Launch script
-├── README.md                 # Documentation
+│   │       └── reefs.ts
+│   └── package.json
+├── README.md
 ├── LICENSE
 └── .gitignore
 ```
