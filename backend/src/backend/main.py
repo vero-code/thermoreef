@@ -63,16 +63,22 @@ async def fetch_noaa(lat: float, lng: float) -> dict:
         f",CRW_SSTANOMALY[(last)][({lat})][({lng})]"
         f",CRW_SST[(last)][({lat})][({lng})]"
     )
-    async with httpx.AsyncClient(timeout=15) as client:
-        resp = await client.get(url)
-        resp.raise_for_status()
-        data = resp.json()
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.get(url)
+            resp.raise_for_status()
+            data = resp.json()
+    except httpx.HTTPError as exc:
+        raise HTTPException(status_code=502, detail=f"NOAA ERDDAP unavailable: {exc}")
 
     rows = data["table"]["rows"]
     if not rows:
         raise HTTPException(status_code=404, detail="No NOAA data")
 
     time_, lat_, lng_, baa, dhw, ssta, sst = rows[0]
+    # NOAA returns null for pixels without valid ocean data (land mask, coastline, gaps)
+    if None in (baa, dhw, ssta, sst):
+        raise HTTPException(status_code=404, detail="No NOAA data for this location")
     result = {
         "baa": baa,
         "dhw": round(dhw, 1),
