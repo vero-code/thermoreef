@@ -102,6 +102,6 @@ def get_mock_intervention(reef_id: str, stress_data: dict[str, Any], reef_name: 
         "shading": shading,
         "triage": triage,
         "monitoring": monitoring,
-        "model_used": f"{model_name} (fallback)",
+        "model_used": model_name or "NVIDIA Nemotron-3 Ultra (Demo Simulation)",
         "generated_by": "NVIDIA Nemotron via Nebius Token Factory",
     }

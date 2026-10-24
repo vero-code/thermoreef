@@ -50,13 +50,7 @@ async def generate_intervention_protocol(
 
     active_key = custom_nebius_key.strip() if custom_nebius_key else NEBIUS_API_KEY
     if not active_key:
-        raise ValueError(
-            "Nebius API Key is not configured. "
-            "Both Nebius API Key and Tavily Search API Key are required for Live Cloud API mode. "
-            "Please provide your API key in Settings -> Live Cloud API, "
-            "or set NEBIUS_API_KEY in backend/.env (for local developers), "
-            "or switch to 'For Judges' mode for instant demo."
-        )
+        raise ValueError("Nebius API Key is missing. Configure it in Settings or backend/.env.")
 
     user_prompt = build_user_prompt(
         reef_id=reef_id,

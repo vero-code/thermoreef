@@ -72,11 +72,7 @@ async def search_reef_context(
     api_key = (custom_tavily_key.strip() if custom_tavily_key else "") or os.getenv("TAVILY_API_KEY", "").strip() or TAVILY_API_KEY
 
     if not api_key:
-        raise ValueError(
-            "Tavily Search API Key is not configured. "
-            "Both Nebius API Key and Tavily Search API Key are required for Live Cloud API mode. "
-            "Please enter your keys in Settings -> Live Cloud API or switch to 'For Judges' mode."
-        )
+        raise ValueError("Tavily API Key is missing. Configure it in Settings or backend/.env.")
 
     payload = {
         "api_key": api_key,
