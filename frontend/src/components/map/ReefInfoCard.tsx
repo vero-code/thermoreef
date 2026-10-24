@@ -25,7 +25,7 @@ export function ReefInfoCard({
     <div className="reef-info-card">
       <button
         onClick={onClose}
-        className="reef-card-close-btn"
+        className="reef-card-close"
       >
         ✕
       </button>
@@ -41,20 +41,19 @@ export function ReefInfoCard({
       {/* Area & Source */}
       <div className="reef-meta-box">
         <div className="reef-meta-row">
-          <span className="reef-meta-label">Area:</span>
-          <span className="reef-meta-val">
+          <span className="label">Area:</span>
+          <span className="val">
             {selected.area ? `${Number(selected.area).toFixed(2)} km²` : 'N/A'}
           </span>
         </div>
 
         {selected.metadataId && (
           <div className="reef-meta-row">
-            <span className="reef-meta-label">Source:</span>
+            <span className="label">Source:</span>
             <a
               href={`https://data-gis.unep-wcmc.org/server/rest/services/HabitatsAndBiotopes/Global_Distribution_of_Coral_Reefs/FeatureServer/2/${Math.round(Number(selected.metadataId))}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="reef-meta-link"
             >
               UNEP-WCMC ↗
             </a>

@@ -17,7 +17,7 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props)
 
   return (
     <div className="noaa-stress-section">
-      <div className="noaa-section-title">
+      <div className="info-label">
         NOAA Thermal Stress
       </div>
 
@@ -31,7 +31,7 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props)
           style={{ border: `1px solid ${alertColor}`, background: `${alertColor}15` }}
         >
           <div className="noaa-alert-header">
-            <span className="noaa-alert-label">Alert Level:</span>
+            <span className="label">Alert Level:</span>
             <span
               className="noaa-alert-badge"
               style={{ background: alertColor }}
@@ -42,22 +42,18 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props)
 
           <div className="noaa-grid">
             <div className="noaa-metric-cell">
-              <div className="noaa-metric-name">SST</div>
-              <div className="noaa-metric-val">{stress.sst}°C</div>
+              <div className="name">SST</div>
+              <div className="val">{stress.sst}°C</div>
             </div>
             <div className="noaa-metric-cell">
-              <div className="noaa-metric-name">Anomaly</div>
-              <div
-                className={`noaa-metric-val noaa-metric-anomaly ${stress.tempAnomaly > 0 ? 'pos' : 'neg'}`}
-              >
+              <div className="name">Anomaly</div>
+              <div className={`val ${stress.tempAnomaly > 0 ? 'pos' : 'neg'}`}>
                 {stress.tempAnomaly > 0 ? `+${stress.tempAnomaly}` : stress.tempAnomaly}°C
               </div>
             </div>
             <div className="noaa-metric-cell">
-              <div className="noaa-metric-name">DHW</div>
-              <div
-                className={`noaa-metric-val noaa-metric-dhw ${stress.dhw > 0 ? 'warning' : ''}`}
-              >
+              <div className="name">DHW</div>
+              <div className={`val ${stress.dhw > 0 ? 'warning' : ''}`}>
                 {stress.dhw}
               </div>
             </div>

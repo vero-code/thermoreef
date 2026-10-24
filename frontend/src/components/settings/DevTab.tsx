@@ -6,7 +6,7 @@ interface Props {
 export function DevTab({ devInvalid, devError }: Props) {
   return (
     <div className={`dev-tab ${devInvalid ? 'is-invalid' : ''}`}>
-      <div className="dev-tab-title">
+      <div className="title">
         {devInvalid ? '⚠️ Missing Required Keys in backend/.env' : '🛠️ Running Locally from Source'}
       </div>
       <div>

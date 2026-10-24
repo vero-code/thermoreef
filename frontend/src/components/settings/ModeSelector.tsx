@@ -8,7 +8,7 @@ interface Props {
 export function ModeSelector({ activeTab, onSelectTab }: Props) {
   return (
     <div>
-      <label className="mode-selector-label">
+      <label className="info-label">
         Execution Mode
       </label>
 
@@ -18,9 +18,9 @@ export function ModeSelector({ activeTab, onSelectTab }: Props) {
           onClick={() => onSelectTab('mock')}
           className={`mode-card mock ${activeTab === 'mock' ? 'is-active' : ''}`}
         >
-          <div className="mode-card-icon">🟡</div>
-          <div className="mode-card-title">For Judges</div>
-          <div className="mode-card-subtitle">No API key needed</div>
+          <div className="icon">🟡</div>
+          <div className="title">For Judges</div>
+          <div className="sub">No API key needed</div>
         </div>
 
         {/* Card 2: Live Cloud API */}
@@ -28,9 +28,9 @@ export function ModeSelector({ activeTab, onSelectTab }: Props) {
           onClick={() => onSelectTab('custom')}
           className={`mode-card custom ${activeTab === 'custom' ? 'is-active' : ''}`}
         >
-          <div className="mode-card-icon">🟢</div>
-          <div className="mode-card-title">Live Cloud API</div>
-          <div className="mode-card-subtitle">Enter your own keys</div>
+          <div className="icon">🟢</div>
+          <div className="title">Live Cloud API</div>
+          <div className="sub">Enter your own keys</div>
         </div>
 
         {/* Card 3: For Developers */}
@@ -38,9 +38,9 @@ export function ModeSelector({ activeTab, onSelectTab }: Props) {
           onClick={() => onSelectTab('dev')}
           className={`mode-card dev ${activeTab === 'dev' ? 'is-active' : ''}`}
         >
-          <div className="mode-card-icon">💻</div>
-          <div className="mode-card-title">For Developers</div>
-          <div className="mode-card-subtitle">Local .env setup</div>
+          <div className="icon">💻</div>
+          <div className="title">For Developers</div>
+          <div className="sub">Local .env setup</div>
         </div>
       </div>
     </div>

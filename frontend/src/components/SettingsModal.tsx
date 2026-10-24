@@ -112,24 +112,24 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
   };
 
   return (
-    <div className="settings-modal-overlay">
-      <div className="settings-modal-card">
+    <div className="modal-overlay">
+      <div className="modal-card settings-card">
         {/* Header */}
-        <div className="settings-modal-header">
-          <div className="settings-modal-title-group">
-            <span className="settings-modal-icon">⚙️</span>
-            <h3 className="settings-modal-title">Settings</h3>
-          </div>
+        <div className="modal-header">
+          <h3 className="modal-title">
+            <span>⚙️</span>
+            <span>Settings</span>
+          </h3>
           <button
             onClick={onClose}
-            className="settings-modal-close-btn"
+            className="modal-close-btn"
           >
             ✕
           </button>
         </div>
 
         {/* Content */}
-        <div className="settings-modal-body">
+        <div className="modal-body">
           <ModeSelector activeTab={activeTab} onSelectTab={handleSelectTab} />
 
           {activeTab === 'mock' && <JudgeTab />}
@@ -155,17 +155,17 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="settings-modal-footer">
+        <div className="modal-footer">
           <button
             onClick={onClose}
-            className="settings-btn-cancel"
+            className="btn-ghost"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={devChecking}
-            className={`settings-btn-apply ${saved ? 'is-saved' : ''} ${devChecking ? 'is-checking' : ''}`}
+            className="btn-primary"
           >
             {devChecking ? 'Checking .env...' : saved ? '✓ Saved!' : 'Apply Settings'}
           </button>

@@ -6,16 +6,16 @@ interface Props {
 
 export function MonitoringTab({ monitoring }: Props) {
   return (
-    <div className="intervention-tab-stack">
-      <div className="intervention-info-card">
-        <div className="intervention-card-label">Survey Cadence</div>
-        <div className="intervention-card-value primary">
+    <div className="tab-stack">
+      <div className="info-card">
+        <div className="info-label light">Survey Cadence</div>
+        <div className="info-val highlight">
           {monitoring.survey_frequency}
         </div>
       </div>
 
-      <div className="intervention-info-card">
-        <div className="intervention-card-label">
+      <div className="info-card">
+        <div className="info-label light">
           Scientific Tools
         </div>
         <div className="tools-wrap">
@@ -27,9 +27,9 @@ export function MonitoringTab({ monitoring }: Props) {
         </div>
       </div>
 
-      <div className="intervention-info-card">
-        <div className="intervention-card-label">Ranger Alert Dispatch</div>
-        <div className="intervention-card-value">
+      <div className="info-card">
+        <div className="info-label light">Ranger Alert Dispatch</div>
+        <div className="info-val">
           {monitoring.alert_dispatch}
         </div>
       </div>

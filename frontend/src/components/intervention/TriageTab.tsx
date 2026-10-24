@@ -6,9 +6,9 @@ interface Props {
 
 export function TriageTab({ triage }: Props) {
   return (
-    <div className="intervention-tab-stack">
-      <div className="intervention-info-card">
-        <div className="intervention-card-label">
+    <div className="tab-stack">
+      <div className="info-card">
+        <div className="info-label light">
           Species at Risk
         </div>
         <div className="species-risk-wrap">
@@ -19,24 +19,22 @@ export function TriageTab({ triage }: Props) {
               </span>
             ))
           ) : (
-            <span className="species-empty">None identified for current status</span>
+            <span style={{ color: '#94a3b8', fontStyle: 'italic', fontSize: '14px' }}>
+              None identified for current status
+            </span>
           )}
         </div>
       </div>
 
-      <div className="intervention-info-card">
-        <div className="intervention-card-label">Donor Relocation</div>
-        <div
-          className={`intervention-card-value ${
-            triage.donor_relocation ? 'primary highlight-warning' : 'species-empty'
-          }`}
-        >
+      <div className="info-card">
+        <div className="info-label light">Donor Relocation</div>
+        <div className={`info-val ${triage.donor_relocation ? 'warn' : ''}`}>
           {triage.donor_relocation ? '⚠️ Recommended: Extract healthy genetic donors' : 'Not required at present'}
         </div>
       </div>
 
-      <div className="intervention-info-card">
-        <div className="intervention-card-label">
+      <div className="info-card">
+        <div className="info-label light">
           Action Items
         </div>
         <ul className="action-items-list">

@@ -11,18 +11,18 @@ export function MapHeader({ executionMode, onOpenSettings }: Props) {
     switch (executionMode) {
       case 'mock':
         return {
-          className: 'mode-mock',
+          className: 'badge-mock',
           label: '🟡 Demo Mode',
         };
       case 'dev':
         return {
-          className: 'mode-dev',
+          className: 'badge-dev',
           label: '🟣 For Devs',
         };
       case 'custom':
       default:
         return {
-          className: 'mode-custom',
+          className: 'badge-custom',
           label: '🟢 Live API',
         };
     }
@@ -37,19 +37,19 @@ export function MapHeader({ executionMode, onOpenSettings }: Props) {
           <span>🌊</span>
           <span className="map-brand-name">ThermoReef</span>
         </div>
-        <div className="map-brand-subtitle">AI Coral Rescue</div>
+        <div className="map-brand-sub">AI Coral Rescue</div>
       </div>
 
-      <div className="map-header-divider" />
+      <div className="map-divider" />
 
       {/* Mode Indicator & Settings Trigger */}
       <button
         onClick={onOpenSettings}
-        className={`map-mode-badge ${badge.className}`}
+        className={`map-mode-btn badge ${badge.className}`}
         title="Switch between Demo, Live Cloud, and Developer modes or set custom keys"
       >
         <span>{badge.label}</span>
-        <span className="map-mode-gear">⚙️</span>
+        <span style={{ opacity: 0.8 }}>⚙️</span>
       </button>
     </div>
   );
