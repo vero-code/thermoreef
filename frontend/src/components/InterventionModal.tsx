@@ -131,6 +131,11 @@ export default function InterventionModal({ data, onClose }: Props) {
           {activeTab === 'triage' && <TriageTab triage={protocol.triage} />}
           {activeTab === 'monitoring' && <MonitoringTab monitoring={protocol.monitoring} />}
           {activeTab === 'webintel' && <WebIntelTab intel={data.web_intelligence} />}
+
+          {/* Scientific Disclaimer Note */}
+          <div className="intervention-disclaimer">
+            ⚠️ <strong>Disclaimer:</strong> AI-generated intervention protocols are intended for decision-support and conservation research. Field actions must be verified by certified marine biologists and local park authorities before deployment.
+          </div>
         </div>
 
         {/* Footer */}
