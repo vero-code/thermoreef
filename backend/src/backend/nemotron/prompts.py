@@ -38,8 +38,9 @@ def build_user_prompt(
     lng: float,
     area_km2: Optional[float] = None,
     reef_name: Optional[str] = None,
+    tavily_context: Optional[dict[str, Any]] = None,
 ) -> str:
-    return (
+    prompt = (
         f"Generate emergency reef rescue protocol for:\n"
         f"- Reef ID: {reef_id}\n"
         f"- Name: {reef_name or 'Reef #' + str(reef_id)}\n"
@@ -50,3 +51,17 @@ def build_user_prompt(
         f"- Sea Surface Temperature (SST): {stress_data.get('sst')} °C\n"
         f"- SST Anomaly: {stress_data.get('tempAnomaly')} °C\n"
     )
+
+    if tavily_context and tavily_context.get("status") == "success":
+        results = tavily_context.get("results", [])
+        answer = tavily_context.get("answer")
+        prompt += "\nRecent Ecological Web Intelligence (via Tavily Search):\n"
+        if answer:
+            prompt += f"- Intelligence Brief: {answer}\n"
+        if results:
+            prompt += "- Regional Reports & Field Findings:\n"
+            for item in results[:3]:
+                prompt += f"  * {item.get('title')}: {item.get('snippet')} (Source: {item.get('url')})\n"
+        prompt += "Incorporate relevant regional insights or species context from these findings into your protocol.\n"
+
+    return prompt

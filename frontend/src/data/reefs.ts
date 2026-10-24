@@ -48,11 +48,27 @@ export interface InterventionProtocol {
   generated_by?: string;
 }
 
+export interface WebIntelligenceResult {
+  title: string;
+  url: string;
+  snippet: string;
+  score?: number;
+}
+
+export interface WebIntelligence {
+  query: string;
+  status: 'success' | 'disabled' | 'error';
+  answer?: string | null;
+  results: WebIntelligenceResult[];
+  error?: string;
+}
+
 export interface InterventionResponse {
   reef_id: string;
   coordinates: { lat: number; lng: number };
   stress: ReefStress;
   protocol: InterventionProtocol;
+  web_intelligence?: WebIntelligence;
 }
 
 export const ALERT_COLORS: Record<AlertLevel, string> = {
