@@ -146,12 +146,15 @@ export default function ReefMap() {
 
       const url = `${API_BASE}/reefs/${selected.id}/intervention${executionMode === 'mock' ? '?mock=true' : ''}`;
       const res = await fetch(url, { headers });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => null);
+        throw new Error(errJson?.detail || `Server error (HTTP ${res.status})`);
+      }
       const data: InterventionResponse = await res.json();
       setInterventionData(data);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to generate rescue protocol:', err);
-      alert('Failed to generate rescue protocol. Check if backend is running on http://localhost:8000');
+      alert(`⚠️ Cannot generate protocol:\n\n${err?.message || 'Server error'}`);
     } finally {
       setInspecting(false);
     }

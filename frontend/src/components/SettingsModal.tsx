@@ -18,16 +18,38 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
 
   const [nebiusKey, setNebiusKey] = useState('');
   const [tavilyKey, setTavilyKey] = useState('');
+  const [nebiusInvalid, setNebiusInvalid] = useState(false);
+  const [tavilyInvalid, setTavilyInvalid] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     setNebiusKey(localStorage.getItem('thermoreef_nebius_key') || '');
     setTavilyKey(localStorage.getItem('thermoreef_tavily_key') || '');
+    setNebiusInvalid(false);
+    setTavilyInvalid(false);
   }, [isOpen]);
 
   if (!isOpen) return null;
 
+  const handleSelectTab = (tab: ModeTab) => {
+    setActiveTab(tab);
+    setNebiusInvalid(false);
+    setTavilyInvalid(false);
+  };
+
   const handleSave = () => {
+    if (activeTab === 'custom') {
+      const hasNebius = !!nebiusKey.trim();
+      const hasTavily = !!tavilyKey.trim();
+
+      setNebiusInvalid(!hasNebius);
+      setTavilyInvalid(!hasTavily);
+
+      if (!hasNebius || !hasTavily) {
+        return;
+      }
+    }
+
     localStorage.setItem('thermoreef_setting_tab', activeTab);
 
     if (activeTab === 'mock') {
@@ -36,16 +58,8 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
     } else if (activeTab === 'custom') {
       onModeChange('live');
       localStorage.setItem('thermoreef_mode', 'live');
-      if (nebiusKey.trim()) {
-        localStorage.setItem('thermoreef_nebius_key', nebiusKey.trim());
-      } else {
-        localStorage.removeItem('thermoreef_nebius_key');
-      }
-      if (tavilyKey.trim()) {
-        localStorage.setItem('thermoreef_tavily_key', tavilyKey.trim());
-      } else {
-        localStorage.removeItem('thermoreef_tavily_key');
-      }
+      localStorage.setItem('thermoreef_nebius_key', nebiusKey.trim());
+      localStorage.setItem('thermoreef_tavily_key', tavilyKey.trim());
     } else {
       // Local dev mode: clear overrides and use backend .env
       onModeChange('live');
@@ -133,7 +147,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', marginTop: '8px' }}>
               {/* Card 1: For Judges (Mock) */}
               <div
-                onClick={() => setActiveTab('mock')}
+                onClick={() => handleSelectTab('mock')}
                 style={{
                   border: activeTab === 'mock' ? '2px solid #f59e0b' : '1px solid rgba(255, 255, 255, 0.1)',
                   background: activeTab === 'mock' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(255, 255, 255, 0.03)',
@@ -151,7 +165,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
 
               {/* Card 2: Live Cloud API */}
               <div
-                onClick={() => setActiveTab('custom')}
+                onClick={() => handleSelectTab('custom')}
                 style={{
                   border: activeTab === 'custom' ? '2px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.1)',
                   background: activeTab === 'custom' ? 'rgba(56, 189, 248, 0.15)' : 'rgba(255, 255, 255, 0.03)',
@@ -169,7 +183,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
 
               {/* Card 3: For Developers */}
               <div
-                onClick={() => setActiveTab('dev')}
+                onClick={() => handleSelectTab('dev')}
                 style={{
                   border: activeTab === 'dev' ? '2px solid #a855f7' : '1px solid rgba(255, 255, 255, 0.1)',
                   background: activeTab === 'dev' ? 'rgba(168, 85, 247, 0.15)' : 'rgba(255, 255, 255, 0.03)',
@@ -236,18 +250,23 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
                 <input
                   type="password"
                   value={nebiusKey}
-                  onChange={(e) => setNebiusKey(e.target.value)}
+                  onChange={(e) => {
+                    setNebiusKey(e.target.value);
+                    if (nebiusInvalid) setNebiusInvalid(false);
+                  }}
                   placeholder="v1.CmQK..."
                   style={{
                     width: '100%',
                     background: 'rgba(0, 0, 0, 0.3)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    border: nebiusInvalid ? '1.5px solid #ef4444' : '1px solid rgba(255, 255, 255, 0.15)',
+                    boxShadow: nebiusInvalid ? '0 0 10px rgba(239, 68, 68, 0.45)' : 'none',
                     padding: '8px 12px',
                     borderRadius: '8px',
                     color: '#f8fafc',
                     fontSize: '13px',
                     outline: 'none',
                     boxSizing: 'border-box',
+                    transition: 'border-color 0.2s, box-shadow 0.2s',
                   }}
                 />
               </div>
@@ -259,18 +278,23 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
                 <input
                   type="password"
                   value={tavilyKey}
-                  onChange={(e) => setTavilyKey(e.target.value)}
+                  onChange={(e) => {
+                    setTavilyKey(e.target.value);
+                    if (tavilyInvalid) setTavilyInvalid(false);
+                  }}
                   placeholder="tvly-..."
                   style={{
                     width: '100%',
                     background: 'rgba(0, 0, 0, 0.3)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    border: tavilyInvalid ? '1.5px solid #ef4444' : '1px solid rgba(255, 255, 255, 0.15)',
+                    boxShadow: tavilyInvalid ? '0 0 10px rgba(239, 68, 68, 0.45)' : 'none',
                     padding: '8px 12px',
                     borderRadius: '8px',
                     color: '#f8fafc',
                     fontSize: '13px',
                     outline: 'none',
                     boxSizing: 'border-box',
+                    transition: 'border-color 0.2s, box-shadow 0.2s',
                   }}
                 />
               </div>

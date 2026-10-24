@@ -120,26 +120,31 @@ async def get_reef_intervention(
     is_mock = mock or header_mock
 
     stress_data = await fetch_noaa(reef["lat"], reef["lng"])
-    
-    # Query real-time regional ecological reports & news via Tavily
-    tavily_data = await search_reef_context(
-        lat=reef["lat"],
-        lng=reef["lng"],
-        reef_name=reef.get("name"),
-        custom_tavily_key=custom_tavily_key,
-        use_mock=is_mock,
-    )
+    try:
+        # Query real-time regional ecological reports & news via Tavily
+        tavily_data = await search_reef_context(
+            lat=reef["lat"],
+            lng=reef["lng"],
+            reef_name=reef.get("name"),
+            custom_tavily_key=custom_tavily_key,
+            use_mock=is_mock,
+        )
 
-    protocol = await generate_intervention_protocol(
-        reef_id=str(reef_id).split(".")[0],
-        stress_data=stress_data,
-        lat=reef["lat"],
-        lng=reef["lng"],
-        reef_name=reef.get("name"),
-        tavily_context=tavily_data,
-        custom_nebius_key=custom_nebius_key,
-        use_mock=is_mock,
-    )
+        protocol = await generate_intervention_protocol(
+            reef_id=str(reef_id).split(".")[0],
+            stress_data=stress_data,
+            lat=reef["lat"],
+            lng=reef["lng"],
+            reef_name=reef.get("name"),
+            tavily_context=tavily_data,
+            custom_nebius_key=custom_nebius_key,
+            use_mock=is_mock,
+        )
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=str(exc))
+
     return {
         "reef_id": str(reef_id).split(".")[0],
         "coordinates": {"lat": reef["lat"], "lng": reef["lng"]},

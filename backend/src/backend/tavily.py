@@ -64,13 +64,11 @@ async def search_reef_context(
     api_key = (custom_tavily_key.strip() if custom_tavily_key else "") or os.getenv("TAVILY_API_KEY", "").strip() or TAVILY_API_KEY
 
     if not api_key:
-        logger.info("TAVILY_API_KEY not configured; skipping web intelligence search.")
-        return {
-            "query": query,
-            "status": "disabled",
-            "results": [],
-            "answer": None,
-        }
+        raise ValueError(
+            "Tavily Search API Key is not configured. "
+            "Both Nebius API Key and Tavily Search API Key are required for Live Cloud API mode. "
+            "Please enter your keys in Settings -> Live Cloud API or switch to 'For Judges' mode."
+        )
 
     payload = {
         "api_key": api_key,
@@ -82,9 +80,22 @@ async def search_reef_context(
     }
 
     try:
-        async with httpx.AsyncClient(timeout=10.0) as client:
+        async with httpx.AsyncClient(timeout=12.0) as client:
             resp = await client.post(TAVILY_SEARCH_URL, json=payload)
-            resp.raise_for_status()
+            if resp.status_code in (401, 403):
+                raise ValueError(
+                    f"Invalid Tavily Search API Key (HTTP {resp.status_code} Unauthorized). "
+                    "Please verify your Tavily API Key in Settings."
+                )
+            if resp.is_error:
+                err_detail = resp.text
+                try:
+                    err_json = resp.json()
+                    err_detail = err_json.get("detail") or err_json.get("error") or err_detail
+                except Exception:
+                    pass
+                raise RuntimeError(f"Tavily Search API error (HTTP {resp.status_code}): {err_detail}")
+
             data = resp.json()
 
             clean_results = [
@@ -103,12 +114,8 @@ async def search_reef_context(
                 "answer": data.get("answer"),
                 "results": clean_results,
             }
+    except ValueError:
+        raise
     except Exception as exc:
-        logger.warning(f"Tavily search failed: {exc}. Proceeding without web context.")
-        return {
-            "query": query,
-            "status": "error",
-            "error": str(exc),
-            "results": [],
-            "answer": None,
-        }
+        logger.error(f"Tavily search failed: {exc}")
+        raise RuntimeError(f"Tavily Search failed: {exc}")

@@ -40,8 +40,13 @@ async def generate_intervention_protocol(
 
     active_key = custom_nebius_key.strip() if custom_nebius_key else NEBIUS_API_KEY
     if not active_key:
-        logger.warning("NEBIUS_API_KEY not configured; using fallback protocol.")
-        return get_mock_intervention(reef_id, stress_data, reef_name, NEBIUS_MODEL)
+        raise ValueError(
+            "Nebius API Key is not configured. "
+            "Both Nebius API Key and Tavily Search API Key are required for Live Cloud API mode. "
+            "Please provide your API key in Settings -> Live Cloud API, "
+            "or set NEBIUS_API_KEY in backend/.env (for local developers), "
+            "or switch to 'For Judges' mode for instant demo."
+        )
 
     user_prompt = build_user_prompt(
         reef_id=reef_id,
@@ -77,6 +82,15 @@ async def generate_intervention_protocol(
             for attempt in range(2):
                 try:
                     resp = await client.post(f"{NEBIUS_BASE_URL}/chat/completions", headers=headers, json=payload)
+                    if resp.status_code in (401, 403):
+                        raise ValueError(
+                            f"Invalid Nebius API Key (HTTP {resp.status_code} Unauthorized). "
+                            "Please verify your Nebius API Key in Settings."
+                        )
+                    if resp.status_code == 429:
+                        raise RuntimeError(
+                            "Nebius Token Factory rate limit exceeded (HTTP 429). Please wait a moment or check your quota."
+                        )
                     if resp.status_code == 503:
                         logger.warning(f"Nebius 503 on {target_model} (attempt {attempt+1}). Retrying...")
                         await asyncio.sleep(2.0)
@@ -99,11 +113,10 @@ async def generate_intervention_protocol(
                     parsed["generated_by"] = "NVIDIA Nemotron via Nebius Token Factory"
                     return parsed
 
+                except ValueError:
+                    raise
                 except Exception as exc:
                     last_error = exc
                     logger.warning(f"Attempt {attempt+1} failed on {target_model}: {exc}")
 
-    logger.error(f"All Nemotron calls failed: {last_error}. Using fallback logic.")
-    fallback = get_mock_intervention(reef_id, stress_data, reef_name, NEBIUS_MODEL)
-    fallback["error_fallback"] = str(last_error)
-    return fallback
+    raise RuntimeError(f"Nemotron API call failed on Nebius Token Factory: {last_error}")
