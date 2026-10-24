@@ -38,7 +38,22 @@ export function MapHeader({ executionMode, onOpenSettings }: Props) {
           <img src={logo} alt="ThermoReef Logo" className="map-logo" />
           <span className="map-brand-name">ThermoReef</span>
         </div>
-        <div className="map-brand-sub">AI Coral Rescue</div>
+        <div className="map-brand-sub">AI Coral Bleaching Rescue</div>
+      </div>
+
+      <div className="map-divider" />
+
+      {/* Hackathon Core Technologies */}
+      <div
+        className="map-tech-badge"
+        title="Reasoning by NVIDIA Nemotron-3 Ultra (550B MoE) hosted on Nebius Token Factory"
+      >
+        <span>✨</span>
+        <span>
+          <span className="map-tech-highlight">NVIDIA Nemotron</span>
+          <span className="map-tech-sep">×</span>
+          <span className="map-tech-highlight">Nebius Token Factory</span>
+        </span>
       </div>
 
       <div className="map-divider" />
