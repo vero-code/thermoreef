@@ -4,15 +4,15 @@ AI-powered coral bleaching early warning system. Monitors ocean thermal stress u
 
 ## AI Models
 
-- **Platform:** [Nebius Token Factory](https://tokenfactory.nebius.com/) (`https://api.tokenfactory.nebius.com/v1`, OpenAI-compatible)
-- **Primary Model:** `nvidia/Nemotron-3-Ultra-550b-a55b` ([NVIDIA Nemotron](https://build.nvidia.com/), MoE 550B / A55B, deep reasoning for complex ecological triage & rescue protocol synthesis)
+- **Platform:** Nebius Token Factory (`https://api.tokenfactory.nebius.com/v1`, OpenAI-compatible)
+- **Primary Model:** `nvidia/Nemotron-3-Ultra-550b-a55b` (MoE 550B / A55B, deep reasoning for complex ecological triage & rescue protocol synthesis)
 - **Fallback Model:** `nvidia/nemotron-3-super-120b-a12b` (MoE 120B / A12B, automatic high-availability failover)
 
 ## System Components
 
-- **[NVIDIA Nemotron-3 Ultra (550B MoE)](https://build.nvidia.com/):** Synthesizes multi-variable data (NOAA SST anomalies, DHW, solar zenith hours, species heat limits) into structured JSON intervention protocols.
-- **[Nebius Token Factory](https://tokenfactory.nebius.com/):** Serverless OpenAI-compatible API hosting 550B MoE models on NVIDIA GPU clusters, providing on-demand inference without dedicated multi-node infrastructure.
-- **[Tavily Search API](https://tavily.com/):** Retrieves regional field reports and local news by reef coordinates to augment 5km-grid satellite telemetry with current ground observations and cited sources.
+- **NVIDIA Nemotron-3 Ultra (550B MoE):** Synthesizes multi-variable data (NOAA SST anomalies, DHW, solar zenith hours, species heat limits) into structured JSON intervention protocols.
+- **Nebius Token Factory:** Serverless OpenAI-compatible API hosting 550B MoE models on NVIDIA GPU clusters, providing on-demand inference without dedicated multi-node infrastructure.
+- **Tavily Search API:** Retrieves regional field reports and local news by reef coordinates to augment 5km-grid satellite telemetry with current ground observations and cited sources.
 
 ## Architecture
 
@@ -35,9 +35,9 @@ Structured Emergency Rescue Protocol (JSON)
 
 ## Tech Stack
 
-- **AI Inference:** [NVIDIA Nemotron](https://build.nvidia.com/) (Nemotron-3 Ultra 550B / Super 120B) on [Nebius Token Factory](https://tokenfactory.nebius.com/)
-- **Web Intelligence:** [Tavily Search API](https://tavily.com/) (real-time regional ecological reports & news)
-- **Mapping** [Google Maps Platform](https://developers.google.com/maps) (Vector, Dataset Feature Layer) via [@vis.gl/react-google-maps](https://visgl.github.io/react-google-maps/)
+- **AI Inference:** NVIDIA Nemotron (Nemotron-3 Ultra 550B / Super 120B) on Nebius Token Factory
+- **Web Intelligence:** Tavily Search API (real-time regional ecological reports & news)
+- **Mapping:** Google Maps Platform (Vector, Dataset Feature Layer) via @vis.gl/react-google-maps
 - **Backend:** Python 3.12+, FastAPI, uv, HTTPX, Pydantic
 - **Frontend:** React, TypeScript, Vite
 
@@ -187,6 +187,10 @@ thermoreef/
 ├── LICENSE
 └── .gitignore
 ```
+
+## Disclaimer
+
+ThermoReef is an AI-assisted decision-support system designed for ecological modeling, early warning, and conservation research. Intervention protocols synthesized by NVIDIA Nemotron-3 Ultra are intended to assist planning and must be reviewed by accredited marine biologists and regional environmental authorities before physical field deployment.
 
 ## License
 
