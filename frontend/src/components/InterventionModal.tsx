@@ -5,7 +5,7 @@ import { ShadingTab } from './intervention/ShadingTab';
 import { TriageTab } from './intervention/TriageTab';
 import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
-import './intervention/intervention.css';
+import '../styles/intervention.css';
 
 interface Props {
   data: InterventionResponse;

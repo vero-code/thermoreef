@@ -1,5 +1,5 @@
 import type { ModeTab } from '../settings/types';
-import './map.css';
+import '../../styles/map.css';
 
 interface Props {
   executionMode: ModeTab;

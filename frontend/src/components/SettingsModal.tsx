@@ -6,7 +6,7 @@ import { LiveCloudTab } from './settings/LiveCloudTab';
 import { DevTab } from './settings/DevTab';
 
 import { API_BASE, STORAGE_KEYS } from '../constants';
-import './settings/settings.css';
+import '../styles/settings.css';
 
 interface Props {
   isOpen: boolean;

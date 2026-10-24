@@ -11,7 +11,7 @@ import type { ReefData } from './map/types';
 import { ReefDatasetLayer } from './map/ReefDatasetLayer';
 import { MapHeader } from './map/MapHeader';
 import { ReefInfoCard } from './map/ReefInfoCard';
-import './map/map.css';
+import '../styles/map.css';
 import {
   API_BASE,
   GOOGLE_MAPS_API_KEY,
