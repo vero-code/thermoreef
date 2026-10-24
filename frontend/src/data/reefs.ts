@@ -69,6 +69,7 @@ export interface InterventionResponse {
   stress: ReefStress;
   protocol: InterventionProtocol;
   web_intelligence?: WebIntelligence;
+  execution_mode?: 'mock' | 'live_nebius' | 'custom_key' | string;
 }
 
 export const ALERT_COLORS: Record<AlertLevel, string> = {

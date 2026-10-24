@@ -68,23 +68,43 @@ export default function InterventionModal({ data, onClose }: Props) {
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'rgba(118, 185, 0, 0.2)',
-                  border: '1px solid rgba(118, 185, 0, 0.5)',
-                  color: '#84cc16',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  padding: '2px 8px',
-                  borderRadius: '20px',
-                }}
-              >
-                ● NVIDIA Nemotron-3 Ultra • Nebius Token Factory
-              </span>
+              {data.execution_mode === 'mock' || protocol.model_used?.toLowerCase().includes('mock') ? (
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(245, 158, 11, 0.2)',
+                    border: '1px solid rgba(245, 158, 11, 0.5)',
+                    color: '#fbbf24',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    padding: '2px 8px',
+                    borderRadius: '20px',
+                  }}
+                >
+                  🟡 DEMO SIMULATION (MOCK MODE)
+                </span>
+              ) : (
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(118, 185, 0, 0.2)',
+                    border: '1px solid rgba(118, 185, 0, 0.5)',
+                    color: '#84cc16',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    padding: '2px 8px',
+                    borderRadius: '20px',
+                  }}
+                >
+                  ● NVIDIA Nemotron-3 Ultra • Nebius Token Factory
+                </span>
+              )}
             </div>
             <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 700 }}>
               Rescue Protocol — {protocol.reef_name || 'Reef #' + protocol.reef_id}

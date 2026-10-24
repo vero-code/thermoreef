@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
 
@@ -104,11 +104,20 @@ async def get_reef_stress(reef_id: str):
 
 
 @app.get("/reefs/{reef_id}/intervention")
-async def get_reef_intervention(reef_id: str):
-    """Generate emergency rescue protocol using NVIDIA Nemotron on Nebius Token Factory enriched with Tavily search."""
+async def get_reef_intervention(
+    reef_id: str,
+    request: Request,
+    mock: bool = Query(False, description="Run in instant offline mock/demo mode"),
+):
+    """Generate emergency rescue protocol using NVIDIA Nemotron on Nebius Token Factory or offline mock simulator."""
     reef = get_clean_reef(reef_id)
     if not reef:
         raise HTTPException(status_code=404, detail="Reef not found")
+
+    custom_nebius_key = request.headers.get("x-nebius-key")
+    custom_tavily_key = request.headers.get("x-tavily-key")
+    header_mock = request.headers.get("x-mock-mode", "").lower() in ["true", "1"]
+    is_mock = mock or header_mock
 
     stress_data = await fetch_noaa(reef["lat"], reef["lng"])
     
@@ -117,6 +126,8 @@ async def get_reef_intervention(reef_id: str):
         lat=reef["lat"],
         lng=reef["lng"],
         reef_name=reef.get("name"),
+        custom_tavily_key=custom_tavily_key,
+        use_mock=is_mock,
     )
 
     protocol = await generate_intervention_protocol(
@@ -126,6 +137,8 @@ async def get_reef_intervention(reef_id: str):
         lng=reef["lng"],
         reef_name=reef.get("name"),
         tavily_context=tavily_data,
+        custom_nebius_key=custom_nebius_key,
+        use_mock=is_mock,
     )
     return {
         "reef_id": str(reef_id).split(".")[0],
@@ -133,6 +146,7 @@ async def get_reef_intervention(reef_id: str):
         "stress": stress_data,
         "web_intelligence": tavily_data,
         "protocol": protocol,
+        "execution_mode": "mock" if is_mock else ("custom_key" if custom_nebius_key else "live_nebius"),
     }
 
 

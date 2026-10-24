@@ -27,18 +27,41 @@ async def search_reef_context(
     lng: float,
     reef_name: Optional[str] = None,
     max_results: int = 3,
+    custom_tavily_key: Optional[str] = None,
+    use_mock: bool = False,
 ) -> dict[str, Any]:
     """
     Search for recent ecological news, bleaching events, and local marine reports using Tavily.
-    Gracefully falls back to empty results if TAVILY_API_KEY is missing or the request fails.
+    Gracefully falls back to empty results or mock simulation if configured.
     """
-    api_key = os.getenv("TAVILY_API_KEY", "").strip() or TAVILY_API_KEY
-
     # Build targeted environmental query based on reef name or coordinates
     if reef_name and not reef_name.startswith("Reef #"):
         query = f"{reef_name} coral reef bleaching temperature marine ecology report"
     else:
         query = f"coral reef marine heatwave bleaching event coordinates {lat:.2f} {lng:.2f}"
+
+    if use_mock:
+        return {
+            "query": query,
+            "status": "success",
+            "answer": "Field monitoring indicates heightened sea surface temperature anomalies across this reef sector. Conservation groups and park authorities are conducting bi-weekly surveys, recommending proactive shading and genetic donor relocation for vulnerable shallow Acropora taxa.",
+            "results": [
+                {
+                    "title": "Regional Marine Heatwave and Bleaching Monitoring Report",
+                    "url": "https://www.aims.gov.au/coral-bleaching-monitoring",
+                    "snippet": "Field surveys recorded pale coloration on shallow branching corals with thermal stress accumulating over recent weeks.",
+                    "score": 0.89,
+                },
+                {
+                    "title": "Emergency Coral Reef Shading & Rescue Protocols - ICRI",
+                    "url": "https://www.icriforum.org/emergency-bleaching-response",
+                    "snippet": "Targeted surface shading deployment during peak solar irradiance (10:30-15:30) buffered localized water temperature by up to 1.2°C in field trials.",
+                    "score": 0.83,
+                },
+            ],
+        }
+
+    api_key = (custom_tavily_key.strip() if custom_tavily_key else "") or os.getenv("TAVILY_API_KEY", "").strip() or TAVILY_API_KEY
 
     if not api_key:
         logger.info("TAVILY_API_KEY not configured; skipping web intelligence search.")

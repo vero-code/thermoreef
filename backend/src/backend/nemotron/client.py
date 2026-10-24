@@ -27,9 +27,19 @@ async def generate_intervention_protocol(
     area_km2: Optional[float] = None,
     reef_name: Optional[str] = None,
     tavily_context: Optional[dict[str, Any]] = None,
+    custom_nebius_key: Optional[str] = None,
+    use_mock: bool = False,
 ) -> dict[str, Any]:
-    """Call NVIDIA Nemotron on Nebius Token Factory to generate a structured rescue protocol."""
-    if not NEBIUS_API_KEY:
+    """Call NVIDIA Nemotron on Nebius Token Factory or return instant mock protocol."""
+    if use_mock:
+        logger.info("Mock mode requested; returning instant simulated protocol.")
+        mock_res = get_mock_intervention(reef_id, stress_data, reef_name, "nvidia/Nemotron-3-Ultra (Mock Simulator)")
+        mock_res["generated_by"] = "Demo Simulator (Offline Mock Mode)"
+        mock_res["model_used"] = "Nemotron-3 Ultra (Mock Simulation)"
+        return mock_res
+
+    active_key = custom_nebius_key.strip() if custom_nebius_key else NEBIUS_API_KEY
+    if not active_key:
         logger.warning("NEBIUS_API_KEY not configured; using fallback protocol.")
         return get_mock_intervention(reef_id, stress_data, reef_name, NEBIUS_MODEL)
 
@@ -43,7 +53,7 @@ async def generate_intervention_protocol(
         tavily_context=tavily_context,
     )
     headers = {
-        "Authorization": f"Bearer {NEBIUS_API_KEY}",
+        "Authorization": f"Bearer {active_key}",
         "Content-Type": "application/json",
     }
 
