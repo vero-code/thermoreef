@@ -7,21 +7,26 @@ from typing import Any, Optional
 import httpx
 from dotenv import load_dotenv
 
+from ..constants import (
+    NEBIUS_DEFAULT_BASE_URL,
+    NEBIUS_DEFAULT_MODEL,
+    NEBIUS_DEFAULT_BACKUP_MODEL,
+    NEBIUS_TIMEOUT_SECONDS,
+    NEBIUS_TEMPERATURE,
+    NEBIUS_MAX_TOKENS,
+    load_backend_env,
+)
 from .prompts import SYSTEM_PROMPT, build_user_prompt
 from .mock import get_mock_intervention
 
-_ENV_PATH = Path(__file__).resolve().parent.parent.parent.parent / ".env"
-if _ENV_PATH.exists():
-    load_dotenv(_ENV_PATH)
-else:
-    load_dotenv()
+load_backend_env()
 
 logger = logging.getLogger("thermoreef.nemotron")
 
 NEBIUS_API_KEY = os.getenv("NEBIUS_API_KEY", "").strip()
-NEBIUS_BASE_URL = os.getenv("NEBIUS_BASE_URL", "https://api.tokenfactory.nebius.com/v1").rstrip("/")
-NEBIUS_MODEL = os.getenv("NEBIUS_MODEL", "nvidia/Nemotron-3-Ultra-550b-a55b")
-NEBIUS_BACKUP_MODEL = os.getenv("NEBIUS_BACKUP_MODEL", "nvidia/nemotron-3-super-120b-a12b")
+NEBIUS_BASE_URL = os.getenv("NEBIUS_BASE_URL", NEBIUS_DEFAULT_BASE_URL).rstrip("/")
+NEBIUS_MODEL = os.getenv("NEBIUS_MODEL", NEBIUS_DEFAULT_MODEL)
+NEBIUS_BACKUP_MODEL = os.getenv("NEBIUS_BACKUP_MODEL", NEBIUS_DEFAULT_BACKUP_MODEL)
 
 
 async def generate_intervention_protocol(
@@ -72,7 +77,7 @@ async def generate_intervention_protocol(
         models_to_try.append(NEBIUS_BACKUP_MODEL)
 
     last_error = None
-    async with httpx.AsyncClient(timeout=45.0) as client:
+    async with httpx.AsyncClient(timeout=NEBIUS_TIMEOUT_SECONDS) as client:
         for target_model in models_to_try:
             payload = {
                 "model": target_model,
@@ -80,8 +85,8 @@ async def generate_intervention_protocol(
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": user_prompt},
                 ],
-                "temperature": 0.2,
-                "max_tokens": 2500,
+                "temperature": NEBIUS_TEMPERATURE,
+                "max_tokens": NEBIUS_MAX_TOKENS,
             }
 
             for attempt in range(2):

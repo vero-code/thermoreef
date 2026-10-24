@@ -5,19 +5,22 @@ from typing import Any, Optional
 import httpx
 from dotenv import load_dotenv
 
-_ENV_PATH = Path(__file__).resolve().parent.parent.parent / ".env"
-if _ENV_PATH.exists():
-    load_dotenv(_ENV_PATH)
-else:
-    load_dotenv()
+from .constants import (
+    TAVILY_SEARCH_URL,
+    TAVILY_TIMEOUT_SECONDS,
+    TAVILY_DEFAULT_MAX_RESULTS,
+    TAVILY_MAX_SNIPPET_LEN,
+    load_backend_env,
+)
+
+load_backend_env()
 
 logger = logging.getLogger("thermoreef.tavily")
 
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "").strip()
-TAVILY_SEARCH_URL = "https://api.tavily.com/search"
 
 
-def _clean_snippet(text: str, max_len: int = 320) -> str:
+def _clean_snippet(text: str, max_len: int = TAVILY_MAX_SNIPPET_LEN) -> str:
     cleaned = " ".join(text.replace("\n", " ").split()).strip()
     if len(cleaned) <= max_len:
         return cleaned
@@ -31,7 +34,7 @@ async def search_reef_context(
     lat: float,
     lng: float,
     reef_name: Optional[str] = None,
-    max_results: int = 3,
+    max_results: int = TAVILY_DEFAULT_MAX_RESULTS,
     custom_tavily_key: Optional[str] = None,
     use_mock: bool = False,
 ) -> dict[str, Any]:
@@ -85,7 +88,7 @@ async def search_reef_context(
     }
 
     try:
-        async with httpx.AsyncClient(timeout=12.0) as client:
+        async with httpx.AsyncClient(timeout=TAVILY_TIMEOUT_SECONDS) as client:
             resp = await client.post(TAVILY_SEARCH_URL, json=payload)
             if resp.status_code in (401, 403):
                 raise ValueError(

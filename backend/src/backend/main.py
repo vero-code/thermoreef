@@ -1,9 +1,16 @@
 import json
-from pathlib import Path
+import time
 from fastapi import FastAPI, HTTPException, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
 
+from .constants import (
+    CORS_ORIGINS,
+    NOAA_ERDDAP_BASE,
+    NOAA_CACHE_TTL_SECONDS,
+    CORAL_REEFS_JSON_PATH,
+    load_backend_env,
+)
 from .nemotron import generate_intervention_protocol
 from .tavily import search_reef_context
 
@@ -11,16 +18,13 @@ app = FastAPI(title="ThermoReef API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=CORS_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-ERDDAP_BASE = "https://pae-paha.pacioos.hawaii.edu/erddap/griddap/dhw_5km.json"
-
 # Load reef centroids once at startup
-_REEFS_FILE = Path(__file__).parent / "coral_reefs.json"
-with open(_REEFS_FILE, encoding="utf-8") as _f:
+with open(CORAL_REEFS_JSON_PATH, encoding="utf-8") as _f:
     _REEFS: list[dict] = json.load(_f)
 
 _REEFS_BY_ID: dict[str, dict] = {str(r["id"]): r for r in _REEFS}
@@ -39,10 +43,7 @@ def alert_level(baa: float) -> str:
     return "normal"
 
 
-import time
-
 _STRESS_CACHE: dict[tuple[float, float], tuple[float, dict]] = {}
-_CACHE_TTL_SECONDS = 3600  # NOAA satellite data updates once daily, 1h cache is optimal
 
 
 async def fetch_noaa(lat: float, lng: float) -> dict:
@@ -52,11 +53,11 @@ async def fetch_noaa(lat: float, lng: float) -> dict:
 
     if cache_key in _STRESS_CACHE:
         cached_time, cached_data = _STRESS_CACHE[cache_key]
-        if now - cached_time < _CACHE_TTL_SECONDS:
+        if now - cached_time < NOAA_CACHE_TTL_SECONDS:
             return cached_data
 
     url = (
-        f"{ERDDAP_BASE}"
+        f"{NOAA_ERDDAP_BASE}"
         f"?CRW_BAA[(last)][({lat})][({lng})]"
         f",CRW_DHW[(last)][({lat})][({lng})]"
         f",CRW_SSTANOMALY[(last)][({lat})][({lng})]"
@@ -159,15 +160,8 @@ async def get_reef_intervention(
 def check_dev_config():
     """Verify whether local .env configuration has both required keys for developers."""
     import os
-    from pathlib import Path
-    from dotenv import load_dotenv
 
-    env_backend = Path(__file__).resolve().parent.parent.parent / ".env"
-    if env_backend.exists():
-        load_dotenv(env_backend, override=True)
-    else:
-        load_dotenv(override=True)
-
+    load_backend_env(override=True)
     nebius_key = os.getenv("NEBIUS_API_KEY", "").strip()
     tavily_key = os.getenv("TAVILY_API_KEY", "").strip()
 
