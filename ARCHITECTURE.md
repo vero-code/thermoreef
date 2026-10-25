@@ -4,17 +4,35 @@ ThermoReef consists of a React frontend and a FastAPI backend. The backend proxi
 
 ## Overview
 
-```
-Browser (React + Google Maps)
-   │
-   │  click on reef polygon (UNEP-WCMC dataset layer)
-   ▼
-FastAPI backend
-   ├── GET /reefs/{id}/stress        → NOAA ERDDAP (SST, DHW, BAA)
-   └── GET /reefs/{id}/intervention  → NOAA ERDDAP
-                                     → Tavily Search
-                                     → Nemotron on Nebius Token Factory
-                                     → JSON protocol
+```mermaid
+flowchart LR
+    subgraph Browser["Browser: React + Vite"]
+        Map["Google Maps<br/>UNEP-WCMC dataset layer"]
+        UI["Stress card<br/>Intervention modal"]
+        LS[("localStorage<br/>mode, API keys")]
+    end
+
+    subgraph Backend["FastAPI backend"]
+        API["main.py<br/>routes"]
+        Reefs[("coral_reefs.json<br/>centroids")]
+        Cache[("In-memory<br/>NOAA cache, 1 h")]
+        Tav["tavily.py"]
+        Nem["nemotron/<br/>prompt, client, schema"]
+    end
+
+    NOAA["NOAA Coral Reef Watch<br/>via PacIOOS ERDDAP"]
+    TavilyAPI["Tavily Search API"]
+    Nebius["Nebius Token Factory<br/>Nemotron-3 Ultra / Super"]
+
+    Map -- "click: reef id" --> UI
+    LS -.-> UI
+    UI -- "GET /reefs/{id}/stress" --> API
+    UI -- "GET /reefs/{id}/intervention" --> API
+    API --> Reefs
+    API --> Cache
+    Cache -- "miss" --> NOAA
+    API --> Tav --> TavilyAPI
+    API --> Nem --> Nebius
 ```
 
 ## Frontend (`frontend/`)
@@ -72,6 +90,31 @@ FastAPI, HTTPX, Pydantic, managed with `uv`.
 Errors: `404` if the reef is unknown or NOAA has no value for the pixel (land, coastline); `502` if NOAA is unreachable.
 
 ### `/reefs/{id}/intervention`
+
+```mermaid
+sequenceDiagram
+    participant FE as Frontend
+    participant BE as FastAPI
+    participant N as NOAA ERDDAP
+    participant T as Tavily
+    participant NB as Nebius Token Factory
+
+    FE->>BE: GET /reefs/{id}/intervention<br/>(x-nebius-key, x-tavily-key | x-mock-mode)
+    BE->>N: latest BAA, DHW, SST anomaly, SST
+    N-->>BE: stress values
+    alt Mock mode
+        BE->>BE: static Tavily data + mock protocol
+    else Live / Dev mode
+        BE->>T: search by reef name or coordinates
+        T-->>BE: 3 results + answer
+        loop Ultra 550B, then Super 120B (2 attempts each)
+            BE->>NB: chat/completions (NOAA + Tavily prompt)
+            NB-->>BE: JSON text
+            BE->>BE: parse + validate InterventionProtocol
+        end
+    end
+    BE-->>FE: protocol + stress + web_intelligence
+```
 
 1. Get NOAA stress data (same as above).
 2. Search Tavily by reef name or coordinates (3 results + short answer).
