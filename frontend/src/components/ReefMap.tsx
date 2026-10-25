@@ -14,6 +14,7 @@ import { ReefDatasetLayer } from './map/ReefDatasetLayer';
 import { MapHeader } from './map/MapHeader';
 import { ReefInfoCard } from './map/ReefInfoCard';
 import { MapFooter } from './map/MapFooter';
+import { OceanBackgroundCanvas } from './map/OceanBackgroundCanvas';
 import '../styles/map.css';
 import {
   API_BASE,
@@ -102,44 +103,57 @@ export default function ReefMap() {
 
   return (
     <div className="reef-map-container">
-      <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
-        <Map
-          mapId={GOOGLE_MAPS_MAP_ID}
-          defaultCenter={DEFAULT_MAP_CENTER}
-          defaultZoom={DEFAULT_MAP_ZOOM}
-          mapTypeControl={false}
-          streetViewControl={false}
-          fullscreenControl={false}
-          className="reef-map-canvas"
-        >
-          <ReefDatasetLayer
-            selectedId={selected?.id ?? null}
-            onSelectReef={handleSelectReef}
-          />
-        </Map>
-      </APIProvider>
+      {/* Living Oceanic Particle & Caustics Background */}
+      <OceanBackgroundCanvas />
 
-      {/* Top Left Branding & Mode Controls */}
+      {/* Top Header over background */}
       <MapHeader
         executionMode={executionMode}
         onOpenSettings={() => setIsSettingsOpen(true)}
       />
 
-      {/* Reef Info & Heat Stress Card */}
-      {selected && (
-        <ReefInfoCard
-          selected={selected}
-          stress={stress}
-          loadingStress={loadingStress}
-          stressError={stressError}
-          inspecting={inspecting}
-          onClose={() => {
-            setSelected(null);
-            setStress(null);
-          }}
-          onInspect={handleInspectReef}
-        />
-      )}
+      {/* Central Interactive Map Showcase Frame */}
+      <div className="reef-map-frame">
+        <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
+          <Map
+            mapId={GOOGLE_MAPS_MAP_ID}
+            defaultCenter={DEFAULT_MAP_CENTER}
+            defaultZoom={DEFAULT_MAP_ZOOM}
+            minZoom={2}
+            mapTypeControl={false}
+            streetViewControl={false}
+            fullscreenControl={false}
+            className="reef-map-canvas"
+          >
+            <ReefDatasetLayer
+              selectedId={selected?.id ?? null}
+              onSelectReef={handleSelectReef}
+            />
+          </Map>
+        </APIProvider>
+
+        {/* Reef Info & Heat Stress Card inside map */}
+        {selected && (
+          <ReefInfoCard
+            selected={selected}
+            stress={stress}
+            loadingStress={loadingStress}
+            stressError={stressError}
+            inspecting={inspecting}
+            onClose={() => {
+              setSelected(null);
+              setStress(null);
+            }}
+            onInspect={handleInspectReef}
+          />
+        )}
+      </div>
+
+      {/* Bottom Footer over background */}
+      <MapFooter
+        onOpenTerms={() => setIsTermsOpen(true)}
+        onOpenPrivacy={() => setIsPrivacyOpen(true)}
+      />
 
       {/* Emergency Intervention Modal */}
       {interventionData && (
@@ -149,11 +163,7 @@ export default function ReefMap() {
         />
       )}
 
-      {/* Map Footer (Copyright, Author, Terms, Privacy) */}
-      <MapFooter
-        onOpenTerms={() => setIsTermsOpen(true)}
-        onOpenPrivacy={() => setIsPrivacyOpen(true)}
-      />
+
 
       {/* Terms of Service Modal */}
       <TermsModal
