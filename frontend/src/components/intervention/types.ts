@@ -6,6 +6,11 @@ import type {
   WebIntelligence,
 } from '../../types/reefs';
 
+export type InterventionPanelProps = {
+  data: InterventionResponse;
+  onClose: () => void;
+};
+
 export type InterventionModalProps = {
   data: InterventionResponse;
   onClose: () => void;

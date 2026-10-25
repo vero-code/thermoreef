@@ -153,6 +153,11 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 8px;
   overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.tab-selector-bar::-webkit-scrollbar {
+  display: none;
 }
 .tab-btn {
   padding: 8px 14px;

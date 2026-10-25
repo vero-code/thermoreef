@@ -41,10 +41,14 @@ Structured Emergency Rescue Protocol (JSON)
 - **Backend:** Python 3.12+, FastAPI, uv, HTTPX, Pydantic
 - **Frontend:** React, TypeScript, Vite
 
-## Data Sources
+## Data & Media Sources
 
 - **Global Reef Dataset:** [UNEP-WCMC Global Distribution of Coral Reefs](https://data.unep-wcmc.org/datasets/1) (17,504 polygons)
 - **Satellite Thermal Telemetry:** [NOAA Coral Reef Watch 5km](https://coralreefwatch.noaa.gov/) via [PacIOOS ERDDAP](https://pae-paha.pacioos.hawaii.edu/erddap/griddap/dhw_5km.html)
+- **Ocean Imagery:**
+  - *Specimen 01* (*Acropora millepora*, Great Barrier Reef · Lizard Island): by [Francesco Ungaro on Unsplash](https://unsplash.com/photos/brown-and-black-underwater-coral-cc4642628d2b).
+  - *Specimen 02* (*Diploria labyrinthiformis*, Belize Barrier Reef · Mesoamerican Shield): by [David Clode on Unsplash](https://unsplash.com/photos/gray-and-black-stone-fragment-46a013bb70d5).
+  - Both photographs are free under the [Unsplash License](https://unsplash.com/license).
 
 ## Execution Modes
 
@@ -179,21 +183,29 @@ thermoreef/
 ├── frontend/
 │   ├── src/
 │   │   ├── App.tsx
-│   │   ├── constants.ts         # Maps IDs & LocalStorage keys
+│   │   ├── constants.ts         # Centralized API URLs, keys, ocean specimen & alert palettes
 │   │   ├── components/
 │   │   │   ├── ReefMap.tsx      # Main map component with vector layer
-│   │   │   ├── SettingsModal.tsx# Settings dialog (3 modes & key inputs)
-│   │   │   ├── InterventionModal.tsx # Emergency rescue protocol dialog
+│   │   │   ├── SettingsPanel.tsx# In-frame settings & mode switcher (replaces map view)
+│   │   │   ├── InterventionPanel.tsx # In-frame rescue protocol console (replaces map view)
+│   │   │   ├── InterventionModal.tsx # Backwards compatibility export
 │   │   │   ├── map/             # Header, reef info card, NOAA stress metrics
 │   │   │   ├── settings/        # Mode selector, Judge, Cloud, Dev tabs
 │   │   │   └── intervention/    # Shading, Triage, Monitoring, Web Intel tabs
-│   │   ├── styles/              # Dedicated CSS styling
+│   │   ├── styles/              # Modular scoped CSS styling
 │   │   │   ├── common.css       # Shared modal, buttons, badges, utilities
-│   │   │   ├── map.css          # Map controls & NOAA stress card
+│   │   │   ├── map.css          # Map layout coordinator & @imports
+│   │   │   ├── header.css       # Observatory masthead & controls
+│   │   │   ├── ocean-bg.css     # Underwater particle canvas & specimen plaque
+│   │   │   ├── reef-card.css    # Reef telemetry & NOAA thermal stress card
+│   │   │   ├── footer.css       # Floating observatory footer
 │   │   │   ├── settings.css     # Settings dialog & mode selectors
 │   │   │   └── intervention.css # Protocol tabs & urgency views
+│   │   ├── types/               # Centralized TypeScript types
+│   │   │   ├── reefs.ts         # Reef domain & protocol contracts
+│   │   │   └── modals.ts        # Shared modal types
 │   │   └── data/
-│   │       └── reefs.ts         # TypeScript types & client API fetchers
+│   │       └── reefs.ts         # TypeScript re-exports
 │   └── package.json
 ├── README.md
 ├── LICENSE

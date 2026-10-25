@@ -1,10 +1,7 @@
 import { useState, useCallback } from 'react';
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
-import {
-  type ReefStress,
-  type InterventionResponse,
-} from '../data/reefs';
-import InterventionModal from './InterventionModal';
+import type { ReefStress, InterventionResponse } from '../types/reefs';
+import { InterventionPanel } from './InterventionPanel';
 import { SettingsPanel } from './SettingsPanel';
 import { TermsModal } from './TermsModal';
 import { PrivacyModal } from './PrivacyModal';
@@ -96,6 +93,8 @@ export default function ReefMap() {
       }
       const data: InterventionResponse = await res.json();
       setInterventionData(data);
+      setIsMapHidden(false);
+      setIsSettingsOpen(false);
     } catch (err: any) {
       console.error('Failed to generate rescue protocol:', err);
       alert(`⚠️ Cannot generate protocol:\n\n${err?.message || 'Server error'}`);
@@ -126,9 +125,14 @@ export default function ReefMap() {
         onToggleMap={() => setIsMapHidden((prev) => !prev)}
       />
 
-      {/* Central Interactive Showcase Frame (Displays either Map or Settings Panel) */}
+      {/* Central Interactive Showcase Frame (Displays Map, Settings Panel, or Intervention Rescue Protocol) */}
       <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''}`}>
-        {isSettingsOpen ? (
+        {interventionData ? (
+          <InterventionPanel
+            data={interventionData}
+            onClose={() => setInterventionData(null)}
+          />
+        ) : isSettingsOpen ? (
           <SettingsPanel
             mode={executionMode}
             onModeChange={setExecutionMode}
@@ -217,13 +221,6 @@ export default function ReefMap() {
         onOpenPrivacy={() => setIsPrivacyOpen(true)}
       />
 
-      {/* Emergency Intervention Modal */}
-      {interventionData && (
-        <InterventionModal
-          data={interventionData}
-          onClose={() => setInterventionData(null)}
-        />
-      )}
 
       {/* Terms of Service Modal */}
       <TermsModal
