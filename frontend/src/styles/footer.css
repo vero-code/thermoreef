@@ -1,6 +1,4 @@
-/* ==========================================================================
-   Observatory Footer
-   ========================================================================== */
+/* Observatory footer */
 
 .floating-footer {
   position: absolute;
@@ -13,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Cinzel', serif;
   font-size: 14px;
   letter-spacing: 0.08em;
 }
@@ -24,7 +22,7 @@
   align-items: center;
   gap: 12px;
   font-size: 14px;
-  color: #8E9CA8;
+  color: #cbd5e1;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
 }
 
@@ -46,7 +44,7 @@
   font-family: inherit;
   font-size: 14px;
   letter-spacing: inherit;
-  color: #8E9CA8;
+  color: #cbd5e1;
   cursor: pointer;
   transition: color 0.2s ease;
 }
@@ -66,7 +64,7 @@
 }
 
 .footer-author-label {
-  color: #8E9CA8;
+  color: #cbd5e1;
 }
 
 .floating-author-link {

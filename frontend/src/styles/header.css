@@ -1,6 +1,4 @@
-/* ==========================================================================
-   Observatory Header
-   ========================================================================== */
+/* Observatory header */
 
 .floating-header {
   position: absolute;
@@ -16,6 +14,7 @@
   gap: 16px;
   box-sizing: border-box;
   width: 100%;
+  font-family: 'Cinzel', serif;
 }
 
 .floating-brand-block {
@@ -82,7 +81,7 @@
 
 .floating-observatory-tag {
   font-size: 14px;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Cinzel', serif;
   color: #D4AF37;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -96,7 +95,7 @@
   gap: 10px;
   font-size: 14px;
   letter-spacing: 0.08em;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Cinzel', serif;
   text-transform: uppercase;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
 }
@@ -112,7 +111,7 @@
 }
 
 .floating-meta-tech {
-  color: #8E9CA8; /* Grey like TERMS OF SERVICE in footer */
+  color: #cbd5e1;
   font-weight: 400;
 }
 
@@ -127,9 +126,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Cinzel', serif;
   font-size: 14px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
 }
 
 .floating-tech-badge {
@@ -172,7 +171,7 @@
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(0, 220, 255, 0.18);
   border-radius: 10px;
-  color: #8E9CA8; /* Same muted slate as Terms of Service in footer */
+  color: #cbd5e1;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;

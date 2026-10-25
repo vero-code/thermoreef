@@ -1,9 +1,4 @@
-/* ==========================================================================
-   Pelagic Minimal Design: Reef Telemetry Card and NOAA Stress Metrics
-   Strict Typography System: Exactly 14px, 16px, 18px
-   ========================================================================== */
-
-/* ReefInfoCard Container (Floating over map) */
+/* Reef telemetry card and NOAA stress metrics */
 .reef-info-card {
   position: absolute;
   top: 24px;

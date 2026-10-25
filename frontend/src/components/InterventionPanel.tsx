@@ -7,7 +7,6 @@ import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
 import { ChevronLeftIcon, ChevronRightIcon } from './intervention/Icons';
 import { useReefLocation } from '../utils/geocoding';
-import { OCEAN_SPECIMEN_03 } from '../constants';
 import '../styles/intervention.css';
 
 const INTERVENTION_TABS = [
@@ -51,43 +50,12 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const getModeBadge = () => {
-    if (data.execution_mode === 'mock' || protocol.model_used?.toLowerCase().includes('mock')) {
-      return (
-        <span className="badge badge-mock">
-          🟡 OFFLINE EVALUATION (MOCK DATA)
-        </span>
-      );
-    }
-    if (data.execution_mode === 'live_nebius') {
-      return (
-        <span className="badge badge-dev">
-          🟣 FOR DEVELOPERS • LOCAL .ENV
-        </span>
-      );
-    }
-    return (
-      <span className="badge badge-custom">
-        🟢 LIVE CLOUD API • CUSTOM KEYS
-      </span>
-    );
-  };
-
   return (
     <div className="intervention-frame-panel">
       {/* Panel Header */}
       <div className="intervention-panel-header">
         <div className="intervention-header-left">
-          <div className="intervention-header-badge-row">
-            {getModeBadge()}
-            <span className="intervention-specimen-id">REEF #{protocol.reef_id}</span>
-            <span
-              className="intervention-specimen-pill"
-              title={`Living Specimen Reference: ${OCEAN_SPECIMEN_03.name} (${OCEAN_SPECIMEN_03.commonName})`}
-            >
-              SPECIMEN № {OCEAN_SPECIMEN_03.id} · {OCEAN_SPECIMEN_03.name.toUpperCase()}
-            </span>
-          </div>
+          
           <h2 className="intervention-panel-title">
             Rescue Protocol — {protocol.reef_name || 'Reef #' + protocol.reef_id}
           </h2>
@@ -101,15 +69,6 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
             Coords: {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)} | SST: {stress.sst}°C | DHW: {stress.dhw}
           </div>
         </div>
-
-        <button
-          onClick={onClose}
-          className="protocol-return-map-btn"
-          title="Return to satellite map view"
-        >
-          <span className="return-arrow">←</span>
-          <span>RETURN TO MAP</span>
-        </button>
       </div>
 
       {/* Pinned Tab Selector Bar (Always visible above scrollable body) */}
@@ -198,8 +157,6 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
         <div className="intervention-model-meta">
           <span>AI Model: </span>
           <span style={{ color: '#38bdf8', fontWeight: 600 }}>{protocol.model_used}</span>
-          <span style={{ color: '#64748b', margin: '0 8px' }}>•</span>
-          <span style={{ color: '#8E9CA8' }}>NVIDIA Nemotron × Nebius</span>
         </div>
         <div className="intervention-footer-actions">
           <button
@@ -207,14 +164,14 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
             className={`btn-copy ${copied ? 'is-copied' : ''}`}
             title="Copy full protocol report to clipboard"
           >
-            {copied ? '✓ Protocol Copied' : '📋 Copy Protocol'}
+            {copied ? '✓ Copied' : '📋 Copy'}
           </button>
           <button
             onClick={onClose}
             className="protocol-footer-return-btn"
             title="Return to satellite map view"
           >
-            ← Return to Map
+            CANCEL
           </button>
         </div>
       </div>
