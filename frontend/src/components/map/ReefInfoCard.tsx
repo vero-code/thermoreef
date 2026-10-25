@@ -2,7 +2,7 @@ import type { ReefInfoCardProps } from './types';
 import { UNEP_WCMC_FEATURE_SERVER_URL } from '../../constants';
 import { NoaaStressMetrics } from './NoaaStressMetrics';
 import { useReefLocation } from '../../utils/geocoding';
-import { ExternalLinkIcon, SparkleIcon, CloseCrossIcon } from './Icons';
+import { ExternalLinkIcon, SparkleIcon, CloseCrossIcon, LocationPinIcon } from './Icons';
 
 export function ReefInfoCard({
   selected,
@@ -14,6 +14,7 @@ export function ReefInfoCard({
   onClose,
   onInspect,
   onFetchNearest,
+  onFlyToCoordinates,
 }: ReefInfoCardProps) {
   const { location } = useReefLocation(selected.lat, selected.lng);
 
@@ -51,9 +52,21 @@ export function ReefInfoCard({
       {/* Coordinates Row */}
       <div className="reef-card-coords-row">
         <span className="coords-label">Coordinates:</span>
-        <span className="coords-val">
-          {selected.lat.toFixed(4)}, {selected.lng.toFixed(4)}
-        </span>
+        {onFlyToCoordinates ? (
+          <button
+            type="button"
+            className="coords-val-btn"
+            onClick={() => onFlyToCoordinates(selected.lat, selected.lng)}
+            title="Center and zoom map on reef coordinates"
+          >
+            <span>{selected.lat.toFixed(4)}, {selected.lng.toFixed(4)}</span>
+            <LocationPinIcon size={12} />
+          </button>
+        ) : (
+          <span className="coords-val">
+            {selected.lat.toFixed(4)}, {selected.lng.toFixed(4)}
+          </span>
+        )}
       </div>
 
       {/* 2-Column Meta Stats Grid */}

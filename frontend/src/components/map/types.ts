@@ -84,6 +84,7 @@ export type ReefInfoCardProps = {
   onClose: () => void;
   onInspect: () => void;
   onFetchNearest?: () => void;
+  onFlyToCoordinates?: (lat: number, lng: number) => void;
 };
 
 export type NoaaStressMetricsProps = {

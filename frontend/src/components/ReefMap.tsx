@@ -53,6 +53,15 @@ export default function ReefMap() {
     }
   }, [mapInstance]);
 
+  const handleFlyToCoordinates = useCallback((lat: number, lng: number) => {
+    setIsSettingsOpen(false);
+    setIsMapHidden(false);
+    if (mapInstance) {
+      mapInstance.panTo({ lat, lng });
+      mapInstance.setZoom(10);
+    }
+  }, [mapInstance]);
+
   const handleResetMap = useCallback(() => {
     handleFlyToRegion(DEFAULT_MAP_CENTER.lat, DEFAULT_MAP_CENTER.lng, DEFAULT_MAP_ZOOM);
     setSelected(null);
@@ -169,57 +178,64 @@ export default function ReefMap() {
 
       {/* Showcase frame */}
       <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''}`}>
-        {isSettingsOpen ? (
-          <SettingsPanel
-            mode={executionMode}
-            onModeChange={setExecutionMode}
-            onClose={() => setIsSettingsOpen(false)}
-          />
-        ) : interventionData ? (
-          <InterventionPanel
-            data={interventionData}
-            onClose={() => setInterventionData(null)}
-          />
-        ) : (
-          <>
-            <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
-              <Map
-                mapId={GOOGLE_MAPS_MAP_ID}
-                defaultCenter={DEFAULT_MAP_CENTER}
-                defaultZoom={DEFAULT_MAP_ZOOM}
-                minZoom={2}
-                mapTypeControl={false}
-                streetViewControl={false}
-                fullscreenControl={false}
-                className="reef-map-canvas"
-              >
-                <ReefDatasetLayer
-                  selectedId={selected?.id ?? null}
-                  onSelectReef={handleSelectReef}
-                  onMapReady={setMapInstance}
-                />
-              </Map>
-            </APIProvider>
+        <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
+          <Map
+            mapId={GOOGLE_MAPS_MAP_ID}
+            defaultCenter={DEFAULT_MAP_CENTER}
+            defaultZoom={DEFAULT_MAP_ZOOM}
+            minZoom={2}
+            mapTypeControl={false}
+            streetViewControl={false}
+            fullscreenControl={false}
+            className="reef-map-canvas"
+          >
+            <ReefDatasetLayer
+              selectedId={selected?.id ?? null}
+              onSelectReef={handleSelectReef}
+              onMapReady={setMapInstance}
+            />
+          </Map>
+        </APIProvider>
 
-            {/* Reef telemetry card */}
-            {selected && (
-              <ReefInfoCard
-                selected={selected}
-                stress={stress}
-                loadingStress={loadingStress}
-                stressError={stressError}
-                inspecting={inspecting}
-                loadingNearest={loadingNearest}
-                onClose={() => {
-                  setSelected(null);
-                  setStress(null);
-                  setStressError(null);
-                }}
-                onInspect={handleInspectReef}
-                onFetchNearest={handleFetchNearest}
-              />
-            )}
-          </>
+        {/* Reef telemetry card */}
+        {selected && !isSettingsOpen && !interventionData && (
+          <ReefInfoCard
+            selected={selected}
+            stress={stress}
+            loadingStress={loadingStress}
+            stressError={stressError}
+            inspecting={inspecting}
+            loadingNearest={loadingNearest}
+            onClose={() => {
+              setSelected(null);
+              setStress(null);
+              setStressError(null);
+            }}
+            onInspect={handleInspectReef}
+            onFetchNearest={handleFetchNearest}
+            onFlyToCoordinates={handleFlyToCoordinates}
+          />
+        )}
+
+        {/* In-frame Settings overlay (keeps map and its zoom/center mounted underneath) */}
+        {isSettingsOpen && (
+          <div className="reef-frame-overlay">
+            <SettingsPanel
+              mode={executionMode}
+              onModeChange={setExecutionMode}
+              onClose={() => setIsSettingsOpen(false)}
+            />
+          </div>
+        )}
+
+        {/* In-frame Intervention Protocol overlay */}
+        {interventionData && (
+          <div className="reef-frame-overlay">
+            <InterventionPanel
+              data={interventionData}
+              onClose={() => setInterventionData(null)}
+            />
+          </div>
         )}
       </div>
 
