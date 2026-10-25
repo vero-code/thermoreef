@@ -24,10 +24,10 @@
 .reef-map-frame {
   position: relative;
   width: calc(100% - 40px);
-  max-width: 1020px;
-  height: 60vh;
-  min-height: 440px;
-  max-height: 620px;
+  max-width: 1140px;
+  height: 70vh;
+  min-height: 500px;
+  max-height: 760px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow:
@@ -41,10 +41,10 @@
 
 @media (max-width: 768px) {
   .reef-map-frame {
-    width: calc(100% - 24px);
-    height: calc(100vh - 140px);
-    min-height: 380px;
-    border-radius: 14px;
+    width: calc(100% - 20px);
+    height: calc(100vh - 110px);
+    min-height: 420px;
+    border-radius: 16px;
   }
 }
 

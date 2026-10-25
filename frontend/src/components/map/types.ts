@@ -7,6 +7,7 @@ export type ReefData = {
   lng: number;
   area?: string | number;
   metadataId?: string | number;
+  reefType?: string;
 };
 
 export type ReefRegion = {

@@ -51,12 +51,16 @@ export function ReefDatasetLayer({ selectedId, onSelectReef, onMapReady }: ReefD
         if (!rawId || !event.latLng) return;
         const cleanId = String(rawId).split('.')[0];
 
+        const rawType = attrs['reef_type'] ?? attrs['type'] ?? attrs['geomorph'] ?? attrs['category'];
+        const cleanType = rawType ? String(rawType).toUpperCase() : undefined;
+
         onSelectReef({
           id: cleanId,
           lat: event.latLng.lat(),
           lng: event.latLng.lng(),
           area: attrs['gis_area_k'],
           metadataId: attrs['metadata_i'],
+          reefType: cleanType,
         });
       }
     );

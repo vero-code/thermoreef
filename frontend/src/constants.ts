@@ -69,6 +69,26 @@ export const ALERT_LABELS: Record<AlertLevel, string> = {
   alert2: 'Alert Level 2',
 };
 
+// NOAA Thermal Stress Metric Explanations and Scientific Tooltips
+export const NOAA_METRIC_TOOLTIPS = {
+  alert: {
+    title: 'NOAA Alert Level',
+    desc: 'Thermal threat: Normal → Watch → Warning → Alert 1 & 2.',
+  },
+  sst: {
+    title: 'SST (Sea Temperature)',
+    desc: 'Live NOAA satellite reading (°C). Optimal reef comfort is 23–29°C.',
+  },
+  anomaly: {
+    title: 'SST Anomaly',
+    desc: 'Deviation from regional summer baseline. +1.0°C triggers stress.',
+  },
+  dhw: {
+    title: 'DHW (Degree Heating Weeks)',
+    desc: '12-week accumulated thermal stress (°C-weeks). ≥ 4 causes bleaching.',
+  },
+} as const;
+
 // LocalStorage Persistence Keys
 export const STORAGE_KEYS = {
   MODE: 'thermoreef_mode',
