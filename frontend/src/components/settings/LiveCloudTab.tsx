@@ -1,11 +1,4 @@
-interface Props {
-  nebiusKey: string;
-  tavilyKey: string;
-  nebiusInvalid: boolean;
-  tavilyInvalid: boolean;
-  onNebiusChange: (val: string) => void;
-  onTavilyChange: (val: string) => void;
-}
+import type { LiveCloudTabProps } from './types';
 
 export function LiveCloudTab({
   nebiusKey,
@@ -14,7 +7,7 @@ export function LiveCloudTab({
   tavilyInvalid,
   onNebiusChange,
   onTavilyChange,
-}: Props) {
+}: LiveCloudTabProps) {
   return (
     <div className="live-cloud-tab">
       <div>

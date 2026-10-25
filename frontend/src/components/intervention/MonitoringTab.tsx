@@ -1,10 +1,6 @@
-import { type MonitoringProtocol } from '../../data/reefs';
+import type { MonitoringTabProps } from './types';
 
-interface Props {
-  monitoring: MonitoringProtocol;
-}
-
-export function MonitoringTab({ monitoring }: Props) {
+export function MonitoringTab({ monitoring }: MonitoringTabProps) {
   return (
     <div className="tab-stack">
       <div className="info-card">

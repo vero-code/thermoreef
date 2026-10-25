@@ -1,9 +1,7 @@
-interface Props {
-  onOpenTerms: () => void;
-  onOpenPrivacy: () => void;
-}
+import type { MapFooterProps } from './types';
+import { GITHUB_REPO_URL } from '../../constants';
 
-export function MapFooter({ onOpenTerms, onOpenPrivacy }: Props) {
+export function MapFooter({ onOpenTerms, onOpenPrivacy }: MapFooterProps) {
   return (
     <footer className="floating-footer">
       <div className="floating-footer-left">
@@ -29,7 +27,7 @@ export function MapFooter({ onOpenTerms, onOpenPrivacy }: Props) {
       <div className="floating-footer-right">
         <span className="footer-author-label">AUTHOR:</span>
         <a
-          href="https://github.com/vero-code/thermoreef"
+          href={GITHUB_REPO_URL}
           target="_blank"
           rel="noopener noreferrer"
           title="Open GitHub repository in new tab"

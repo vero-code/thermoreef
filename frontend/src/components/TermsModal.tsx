@@ -1,9 +1,6 @@
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import type { ModalProps } from '../types/modals';
 
-export function TermsModal({ isOpen, onClose }: Props) {
+export function TermsModal({ isOpen, onClose }: ModalProps) {
   if (!isOpen) return null;
 
   return (

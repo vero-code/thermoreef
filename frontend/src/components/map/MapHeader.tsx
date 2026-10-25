@@ -1,22 +1,15 @@
 import { useState } from 'react';
-import type { ModeTab } from '../settings/types';
+import type { MapHeaderProps } from './types';
 import logo from '../../assets/logo.png';
 import { hydrophone } from '../../utils/audioHydrophone';
 import '../../styles/map.css';
-
-interface Props {
-  executionMode: ModeTab;
-  onOpenSettings: () => void;
-  isMapHidden: boolean;
-  onToggleMap: () => void;
-}
 
 export function MapHeader({
   executionMode,
   onOpenSettings,
   isMapHidden,
   onToggleMap,
-}: Props) {
+}: MapHeaderProps) {
   const [audioActive, setAudioActive] = useState(false);
 
   const handleToggleAudio = () => {

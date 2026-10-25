@@ -1,17 +1,11 @@
 import {
   ALERT_COLORS,
   ALERT_LABELS,
-  type ReefStress,
-  type AlertLevel,
-} from '../../data/reefs';
+} from '../../constants';
+import type { AlertLevel } from '../../types/reefs';
+import type { NoaaStressMetricsProps } from './types';
 
-interface Props {
-  stress: ReefStress | null;
-  loadingStress: boolean;
-  stressError: string | null;
-}
-
-export function NoaaStressMetrics({ stress, loadingStress, stressError }: Props) {
+export function NoaaStressMetrics({ stress, loadingStress, stressError }: NoaaStressMetricsProps) {
   const alertLvl: AlertLevel = stress?.alertLevel || 'normal';
   const alertColor = ALERT_COLORS[alertLvl] || '#10b981';
 

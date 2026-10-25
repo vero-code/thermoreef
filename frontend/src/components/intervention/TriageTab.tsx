@@ -1,10 +1,6 @@
-import { type BiologicalTriage } from '../../data/reefs';
+import type { TriageTabProps } from './types';
 
-interface Props {
-  triage: BiologicalTriage;
-}
-
-export function TriageTab({ triage }: Props) {
+export function TriageTab({ triage }: TriageTabProps) {
   return (
     <div className="tab-stack">
       <div className="info-card">

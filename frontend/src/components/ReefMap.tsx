@@ -23,19 +23,8 @@ import {
   DEFAULT_MAP_CENTER,
   DEFAULT_MAP_ZOOM,
   STORAGE_KEYS,
+  OCEAN_SPECIMEN,
 } from '../constants';
-
-const OCEAN_SPECIMEN = {
-  id: '01',
-  name: 'Acropora millepora',
-  commonName: 'Staghorn Calcium Matrix',
-  locale: 'Great Barrier Reef · Lizard Island',
-  depth: '11.4m',
-  bgImageUrl: 'https://images.unsplash.com/photo-1546026423-cc4642628d2b?q=85&w=2400&auto=format&fit=crop',
-  tintRgba: 'rgba(7, 18, 25, 0.45)',
-  unsplashUrl: 'https://unsplash.com/photos/brown-and-black-underwater-coral-cc4642628d2b',
-  photoCredit: 'Francesco Ungaro on Unsplash',
-};
 
 export default function ReefMap() {
   const [selected, setSelected] = useState<ReefData | null>(null);

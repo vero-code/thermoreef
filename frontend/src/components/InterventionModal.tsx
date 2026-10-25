@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { type InterventionResponse } from '../data/reefs';
+import type { InterventionModalProps } from './intervention/types';
 import { getUrgencyColor, formatProtocolAsText } from './intervention/formatProtocol';
 import { ShadingTab } from './intervention/ShadingTab';
 import { TriageTab } from './intervention/TriageTab';
@@ -7,12 +7,7 @@ import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
 import '../styles/intervention.css';
 
-interface Props {
-  data: InterventionResponse;
-  onClose: () => void;
-}
-
-export default function InterventionModal({ data, onClose }: Props) {
+export default function InterventionModal({ data, onClose }: InterventionModalProps) {
   const [activeTab, setActiveTab] = useState<'shading' | 'triage' | 'monitoring' | 'webintel'>('shading');
   const [copied, setCopied] = useState(false);
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { ModeTab } from './settings/types';
+import type { ModeTab, SettingsModalProps } from './settings/types';
 import { ModeSelector } from './settings/ModeSelector';
 import { JudgeTab } from './settings/JudgeTab';
 import { LiveCloudTab } from './settings/LiveCloudTab';
@@ -8,14 +8,7 @@ import { DevTab } from './settings/DevTab';
 import { API_BASE, STORAGE_KEYS } from '../constants';
 import '../styles/settings.css';
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-  mode: ModeTab;
-  onModeChange: (mode: ModeTab) => void;
-}
-
-export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
+export function SettingsModal({ isOpen, onClose, mode, onModeChange }: SettingsModalProps) {
   const [activeTab, setActiveTab] = useState<ModeTab>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.SETTING_TAB);
     if (saved === 'mock' || saved === 'custom' || saved === 'dev') return saved;

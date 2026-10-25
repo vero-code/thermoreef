@@ -1,8 +1,4 @@
-import { type WebIntelligence } from '../../data/reefs';
-
-interface Props {
-  intel?: WebIntelligence;
-}
+import type { WebIntelTabProps } from './types';
 
 function getDomain(url: string): string {
   try {
@@ -12,7 +8,7 @@ function getDomain(url: string): string {
   }
 }
 
-export function WebIntelTab({ intel }: Props) {
+export function WebIntelTab({ intel }: WebIntelTabProps) {
   if (!intel || intel.status === 'disabled') {
     return (
       <div className="web-intel-standby">

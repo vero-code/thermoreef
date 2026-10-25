@@ -1,16 +1,6 @@
-import type { ReefStress } from '../../data/reefs';
-import type { ReefData } from './types';
+import type { ReefInfoCardProps } from './types';
+import { UNEP_WCMC_FEATURE_SERVER_URL } from '../../constants';
 import { NoaaStressMetrics } from './NoaaStressMetrics';
-
-interface Props {
-  selected: ReefData;
-  stress: ReefStress | null;
-  loadingStress: boolean;
-  stressError: string | null;
-  inspecting: boolean;
-  onClose: () => void;
-  onInspect: () => void;
-}
 
 export function ReefInfoCard({
   selected,
@@ -20,7 +10,7 @@ export function ReefInfoCard({
   inspecting,
   onClose,
   onInspect,
-}: Props) {
+}: ReefInfoCardProps) {
   return (
     <div className="reef-info-card">
       <button
@@ -51,7 +41,7 @@ export function ReefInfoCard({
           <div className="reef-meta-row">
             <span className="label">Source:</span>
             <a
-              href={`https://data-gis.unep-wcmc.org/server/rest/services/HabitatsAndBiotopes/Global_Distribution_of_Coral_Reefs/FeatureServer/2/${Math.round(Number(selected.metadataId))}`}
+              href={`${UNEP_WCMC_FEATURE_SERVER_URL}/${Math.round(Number(selected.metadataId))}`}
               target="_blank"
               rel="noopener noreferrer"
             >

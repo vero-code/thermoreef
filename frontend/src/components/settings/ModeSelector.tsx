@@ -1,11 +1,6 @@
-import type { ModeTab } from './types';
+import type { ModeSelectorProps } from './types';
 
-interface Props {
-  activeTab: ModeTab;
-  onSelectTab: (tab: ModeTab) => void;
-}
-
-export function ModeSelector({ activeTab, onSelectTab }: Props) {
+export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
   return (
     <div>
       <label className="info-label">

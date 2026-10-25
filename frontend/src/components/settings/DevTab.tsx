@@ -1,9 +1,6 @@
-interface Props {
-  devInvalid: boolean;
-  devError: string | null;
-}
+import type { DevTabProps } from './types';
 
-export function DevTab({ devInvalid, devError }: Props) {
+export function DevTab({ devInvalid, devError }: DevTabProps) {
   return (
     <div className={`dev-tab ${devInvalid ? 'is-invalid' : ''}`}>
       <div className="title">

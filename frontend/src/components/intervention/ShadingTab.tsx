@@ -1,10 +1,6 @@
-import { type ShadingAction } from '../../data/reefs';
+import type { ShadingTabProps } from './types';
 
-interface Props {
-  shading: ShadingAction;
-}
-
-export function ShadingTab({ shading }: Props) {
+export function ShadingTab({ shading }: ShadingTabProps) {
   return (
     <div className="tab-stack">
       <div className="info-card">

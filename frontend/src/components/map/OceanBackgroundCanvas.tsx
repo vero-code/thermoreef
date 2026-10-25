@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-
-interface Props {
-  bgImageUrl?: string;
-  tintRgba?: string;
-}
+import type { OceanBackgroundCanvasProps } from './types';
+import { OCEAN_SPECIMEN } from '../../constants';
 
 export function OceanBackgroundCanvas({
-  bgImageUrl = 'https://images.unsplash.com/photo-1546026423-cc4642628d2b?q=85&w=2400&auto=format&fit=crop',
-  tintRgba = 'rgba(7, 18, 25, 0.45)',
-}: Props) {
+  bgImageUrl = OCEAN_SPECIMEN.bgImageUrl,
+  tintRgba = OCEAN_SPECIMEN.tintRgba,
+}: OceanBackgroundCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const imgWrapperRef = useRef<HTMLDivElement | null>(null);
   const turbulenceRef = useRef<SVGFETurbulenceElement | null>(null);
