@@ -13,13 +13,14 @@ AI-powered coral bleaching early warning system. Monitors ocean thermal stress u
 - **NVIDIA Nemotron-3 Ultra (550B MoE):** Synthesizes multi-variable data (NOAA SST anomalies, DHW, solar zenith hours, species heat limits) into structured JSON intervention protocols.
 - **Nebius Token Factory:** Serverless OpenAI-compatible API hosting 550B MoE models on NVIDIA GPU clusters, providing on-demand inference without dedicated multi-node infrastructure.
 - **Tavily Search API:** Retrieves regional field reports and local news by reef coordinates to augment 5km-grid satellite telemetry with current ground observations and cited sources.
+- **Google Maps Platform (Datasets & Geocoding):** Renders 17,504 UNEP-WCMC vector polygons and resolves clicked coordinates to country/region names via client-side `google.maps.Geocoder`.
 
 ## Architecture
 
 ```
 UNEP-WCMC (17,504 reef polygons)
         ↓
-Google Maps Dataset Layer (vector polygons)
+Google Maps Dataset Layer (vector polygons) + Geocoder
         +
 NOAA ERDDAP (live SST, DHW, BAA per reef)
         +
@@ -37,7 +38,7 @@ Structured Emergency Rescue Protocol (JSON)
 
 - **AI Inference:** NVIDIA Nemotron (Nemotron-3 Ultra 550B / Super 120B) on Nebius Token Factory
 - **Web Intelligence:** Tavily Search API (real-time regional ecological reports & news)
-- **Mapping:** Google Maps Platform (Vector, Dataset Feature Layer) via @vis.gl/react-google-maps
+- **Mapping:** Google Maps Platform (Datasets, Geocoding API) via @vis.gl/react-google-maps
 - **Backend:** Python 3.12+, FastAPI, uv, HTTPX, Pydantic
 - **Frontend:** React, TypeScript, Vite
 
@@ -85,7 +86,7 @@ TAVILY_API_KEY=your_tavily_api_key
 
 Create `frontend/.env`:
 ```env
-VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key  # Requires Maps JavaScript API & Geocoding API
 ```
 
 ### Backend

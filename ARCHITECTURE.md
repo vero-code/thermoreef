@@ -39,6 +39,8 @@ React + TypeScript + Vite.
 
 - **Map:** Google Maps via `@vis.gl/react-google-maps`.
 - **Reef polygons & Global IDs:** UNEP-WCMC global coral reef geospatial dataset hosted in Google Maps Datasets, rendered with `getDatasetFeatureLayer` ([ReefDatasetLayer.tsx](frontend/src/components/map/ReefDatasetLayer.tsx)). The displayed `Reef #ID` (e.g., `#8270`) is the official global `OBJECTID` from the UN Environment Programme World Conservation Monitoring Centre (UNEP-WCMC) dataset, permanently attached to the vector polygon feature in Google Maps. Clicking a polygon provides both its global `OBJECTID` and exact mouse click coordinates (`lat`, `lng`).
+- **Geocoding:** reverse geocoding via `google.maps.Geocoder` with in-memory caching to resolve clicked coordinates to country and region name ([geocoding.ts](frontend/src/utils/geocoding.ts)).
+- **Metric tooltips:** `[i]` popups explaining NOAA satellite metrics (SST, DHW, Anomaly, Alert Level) in [NoaaStressMetrics.tsx](frontend/src/components/map/NoaaStressMetrics.tsx).
 - **Stress card:** on reef selection, requests `/reefs/{id}/stress?lat=&lng=`.
 - **Intervention modal:** on "Inspect Reef", requests `/reefs/{id}/intervention` and shows the protocol in tabs (Shading, Triage, Monitoring, Web Intel).
 - **Settings:** three execution modes stored in `localStorage`:
