@@ -51,7 +51,7 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
     if (data.execution_mode === 'mock' || protocol.model_used?.toLowerCase().includes('mock')) {
       return (
         <span className="badge badge-mock">
-          🟡 DEMO SIMULATION (MOCK MODE)
+          🟡 OFFLINE EVALUATION (MOCK DATA)
         </span>
       );
     }

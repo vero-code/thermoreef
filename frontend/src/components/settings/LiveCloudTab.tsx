@@ -9,30 +9,30 @@ export function LiveCloudTab({
   onTavilyChange,
 }: LiveCloudTabProps) {
   return (
-    <div className="live-cloud-tab">
-      <div>
-        <label className="info-label">
-          Nebius API Key:
+    <div className="live-cloud-tab-inner">
+      <div className="cloud-field-group">
+        <label className="cloud-field-label">
+          NEBIUS API KEY:
         </label>
         <input
           type="password"
           value={nebiusKey}
           onChange={(e) => onNebiusChange(e.target.value)}
           placeholder="v1.CmQK..."
-          className={`live-cloud-input ${nebiusInvalid ? 'is-invalid' : ''}`}
+          className={`cloud-field-input ${nebiusInvalid ? 'is-invalid' : ''}`}
         />
       </div>
 
-      <div>
-        <label className="info-label">
-          Tavily API Key:
+      <div className="cloud-field-group">
+        <label className="cloud-field-label">
+          TAVILY API KEY:
         </label>
         <input
           type="password"
           value={tavilyKey}
           onChange={(e) => onTavilyChange(e.target.value)}
           placeholder="tvly-..."
-          className={`live-cloud-input ${tavilyInvalid ? 'is-invalid' : ''}`}
+          className={`cloud-field-input ${tavilyInvalid ? 'is-invalid' : ''}`}
         />
       </div>
     </div>

@@ -14,7 +14,9 @@ export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
           onClick={() => onSelectTab('mock')}
           className={`mode-card mock ${activeTab === 'mock' ? 'is-active' : ''}`}
         >
-          <div className="icon">{MODE_BADGE_CONFIG.mock.dot}</div>
+          <div className="icon">
+            <span className="mode-glowing-dot mock" />
+          </div>
           <div className="title">{MODE_BADGE_CONFIG.mock.label}</div>
           <div className="sub">{MODE_BADGE_CONFIG.mock.sub}</div>
         </div>
@@ -24,7 +26,9 @@ export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
           onClick={() => onSelectTab('custom')}
           className={`mode-card custom ${activeTab === 'custom' ? 'is-active' : ''}`}
         >
-          <div className="icon">{MODE_BADGE_CONFIG.custom.dot}</div>
+          <div className="icon">
+            <span className="mode-glowing-dot custom" />
+          </div>
           <div className="title">{MODE_BADGE_CONFIG.custom.label}</div>
           <div className="sub">{MODE_BADGE_CONFIG.custom.sub}</div>
         </div>
@@ -34,7 +38,9 @@ export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
           onClick={() => onSelectTab('dev')}
           className={`mode-card dev ${activeTab === 'dev' ? 'is-active' : ''}`}
         >
-          <div className="icon">{MODE_BADGE_CONFIG.dev.dot}</div>
+          <div className="icon">
+            <span className="mode-glowing-dot dev" />
+          </div>
           <div className="title">{MODE_BADGE_CONFIG.dev.label}</div>
           <div className="sub">{MODE_BADGE_CONFIG.dev.sub}</div>
         </div>

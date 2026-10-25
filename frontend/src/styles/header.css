@@ -62,7 +62,7 @@
 }
 
 .floating-observatory-tag {
-  font-size: 13px;
+  font-size: 14px;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   color: #D4AF37;
   letter-spacing: 0.18em;
@@ -191,6 +191,12 @@
   border-color: rgba(56, 189, 248, 0.25);
 }
 
+.floating-mode-badge-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .floating-gear {
   opacity: 0.8;
   margin-left: 4px;
@@ -204,4 +210,21 @@
 @keyframes audioPulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.2); }
+}
+
+.header-beacon-pulse {
+  animation: beaconBreathe 3s infinite ease-in-out;
+}
+
+@keyframes beaconBreathe {
+  0%, 100% {
+    transform: scale(1.15);
+    opacity: 1;
+    filter: brightness(1.15);
+  }
+  50% {
+    transform: scale(0.72);
+    opacity: 0.45;
+    filter: brightness(0.85);
+  }
 }

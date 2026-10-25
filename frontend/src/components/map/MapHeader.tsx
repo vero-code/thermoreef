@@ -52,7 +52,7 @@ function SoundOffIcon() {
       height="18"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#f87171"
+      stroke="#94a3b8"
       strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -146,8 +146,17 @@ export function MapHeader({
           className={`floating-control-btn floating-mode-btn ${badge.className} ${isSettingsOpen ? 'active' : ''}`}
           title={isSettingsOpen ? 'Close settings and return to satellite map' : 'Open observatory settings instead of map'}
         >
-          <span>
-            {badge.dot} FOR {badge.label}
+          <span className="floating-mode-badge-content">
+            <span
+              className="mode-glowing-dot header-beacon-pulse"
+              style={{
+                width: '10px',
+                height: '10px',
+                backgroundColor: badge.dotColor,
+                boxShadow: `0 0 10px 2px ${badge.dotColor}aa, 0 0 4px ${badge.dotColor}`,
+              }}
+            />
+            <span>FOR {badge.label}</span>
           </span>
           <span className="floating-gear">{isSettingsOpen ? '✕' : '⚙️'}</span>
         </button>

@@ -80,23 +80,23 @@ export const DEFAULT_MAP_ZOOM = 2;
 // Execution Mode Badge and Card Configuration
 export const MODE_BADGE_CONFIG: Record<
   ModeTab,
-  { className: string; dot: string; label: string; sub: string }
+  { className: string; dotColor: string; label: string; sub: string }
 > = {
   mock: {
     className: 'badge-mock',
-    dot: '🟡',
+    dotColor: '#fbbf24',
     label: 'JUDGES',
     sub: 'No API key needed',
   },
   custom: {
     className: 'badge-custom',
-    dot: '🟢',
-    label: 'USERS',
+    dotColor: '#34d399',
+    label: 'SCIENTISTS',
     sub: 'Enter your own keys',
   },
   dev: {
     className: 'badge-dev',
-    dot: '🟣',
+    dotColor: '#c084fc',
     label: 'DEVS',
     sub: 'Local .env setup',
   },

@@ -4,6 +4,7 @@ import { ModeSelector } from './settings/ModeSelector';
 import { JudgeTab } from './settings/JudgeTab';
 import { LiveCloudTab } from './settings/LiveCloudTab';
 import { DevTab } from './settings/DevTab';
+import { SettingsCloseIcon } from './settings/Icons';
 import { API_BASE, STORAGE_KEYS } from '../constants';
 import '../styles/settings.css';
 
@@ -84,7 +85,7 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
     onModeChange(activeTab);
 
     if (activeTab === 'mock') {
-      // Offline simulation
+      // Offline mock data
     } else if (activeTab === 'custom') {
       localStorage.setItem(STORAGE_KEYS.NEBIUS_KEY, nebiusKey.trim());
       localStorage.setItem(STORAGE_KEYS.TAVILY_KEY, tavilyKey.trim());
@@ -106,17 +107,14 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
       {/* Panel Masthead */}
       <div className="settings-panel-header">
         <div className="settings-panel-title-group">
-          <span className="settings-panel-icon">⚙️</span>
-          <div>
-            <h2 className="settings-panel-title">SETTINGS</h2>
-          </div>
+          <h2 className="settings-panel-title">SETTINGS</h2>
         </div>
         <button
           onClick={onClose}
-          className="settings-panel-close-btn"
+          className="settings-panel-close-box"
           title="Return to satellite map view"
         >
-          <span>✕</span>
+          <SettingsCloseIcon />
         </button>
       </div>
 
@@ -125,34 +123,40 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
         <div className="settings-panel-inner">
           <ModeSelector activeTab={activeTab} onSelectTab={handleSelectTab} />
 
-          {activeTab === 'mock' && <JudgeTab />}
-
-          {activeTab === 'custom' && (
-            <LiveCloudTab
-              nebiusKey={nebiusKey}
-              tavilyKey={tavilyKey}
-              nebiusInvalid={nebiusInvalid}
-              tavilyInvalid={tavilyInvalid}
-              onNebiusChange={(val) => {
-                setNebiusKey(val);
-                if (nebiusInvalid) setNebiusInvalid(false);
-              }}
-              onTavilyChange={(val) => {
-                setTavilyKey(val);
-                if (tavilyInvalid) setTavilyInvalid(false);
-              }}
-            />
-          )}
-
-          {activeTab === 'dev' && <DevTab devInvalid={devInvalid} devError={devError} />}
+          {/* Unified Container with Fixed Height (Never Jumps!) */}
+          <div className={`settings-unified-box ${activeTab}`}>
+            {activeTab === 'mock' && <JudgeTab />}
+            {activeTab === 'custom' && (
+              <LiveCloudTab
+                nebiusKey={nebiusKey}
+                tavilyKey={tavilyKey}
+                nebiusInvalid={nebiusInvalid}
+                tavilyInvalid={tavilyInvalid}
+                onNebiusChange={(val) => {
+                  setNebiusKey(val);
+                  if (nebiusInvalid) setNebiusInvalid(false);
+                }}
+                onTavilyChange={(val) => {
+                  setTavilyKey(val);
+                  if (tavilyInvalid) setTavilyInvalid(false);
+                }}
+              />
+            )}
+            {activeTab === 'dev' && <DevTab devInvalid={devInvalid} devError={devError} />}
+          </div>
         </div>
       </div>
 
       {/* Panel Footer Action Bar */}
       <div className="settings-panel-footer">
-        {activeTab !== 'mock' ? (
+        {activeTab === 'mock' ? (
+          <div className="settings-mock-footer-hint">
+            <span className="footer-cyan-dot">●</span>
+            <span>Pre-generated mock data with Nemotron-3 Ultra reasoning</span>
+          </div>
+        ) : (
           <div className="settings-footer-links">
-            <span>Get keys:</span>
+            <span className="get-keys-label">Get keys:</span>
             <a
               href="https://tokenfactory.nebius.com/project/api-keys"
               target="_blank"
@@ -172,25 +176,21 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
               Tavily ↗
             </a>
           </div>
-        ) : (
-          <div className="settings-mode-hint">
-            <span>Offline simulation with pre-generated Nemotron-3 Ultra reasoning</span>
-          </div>
         )}
 
         <div className="settings-panel-actions">
           <button
             onClick={onClose}
-            className="btn-ghost settings-return-btn"
+            className="settings-cancel-btn"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={devChecking}
-            className="btn-primary settings-apply-btn"
+            className="settings-apply-btn"
           >
-            {devChecking ? 'Checking .env...' : saved ? '✓ Applied...' : 'Apply'}
+            {devChecking ? 'Checking...' : saved ? '✓ Applied' : 'Apply'}
           </button>
         </div>
       </div>
