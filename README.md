@@ -100,7 +100,19 @@ npm install
 
 ## Running
 
-### Backend
+### Quick Start (Windows)
+
+Double-click `start.bat` or run:
+
+```bat
+start.bat
+```
+
+This launches both backend (`http://127.0.0.1:8000`) and frontend (`http://localhost:5173`) in parallel terminals.
+
+### Manual Start
+
+#### Backend
 
 ```bash
 cd backend
@@ -108,7 +120,7 @@ uv run fastapi dev src/backend/main.py
 ```
 Server starts at `http://127.0.0.1:8000` (Docs at `http://127.0.0.1:8000/docs`)
 
-### Frontend
+#### Frontend
 
 ```bash
 cd frontend
