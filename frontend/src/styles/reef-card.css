@@ -1,0 +1,210 @@
+/* ==========================================================================
+   Reef Telemetry Card & NOAA Thermal Stress Metrics
+   ========================================================================== */
+
+/* ReefInfoCard (Top-Right inside Map Frame) */
+.reef-info-card {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.22);
+  z-index: 10;
+  color: #0f172a;
+}
+
+.reef-card-close {
+  float: right;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #94a3b8;
+  padding: 0;
+  line-height: 1;
+}
+
+.reef-card-close:hover {
+  color: #0f172a;
+}
+
+.reef-card-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.reef-card-coords {
+  margin: 0 0 12px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.reef-meta-box {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.reef-meta-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.reef-meta-row:last-child {
+  margin-bottom: 0;
+}
+
+.reef-meta-row .label {
+  color: #64748b;
+}
+
+.reef-meta-row .val {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.reef-meta-row a {
+  color: #0284c7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.reef-meta-row a:hover {
+  text-decoration: underline;
+}
+
+.reef-inspect-btn {
+  width: 100%;
+  padding: 12px;
+  background: #0ea5e9;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.reef-inspect-btn:hover:not(:disabled) {
+  background: #0284c7;
+}
+
+.reef-inspect-btn:disabled {
+  background: #64748b;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.reef-inspect-btn.is-waiting {
+  background: #334155;
+  color: #cbd5e1;
+}
+
+/* NOAA Thermal Stress Indicators */
+.noaa-stress-section {
+  margin-bottom: 16px;
+}
+
+.noaa-stress-section .info-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+}
+
+.noaa-loading-box {
+  font-size: 14px;
+  color: #0284c7;
+  padding: 12px;
+  background: #f0f9ff;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.noaa-metrics-box {
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.noaa-alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.noaa-alert-header .label {
+  font-size: 14px;
+  color: #334155;
+  font-weight: 500;
+}
+
+.noaa-alert-badge {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.noaa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  text-align: center;
+}
+
+.noaa-metric-cell {
+  background: #ffffff;
+  padding: 6px 4px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.noaa-metric-cell .name {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.noaa-metric-cell .val {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.noaa-metric-cell .val.pos {
+  color: #ef4444;
+}
+
+.noaa-metric-cell .val.neg {
+  color: #10b981;
+}
+
+.noaa-metric-cell .val.warning {
+  color: #f59e0b;
+}
+
+.noaa-error-box {
+  font-size: 14px;
+  color: #ef4444;
+  padding: 8px;
+  background: #fef2f2;
+  border-radius: 6px;
+}

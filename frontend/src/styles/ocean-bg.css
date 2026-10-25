@@ -1,0 +1,166 @@
+/* ==========================================================================
+   Ocean Background Canvas & Ocean View Plaque
+   ========================================================================== */
+
+/* Oceanic Canvas Background Layer */
+.ocean-bg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.ocean-undulation-svg {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.ocean-bg-fallback {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, #0d2232 0%, #06111a 60%, #020509 100%);
+}
+
+.ocean-bg-img-wrapper {
+  position: absolute;
+  inset: -5%;
+  width: 110%;
+  height: 110%;
+  will-change: transform;
+}
+
+.ocean-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  filter: contrast(108%) brightness(92%);
+}
+
+.ocean-bg-image.loaded {
+  opacity: 0.88;
+}
+
+.ocean-bg-tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 15, 23, 0.45);
+  mix-blend-mode: multiply;
+}
+
+.ocean-bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(3, 6, 10, 0.85) 100%);
+}
+
+.ocean-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Atmospheric Specimen Plaque (Shown when map is hidden to enjoy the background) */
+.ocean-view-plaque {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(11, 20, 32, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 18px;
+  padding: 28px 36px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(212, 175, 55, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 15;
+  animation: plaqueFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ocean-view-plaque:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  transform: translate(-50%, -52%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.8), 0 0 50px rgba(212, 175, 55, 0.25);
+}
+
+@keyframes plaqueFadeIn {
+  from { opacity: 0; transform: translate(-50%, -46%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+.plaque-tag {
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: #d4af37;
+  margin-bottom: 8px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.plaque-title {
+  margin: 0 0 6px;
+  font-size: 26px;
+  font-weight: 300;
+  font-style: italic;
+  color: #f8fafc;
+  letter-spacing: 0.04em;
+}
+
+.plaque-sub {
+  margin: 0 0 16px;
+  font-size: 15px;
+  color: #94a3b8;
+}
+
+.plaque-hint {
+  font-size: 14px;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.plaque-credit-box {
+  margin-bottom: 16px;
+}
+
+.plaque-unsplash-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 5px 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.plaque-unsplash-link:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+.plaque-link-arrow {
+  color: #38bdf8;
+  font-weight: 700;
+}
