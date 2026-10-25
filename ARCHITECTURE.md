@@ -47,7 +47,7 @@ FastAPI, HTTPX, Pydantic, managed with `uv`.
 | `tavily.py` | Tavily search for regional reports |
 | `nemotron/client.py` | Nebius API call with retry and fallback model |
 | `nemotron/prompts.py` | System prompt (JSON schema) and user prompt builder |
-| `nemotron/schemas.py` | Pydantic description of the protocol structure |
+| `nemotron/schemas.py` | Pydantic schema used to validate the protocol |
 | `nemotron/mock.py` | Offline protocol for Mock mode |
 
 ### Endpoints
@@ -80,7 +80,8 @@ Errors: `404` if the reef is unknown or NOAA has no value for the pixel (land, c
    - primary model `nvidia/Nemotron-3-Ultra-550b-a55b`;
    - on failure, fallback model `nvidia/nemotron-3-super-120b-a12b`;
    - 2 attempts per model, 2 s delay on HTTP 503.
-5. Strip markdown fences, parse JSON, return together with stress data and Tavily results.
+5. Strip markdown fences, parse JSON, validate against `InterventionProtocol` (Pydantic). Invalid JSON or schema mismatch counts as a failed attempt and triggers retry / fallback model.
+6. Return the protocol together with stress data and Tavily results.
 
 In Mock mode, steps 2–4 are replaced with static data; NOAA is still queried.
 
@@ -95,7 +96,7 @@ Defined in `nemotron/prompts.py` and `nemotron/schemas.py`:
 - `triage`: species at risk, donor relocation, action items
 - `monitoring`: survey frequency, tools, ranger alert text
 
-The response is parsed as JSON but is not validated against the Pydantic schema.
+`reef_id`, `model_used`, and `generated_by` are set by the backend, not by the model.
 
 ## API Keys
 
@@ -106,4 +107,3 @@ The response is parsed as JSON but is not validated against the Pydantic schema.
 
 - NOAA data is resolved by reef centroid, not by full polygon.
 - Caching is in-memory and resets on restart.
-- Protocol output is not schema-validated.

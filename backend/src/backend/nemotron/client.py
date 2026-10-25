@@ -7,6 +7,8 @@ from typing import Any, Optional
 import httpx
 from dotenv import load_dotenv
 
+from pydantic import ValidationError
+
 from ..constants import (
     NEBIUS_DEFAULT_BASE_URL,
     NEBIUS_DEFAULT_MODEL,
@@ -18,6 +20,7 @@ from ..constants import (
 )
 from .prompts import SYSTEM_PROMPT, build_user_prompt
 from .mock import get_mock_intervention
+from .schemas import InterventionProtocol
 
 load_backend_env()
 
@@ -46,7 +49,7 @@ async def generate_intervention_protocol(
         mock_res = get_mock_intervention(reef_id, stress_data, reef_name, "nvidia/Nemotron-3-Ultra (Mock Simulator)")
         mock_res["generated_by"] = "Demo Simulator (Offline Mock Mode)"
         mock_res["model_used"] = "Nemotron-3 Ultra (Mock Simulation)"
-        return mock_res
+        return InterventionProtocol.model_validate(mock_res).model_dump()
 
     active_key = custom_nebius_key.strip() if custom_nebius_key else NEBIUS_API_KEY
     if not active_key:
@@ -113,10 +116,18 @@ async def generate_intervention_protocol(
                     content = content.strip()
 
                     parsed = json.loads(content)
+                    # Identity fields come from our data, not from the model
+                    parsed["reef_id"] = reef_id
+                    parsed.setdefault("reef_name", reef_name)
                     parsed["model_used"] = target_model
                     parsed["generated_by"] = "NVIDIA Nemotron via Nebius Token Factory"
-                    return parsed
+                    protocol = InterventionProtocol.model_validate(parsed)
+                    return protocol.model_dump()
 
+                except (json.JSONDecodeError, ValidationError) as exc:
+                    # Both subclass ValueError; treat as bad model output and retry / fall back
+                    last_error = exc
+                    logger.warning(f"Invalid protocol from {target_model} (attempt {attempt+1}): {exc}")
                 except ValueError:
                     raise
                 except Exception as exc:
