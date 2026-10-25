@@ -558,3 +558,28 @@
   transform: translateY(-1px);
 }
 
+@media (max-width: 640px) {
+  .settings-panel-header {
+    padding: 12px 16px;
+  }
+  .settings-panel-body {
+    padding: 16px 12px;
+  }
+  .settings-panel-footer {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .settings-unified-box {
+    min-height: 200px;
+    height: auto;
+    padding: 16px;
+  }
+  .mode-selector-grid {
+    gap: 6px;
+  }
+  .mode-card {
+    padding: 8px 4px;
+  }
+}
+
