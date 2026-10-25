@@ -22,6 +22,7 @@ import {
   STORAGE_KEYS,
   OCEAN_SPECIMEN_01,
   OCEAN_SPECIMEN_02,
+  OCEAN_SPECIMEN_03,
 } from '../constants';
 
 export default function ReefMap() {
@@ -47,6 +48,7 @@ export default function ReefMap() {
   const handleFlyToRegion = useCallback((lat: number, lng: number, zoom: number) => {
     setIsSettingsOpen(false);
     setIsMapHidden(false);
+    setInterventionData(null);
     if (mapInstance) {
       mapInstance.panTo({ lat, lng });
       mapInstance.setZoom(zoom);
@@ -56,6 +58,7 @@ export default function ReefMap() {
   const handleFlyToCoordinates = useCallback((lat: number, lng: number) => {
     setIsSettingsOpen(false);
     setIsMapHidden(false);
+    setInterventionData(null);
     if (mapInstance) {
       mapInstance.panTo({ lat, lng });
       mapInstance.setZoom(10);
@@ -67,6 +70,7 @@ export default function ReefMap() {
     setSelected(null);
     setStress(null);
     setStressError(null);
+    setInterventionData(null);
   }, [handleFlyToRegion]);
 
   const handleSelectReef = useCallback((reef: ReefData) => {
@@ -152,7 +156,11 @@ export default function ReefMap() {
     }
   };
 
-  const activeSpecimen = isSettingsOpen ? OCEAN_SPECIMEN_02 : OCEAN_SPECIMEN_01;
+  const activeSpecimen = interventionData
+    ? OCEAN_SPECIMEN_03
+    : isSettingsOpen
+      ? OCEAN_SPECIMEN_02
+      : OCEAN_SPECIMEN_01;
 
   return (
     <div className="reef-map-container">
@@ -184,6 +192,7 @@ export default function ReefMap() {
             defaultCenter={DEFAULT_MAP_CENTER}
             defaultZoom={DEFAULT_MAP_ZOOM}
             minZoom={2}
+            colorScheme="DARK"
             mapTypeControl={false}
             streetViewControl={false}
             fullscreenControl={false}
@@ -272,7 +281,7 @@ export default function ReefMap() {
           </div>
 
           <div className="plaque-hint">
-            <span>Show Map&rdquo; to return</span>
+            <span>Return</span>
           </div>
         </div>
       )}

@@ -7,6 +7,7 @@ import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
 import { ChevronLeftIcon, ChevronRightIcon } from './intervention/Icons';
 import { useReefLocation } from '../utils/geocoding';
+import { OCEAN_SPECIMEN_03 } from '../constants';
 import '../styles/intervention.css';
 
 const INTERVENTION_TABS = [
@@ -76,9 +77,16 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
     <div className="intervention-frame-panel">
       {/* Panel Header */}
       <div className="intervention-panel-header">
-        <div>
-          <div style={{ marginBottom: 6 }}>
+        <div className="intervention-header-left">
+          <div className="intervention-header-badge-row">
             {getModeBadge()}
+            <span className="intervention-specimen-id">REEF #{protocol.reef_id}</span>
+            <span
+              className="intervention-specimen-pill"
+              title={`Living Specimen Reference: ${OCEAN_SPECIMEN_03.name} (${OCEAN_SPECIMEN_03.commonName})`}
+            >
+              SPECIMEN № {OCEAN_SPECIMEN_03.id} · {OCEAN_SPECIMEN_03.name.toUpperCase()}
+            </span>
           </div>
           <h2 className="intervention-panel-title">
             Rescue Protocol — {protocol.reef_name || 'Reef #' + protocol.reef_id}
@@ -96,11 +104,11 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
 
         <button
           onClick={onClose}
-          className="settings-panel-close-btn"
-          title="Close protocol and return to map"
+          className="protocol-return-map-btn"
+          title="Return to satellite map view"
         >
-          <span>✕</span>
-          <span className="settings-close-label">MAP VIEW</span>
+          <span className="return-arrow">←</span>
+          <span>RETURN TO MAP</span>
         </button>
       </div>
 
@@ -188,20 +196,25 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
       {/* Panel Footer */}
       <div className="intervention-panel-footer">
         <div className="intervention-model-meta">
-          Model: <span style={{ color: '#38bdf8', fontWeight: 600 }}>{protocol.model_used}</span>
+          <span>AI Model: </span>
+          <span style={{ color: '#38bdf8', fontWeight: 600 }}>{protocol.model_used}</span>
+          <span style={{ color: '#64748b', margin: '0 8px' }}>•</span>
+          <span style={{ color: '#8E9CA8' }}>NVIDIA Nemotron × Nebius</span>
         </div>
-        <div className="modal-footer-actions">
+        <div className="intervention-footer-actions">
           <button
             onClick={handleCopy}
             className={`btn-copy ${copied ? 'is-copied' : ''}`}
+            title="Copy full protocol report to clipboard"
           >
-            {copied ? '✓ Copied' : '📋 Copy'}
+            {copied ? '✓ Protocol Copied' : '📋 Copy Protocol'}
           </button>
           <button
             onClick={onClose}
-            className="btn-primary"
+            className="protocol-footer-return-btn"
+            title="Return to satellite map view"
           >
-            Close
+            ← Return to Map
           </button>
         </div>
       </div>

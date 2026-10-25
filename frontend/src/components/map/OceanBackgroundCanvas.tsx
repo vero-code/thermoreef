@@ -94,10 +94,9 @@ export function OceanBackgroundCanvas({
         height * 0.5,
         width * 0.82
       );
-      grad.addColorStop(0, 'rgba(56, 189, 248, 0.10)');
-      grad.addColorStop(0.35, 'rgba(212, 175, 55, 0.05)');
-      grad.addColorStop(0.75, 'rgba(7, 18, 25, 0.35)');
-      grad.addColorStop(1, 'rgba(3, 6, 10, 0.80)');
+      grad.addColorStop(0, 'rgba(212, 175, 55, 0.06)');
+      grad.addColorStop(0.5, 'rgba(14, 28, 42, 0.12)');
+      grad.addColorStop(1, 'rgba(3, 6, 10, 0.82)');
 
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);

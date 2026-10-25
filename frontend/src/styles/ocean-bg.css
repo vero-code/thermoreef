@@ -41,18 +41,17 @@
   object-position: center;
   opacity: 0;
   transition: opacity 1.2s ease-in-out;
-  filter: contrast(108%) brightness(92%);
+  filter: contrast(105%);
 }
 
 .ocean-bg-image.loaded {
-  opacity: 0.88;
+  opacity: 0.90;
 }
 
 .ocean-bg-tint {
   position: absolute;
   inset: 0;
-  background: rgba(4, 15, 23, 0.45);
-  mix-blend-mode: multiply;
+  pointer-events: none;
   transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

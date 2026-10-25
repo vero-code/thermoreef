@@ -50,6 +50,18 @@ export const OCEAN_SPECIMEN_02 = {
   photoCredit: 'David Clode on Unsplash',
 } as const;
 
+export const OCEAN_SPECIMEN_03 = {
+  id: '03',
+  name: 'Pocillopora damicornis',
+  commonName: 'Bioluminescent Filaments',
+  locale: 'Coral Triangle · Raja Ampat Misool Arch',
+  depth: '8.6m',
+  bgImageUrl: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=85&w=2400&auto=format&fit=crop',
+  tintRgba: 'rgba(5, 12, 19, 0.40)',
+  unsplashUrl: 'https://unsplash.com/photos/1fe6229603b7',
+  photoCredit: 'Unsplash Marine Archive',
+} as const;
+
 export const OCEAN_SPECIMEN = OCEAN_SPECIMEN_01;
 
 // NOAA thermal stress palette

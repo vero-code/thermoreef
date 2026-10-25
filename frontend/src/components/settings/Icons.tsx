@@ -1,11 +1,11 @@
-export function SettingsGearIcon() {
+export function SettingsGearIcon({ size = 15 }: { size?: number } = {}) {
   return (
     <svg
-      width="18"
-      height="18"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#38bdf8"
+      stroke="currentColor"
       strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"

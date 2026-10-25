@@ -166,11 +166,46 @@
   padding: 16px 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   background: linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, rgba(15, 23, 42, 0) 100%);
   flex-shrink: 0;
+}
+
+.intervention-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.intervention-header-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.intervention-specimen-id {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.08em;
+}
+
+.intervention-specimen-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .intervention-panel-title {
@@ -180,6 +215,41 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   color: #f8fafc;
+}
+
+.protocol-return-map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  background: rgba(14, 165, 233, 0.12);
+  color: #38bdf8;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.protocol-return-map-btn:hover {
+  background: rgba(14, 165, 233, 0.25);
+  border-color: rgba(56, 189, 248, 0.8);
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+  transform: translateY(-1px);
+}
+
+.protocol-return-map-btn .return-arrow {
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.protocol-return-map-btn:hover .return-arrow {
+  transform: translateX(-3px);
 }
 
 /* Pinned Tab Bar under header */
@@ -319,5 +389,37 @@
 .intervention-model-meta {
   font-size: 14px;
   color: #94a3b8;
+  display: flex;
+  align-items: center;
+}
+
+.intervention-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.protocol-footer-return-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.protocol-footer-return-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.32);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 

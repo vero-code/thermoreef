@@ -1,12 +1,12 @@
-export function WavesIcon() {
+export function WavesIcon({ size = 15 }: { size?: number } = {}) {
   return (
     <svg
-      width="18"
-      height="18"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#38bdf8"
-      strokeWidth="2.3"
+      stroke="currentColor"
+      strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -17,14 +17,14 @@ export function WavesIcon() {
   );
 }
 
-export function MapIcon() {
+export function MapIcon({ size = 15 }: { size?: number } = {}) {
   return (
     <svg
-      width="18"
-      height="18"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#38bdf8"
+      stroke="currentColor"
       strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -36,14 +36,14 @@ export function MapIcon() {
   );
 }
 
-export function SoundOffIcon() {
+export function SoundOffIcon({ size = 15 }: { size?: number } = {}) {
   return (
     <svg
-      width="18"
-      height="18"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#94a3b8"
+      stroke="currentColor"
       strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -56,14 +56,14 @@ export function SoundOffIcon() {
   );
 }
 
-export function SoundOnIcon() {
+export function SoundOnIcon({ size = 15 }: { size?: number } = {}) {
   return (
     <svg
-      width="18"
-      height="18"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#F7E1A1"
+      stroke="currentColor"
       strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"

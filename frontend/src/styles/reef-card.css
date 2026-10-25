@@ -12,7 +12,7 @@
   border: 1px solid rgba(0, 220, 255, 0.18);
   border-radius: 24px;
   padding: 22px 20px 22px 20px;
-  width: 350px;
+  width: 365px;
   max-width: calc(100% - 32px);
   max-height: calc(100% - 32px);
   overflow-y: auto;
@@ -118,7 +118,7 @@
   font-weight: 500;
   color: #d2e0ea;
   min-width: 0;
-  max-width: 170px;
+  max-width: 195px;
   line-height: 1.3;
 }
 
