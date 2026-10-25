@@ -6,6 +6,7 @@ import { TriageTab } from './intervention/TriageTab';
 import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
 import { ChevronLeftIcon, ChevronRightIcon } from './intervention/Icons';
+import { useReefLocation } from '../utils/geocoding';
 import '../styles/intervention.css';
 
 const INTERVENTION_TABS = [
@@ -40,6 +41,7 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
   };
 
   const { protocol, stress, coordinates } = data;
+  const { location } = useReefLocation(coordinates.lat, coordinates.lng);
   const urgencyColor = getUrgencyColor(protocol.urgency_level);
 
   const handleCopy = () => {
@@ -75,13 +77,19 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
       {/* Panel Header */}
       <div className="intervention-panel-header">
         <div>
-          <div style={{ marginBottom: 4 }}>
+          <div style={{ marginBottom: 6 }}>
             {getModeBadge()}
           </div>
           <h2 className="intervention-panel-title">
             Rescue Protocol — {protocol.reef_name || 'Reef #' + protocol.reef_id}
           </h2>
           <div className="coords-sub">
+            {location && (
+              <span className="intervention-location-badge" title="Geographic Location">
+                {location.displayString}
+                <span className="coords-separator">•</span>
+              </span>
+            )}
             Coords: {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)} | SST: {stress.sst}°C | DHW: {stress.dhw}
           </div>
         </div>
@@ -187,13 +195,13 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
             onClick={handleCopy}
             className={`btn-copy ${copied ? 'is-copied' : ''}`}
           >
-            {copied ? '✓ Copied' : '📋 Copy Protocol'}
+            {copied ? '✓ Copied' : '📋 Copy'}
           </button>
           <button
             onClick={onClose}
             className="btn-primary"
           >
-            Close & Return to Map
+            Close
           </button>
         </div>
       </div>

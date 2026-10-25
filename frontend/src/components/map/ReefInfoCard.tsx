@@ -1,6 +1,7 @@
 import type { ReefInfoCardProps } from './types';
 import { UNEP_WCMC_FEATURE_SERVER_URL } from '../../constants';
 import { NoaaStressMetrics } from './NoaaStressMetrics';
+import { useReefLocation } from '../../utils/geocoding';
 
 export function ReefInfoCard({
   selected,
@@ -13,6 +14,8 @@ export function ReefInfoCard({
   onInspect,
   onFetchNearest,
 }: ReefInfoCardProps) {
+  const { location } = useReefLocation(selected.lat, selected.lng);
+
   return (
     <div className="reef-info-card">
       <button
@@ -25,6 +28,14 @@ export function ReefInfoCard({
       <h2 className="reef-card-title">
         Reef #{Math.round(Number(selected.id))}
       </h2>
+
+      {/* Human-readable geographic location */}
+      {location && (
+        <div className="reef-card-location" title="Geographic Location">
+          <span className="location-flag">{location.flag}</span>
+          <span className="location-text">{location.name}</span>
+        </div>
+      )}
 
       <p className="reef-card-coords">
         Coordinates: {selected.lat.toFixed(4)}, {selected.lng.toFixed(4)}
