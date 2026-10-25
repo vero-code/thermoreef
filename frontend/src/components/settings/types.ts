@@ -1,5 +1,11 @@
 export type ModeTab = 'mock' | 'custom' | 'dev';
 
+export type SettingsPanelProps = {
+  mode: ModeTab;
+  onModeChange: (mode: ModeTab) => void;
+  onClose: () => void;
+};
+
 export type SettingsModalProps = {
   isOpen: boolean;
   onClose: () => void;

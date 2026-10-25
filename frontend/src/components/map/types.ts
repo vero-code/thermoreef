@@ -28,7 +28,8 @@ export type MapFooterProps = {
 
 export type MapHeaderProps = {
   executionMode: ModeTab;
-  onOpenSettings: () => void;
+  isSettingsOpen: boolean;
+  onToggleSettings: () => void;
   isMapHidden: boolean;
   onToggleMap: () => void;
 };

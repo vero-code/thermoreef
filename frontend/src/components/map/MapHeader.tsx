@@ -6,7 +6,8 @@ import '../../styles/map.css';
 
 export function MapHeader({
   executionMode,
-  onOpenSettings,
+  isSettingsOpen,
+  onToggleSettings,
   isMapHidden,
   onToggleMap,
 }: MapHeaderProps) {
@@ -82,12 +83,12 @@ export function MapHeader({
 
         {/* Mode Indicator & Settings Toggle */}
         <button
-          onClick={onOpenSettings}
-          className={`floating-control-btn floating-mode-btn ${badge.className}`}
-          title="Open API keys & Execution mode settings"
+          onClick={onToggleSettings}
+          className={`floating-control-btn floating-mode-btn ${badge.className} ${isSettingsOpen ? 'active' : ''}`}
+          title={isSettingsOpen ? 'Close settings and return to satellite map' : 'Open observatory settings instead of map'}
         >
           <span>{badge.label}</span>
-          <span className="floating-gear">⚙️</span>
+          <span className="floating-gear">{isSettingsOpen ? '✕' : '⚙️'}</span>
         </button>
       </div>
     </header>
