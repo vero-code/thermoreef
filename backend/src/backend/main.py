@@ -131,7 +131,7 @@ async def get_reef_intervention(
 
     stress_data = await fetch_noaa(reef["lat"], reef["lng"])
     try:
-        # Query real-time regional ecological reports & news via Tavily
+        # Regional ecological news via Tavily
         tavily_data = await search_reef_context(
             lat=reef["lat"],
             lng=reef["lng"],

@@ -139,7 +139,7 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
 
       {/* Panel Scrollable Body */}
       <div ref={bodyRef} className="intervention-panel-body">
-        {/* Urgency & Executive Summary */}
+        {/* Urgency summary */}
         <div
           className="urgency-summary-box"
           style={{ border: `1px solid ${urgencyColor}55` }}

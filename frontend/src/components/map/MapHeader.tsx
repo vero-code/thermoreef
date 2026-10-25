@@ -81,7 +81,7 @@ export function MapHeader({
           <span>{audioActive ? 'HYDROPHONE' : 'SOUND OFF'}</span>
         </button>
 
-        {/* Mode Indicator & Settings Toggle */}
+        {/* Settings toggle */}
         <button
           onClick={onToggleSettings}
           className={`floating-control-btn floating-mode-btn ${badge.className} ${isSettingsOpen ? 'active' : ''}`}

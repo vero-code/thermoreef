@@ -28,7 +28,7 @@ export function ReefInfoCard({
         Coordinates: {selected.lat.toFixed(4)}, {selected.lng.toFixed(4)}
       </p>
 
-      {/* Area & Source */}
+      {/* Area and source */}
       <div className="reef-meta-box">
         <div className="reef-meta-row">
           <span className="label">Area:</span>

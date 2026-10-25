@@ -107,7 +107,7 @@ export default function ReefMap() {
 
   return (
     <div className="reef-map-container">
-      {/* Living Oceanic Particle & Caustics Background (Switches to Specimen 02 in Settings) */}
+      {/* Oceanic particle background */}
       <OceanBackgroundCanvas
         bgImageUrl={activeSpecimen.bgImageUrl}
         tintRgba={activeSpecimen.tintRgba}
@@ -125,7 +125,7 @@ export default function ReefMap() {
         onToggleMap={() => setIsMapHidden((prev) => !prev)}
       />
 
-      {/* Central Interactive Showcase Frame (Displays Map, Settings Panel, or Intervention Rescue Protocol) */}
+      {/* Showcase frame */}
       <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''}`}>
         {isSettingsOpen ? (
           <SettingsPanel
@@ -158,7 +158,7 @@ export default function ReefMap() {
               </Map>
             </APIProvider>
 
-            {/* Reef Info & Heat Stress Card inside map */}
+            {/* Reef telemetry card */}
             {selected && (
               <ReefInfoCard
                 selected={selected}
@@ -194,7 +194,7 @@ export default function ReefMap() {
             {activeSpecimen.commonName} · Depth: {activeSpecimen.depth}
           </p>
 
-          {/* Unsplash Creator Credit & Direct Link */}
+          {/* Unsplash creator credit */}
           <div className="plaque-credit-box">
             <a
               href={activeSpecimen.unsplashUrl}

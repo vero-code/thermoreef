@@ -45,7 +45,7 @@ export function OceanBackgroundCanvas({
     };
     window.addEventListener('resize', handleResize);
 
-    // 52 Drifting marine snow & bioluminescent calcification spores
+    // Drifting marine snow particles
     const particleCount = 52;
     const particles = Array.from({ length: particleCount }).map(() => ({
       x: Math.random() * width,
@@ -156,7 +156,7 @@ export function OceanBackgroundCanvas({
       {/* Deep Ocean Fallback Gradient */}
       <div className="ocean-bg-fallback" />
 
-      {/* Background Coral Image with Parallax & Undulation Filter */}
+      {/* Coral background image */}
       <div
         ref={imgWrapperRef}
         className="ocean-bg-img-wrapper"

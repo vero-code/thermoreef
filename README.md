@@ -145,10 +145,10 @@ App starts at `http://localhost:5173`
 ## Testing
 
 ```bash
-# Verify connection to Nebius Token Factory & model catalog:
+# Verify Nebius connection:
 python backend/scripts/test_nebius.py
 
-# Test live Tavily ecological search & prompt augmentation:
+# Test live Tavily search:
 python backend/scripts/test_tavily_live.py
 
 # Test end-to-end live satellite fetch + Nemotron-3 Ultra protocol generation:
@@ -169,24 +169,24 @@ thermoreef/
 │   │   ├── test_tavily_live.py
 │   │   └── test_intervention_live.py
 │   └── src/backend/
-│       ├── main.py              # FastAPI application & route endpoints
-│       ├── constants.py         # Backend configuration & environment loaders
-│       ├── reefs.py             # Centroids loader & NOAA ERDDAP fetcher
-│       ├── tavily.py            # Tavily regional news & ecological intelligence
+│       ├── main.py              # FastAPI endpoints
+│       ├── constants.py         # Backend configuration
+│       ├── reefs.py             # Centroids and NOAA fetcher
+│       ├── tavily.py            # Tavily ecological intelligence
 │       ├── coral_reefs.json     # 17,504 reef centroids dataset
 │       └── nemotron/            # Modular Nemotron package
 │           ├── __init__.py
-│           ├── client.py        # Token Factory API client & failover
+│           ├── client.py        # Token Factory API client
 │           ├── schemas.py       # Pydantic data contracts
 │           ├── prompts.py       # Structured triage prompt templates
 │           └── mock.py          # Offline fallback generator
 ├── frontend/
 │   ├── src/
 │   │   ├── App.tsx
-│   │   ├── constants.ts         # Centralized API URLs, keys, ocean specimen & alert palettes
+│   │   ├── constants.ts         # Centralized constants
 │   │   ├── components/
 │   │   │   ├── ReefMap.tsx      # Main map component with vector layer
-│   │   │   ├── SettingsPanel.tsx# In-frame settings & mode switcher (replaces map view)
+│   │   │   ├── SettingsPanel.tsx# In-frame settings panel
 │   │   │   ├── InterventionPanel.tsx # In-frame rescue protocol console (replaces map view)
 │   │   │   ├── InterventionModal.tsx # Backwards compatibility export
 │   │   │   ├── map/             # Header, reef info card, NOAA stress metrics
@@ -194,15 +194,15 @@ thermoreef/
 │   │   │   └── intervention/    # Shading, Triage, Monitoring, Web Intel tabs
 │   │   ├── styles/              # Modular scoped CSS styling
 │   │   │   ├── common.css       # Shared modal, buttons, badges, utilities
-│   │   │   ├── map.css          # Map layout coordinator & @imports
-│   │   │   ├── header.css       # Observatory masthead & controls
-│   │   │   ├── ocean-bg.css     # Underwater particle canvas & specimen plaque
-│   │   │   ├── reef-card.css    # Reef telemetry & NOAA thermal stress card
+│   │   │   ├── map.css          # Map layout coordinator
+│   │   │   ├── header.css       # Observatory masthead
+│   │   │   ├── ocean-bg.css     # Underwater canvas and plaque
+│   │   │   ├── reef-card.css    # Reef telemetry card
 │   │   │   ├── footer.css       # Floating observatory footer
-│   │   │   ├── settings.css     # Settings dialog & mode selectors
-│   │   │   └── intervention.css # Protocol tabs & urgency views
+│   │   │   ├── settings.css     # Settings dialog
+│   │   │   └── intervention.css # Protocol tabs and views
 │   │   ├── types/               # Centralized TypeScript types
-│   │   │   ├── reefs.ts         # Reef domain & protocol contracts
+│   │   │   ├── reefs.ts         # Reef contracts
 │   │   │   └── modals.ts        # Shared modal types
 │   │   └── data/
 │   │       └── reefs.ts         # TypeScript re-exports

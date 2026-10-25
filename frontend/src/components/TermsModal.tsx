@@ -40,7 +40,7 @@ export function TermsModal({ isOpen, onClose }: ModalProps) {
             </p>
           </div>
 
-          {/* Data Sources & Attributions */}
+          {/* Data sources */}
           <div className="info-card">
             <div className="info-label" style={{ color: '#38bdf8' }}>
               Data Sources & Attributions
@@ -75,7 +75,7 @@ export function TermsModal({ isOpen, onClose }: ModalProps) {
             </ul>
           </div>
 
-          {/* Third-Party Terms & Policies */}
+          {/* Third-party terms */}
           <div className="info-card">
             <div className="info-label" style={{ color: '#38bdf8' }}>
               Third-Party Services & Provider Terms

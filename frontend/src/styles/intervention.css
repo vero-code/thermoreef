@@ -1,4 +1,4 @@
-/* Intervention Modal & Tabs */
+/* Intervention console and tabs */
 
 .intervention-card { max-width: 700px; max-height: 90vh; }
 .coords-sub { font-size: 14px; color: #94a3b8; margin-top: 2px; }
@@ -33,7 +33,7 @@
 /* Tabs */
 .tab-stack { display: flex; flex-direction: column; gap: 12px; }
 
-/* Action Items & Pills */
+/* Action items */
 .species-pill, .tool-pill {
   font-size: 14px;
   padding: 2px 8px;
