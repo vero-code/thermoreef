@@ -20,8 +20,8 @@ export const UNEP_WCMC_FEATURE_SERVER_URL =
 // Project & Founder Links
 export const GITHUB_REPO_URL = 'https://github.com/vero-code/thermoreef';
 
-// Living Oceanic Background Specimen
-export const OCEAN_SPECIMEN = {
+// Living Oceanic Background Specimens
+export const OCEAN_SPECIMEN_01 = {
   id: '01',
   name: 'Acropora millepora',
   commonName: 'Staghorn Calcium Matrix',
@@ -32,6 +32,20 @@ export const OCEAN_SPECIMEN = {
   unsplashUrl: 'https://unsplash.com/photos/brown-and-black-underwater-coral-cc4642628d2b',
   photoCredit: 'Francesco Ungaro on Unsplash',
 } as const;
+
+export const OCEAN_SPECIMEN_02 = {
+  id: '02',
+  name: 'Diploria labyrinthiformis',
+  commonName: 'Labyrinthine Brain Skeleton',
+  locale: 'Belize Barrier Reef · Mesoamerican Shield',
+  depth: '18.2m',
+  bgImageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=85&w=2400&auto=format&fit=crop',
+  tintRgba: 'rgba(9, 14, 28, 0.45)',
+  unsplashUrl: 'https://unsplash.com/photos/gray-and-black-stone-fragment-46a013bb70d5',
+  photoCredit: 'David Clode on Unsplash',
+} as const;
+
+export const OCEAN_SPECIMEN = OCEAN_SPECIMEN_01;
 
 // NOAA Thermal Stress Alert Palette & Labels
 export const ALERT_COLORS: Record<AlertLevel, string> = {

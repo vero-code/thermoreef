@@ -23,7 +23,8 @@ import {
   DEFAULT_MAP_CENTER,
   DEFAULT_MAP_ZOOM,
   STORAGE_KEYS,
-  OCEAN_SPECIMEN,
+  OCEAN_SPECIMEN_01,
+  OCEAN_SPECIMEN_02,
 } from '../constants';
 
 export default function ReefMap() {
@@ -103,12 +104,14 @@ export default function ReefMap() {
     }
   };
 
+  const activeSpecimen = isSettingsOpen ? OCEAN_SPECIMEN_02 : OCEAN_SPECIMEN_01;
+
   return (
     <div className="reef-map-container">
-      {/* Living Oceanic Particle & Caustics Background */}
+      {/* Living Oceanic Particle & Caustics Background (Switches to Specimen 02 in Settings) */}
       <OceanBackgroundCanvas
-        bgImageUrl={OCEAN_SPECIMEN.bgImageUrl}
-        tintRgba={OCEAN_SPECIMEN.tintRgba}
+        bgImageUrl={activeSpecimen.bgImageUrl}
+        tintRgba={activeSpecimen.tintRgba}
       />
 
       {/* Top Header over background */}
@@ -180,24 +183,24 @@ export default function ReefMap() {
           title="Click to restore map console"
         >
           <div className="plaque-tag">
-            SPECIMEN № {OCEAN_SPECIMEN.id} // {OCEAN_SPECIMEN.locale.toUpperCase()}
+            SPECIMEN № {activeSpecimen.id} // {activeSpecimen.locale.toUpperCase()}
           </div>
-          <h1 className="plaque-title">{OCEAN_SPECIMEN.name}</h1>
+          <h1 className="plaque-title">{activeSpecimen.name}</h1>
           <p className="plaque-sub">
-            {OCEAN_SPECIMEN.commonName} · Depth: {OCEAN_SPECIMEN.depth}
+            {activeSpecimen.commonName} · Depth: {activeSpecimen.depth}
           </p>
 
           {/* Unsplash Creator Credit & Direct Link */}
           <div className="plaque-credit-box">
             <a
-              href={OCEAN_SPECIMEN.unsplashUrl}
+              href={activeSpecimen.unsplashUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
               className="plaque-unsplash-link"
               title="View original photograph on Unsplash"
             >
-              <span>📷 {OCEAN_SPECIMEN.photoCredit}</span>
+              <span>📷 {activeSpecimen.photoCredit}</span>
               <span className="plaque-link-arrow">↗</span>
             </a>
           </div>

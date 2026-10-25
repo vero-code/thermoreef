@@ -23,6 +23,11 @@ export function OceanBackgroundCanvas({
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Reset loaded state on image switch to trigger smooth crossfade
+  useEffect(() => {
+    setImgLoaded(false);
+  }, [bgImageUrl]);
+
   // Living marine snow particles, oceanic caustics, and water undulation
   useEffect(() => {
     const canvas = canvasRef.current;
