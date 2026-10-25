@@ -49,7 +49,7 @@ export default function ReefMap() {
     setStressError(null);
     setLoadingStress(true);
 
-    fetch(`${API_BASE}/reefs/${reef.id}/stress`)
+    fetch(`${API_BASE}/reefs/${reef.id}/stress?lat=${reef.lat}&lng=${reef.lng}`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -71,7 +71,7 @@ export default function ReefMap() {
     setLoadingNearest(true);
     setStressError(null);
 
-    fetch(`${API_BASE}/reefs/${selected.id}/stress?nearest=true`)
+    fetch(`${API_BASE}/reefs/${selected.id}/stress?lat=${selected.lat}&lng=${selected.lng}&nearest=true`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -81,7 +81,7 @@ export default function ReefMap() {
       })
       .catch((err) => {
         console.warn('Failed to fetch nearest NOAA open water:', err);
-        setStressError('No open water NOAA telemetry found within 10 km');
+        setStressError('No open water NOAA telemetry found within 15 km');
       })
       .finally(() => {
         setLoadingNearest(false);
@@ -108,7 +108,7 @@ export default function ReefMap() {
         }
       }
 
-      const url = `${API_BASE}/reefs/${selected.id}/intervention${executionMode === 'mock' ? '?mock=true' : ''}`;
+      const url = `${API_BASE}/reefs/${selected.id}/intervention?lat=${selected.lat}&lng=${selected.lng}${executionMode === 'mock' ? '&mock=true' : ''}`;
       const res = await fetch(url, { headers });
       if (!res.ok) {
         const errJson = await res.json().catch(() => null);

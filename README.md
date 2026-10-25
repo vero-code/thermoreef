@@ -171,9 +171,7 @@ thermoreef/
 │   └── src/backend/
 │       ├── main.py              # FastAPI endpoints
 │       ├── constants.py         # Backend configuration
-│       ├── reefs.py             # Centroids and NOAA fetcher
 │       ├── tavily.py            # Tavily ecological intelligence
-│       ├── coral_reefs.json     # 17,504 reef centroids dataset
 │       └── nemotron/            # Modular Nemotron package
 │           ├── __init__.py
 │           ├── client.py        # Token Factory API client

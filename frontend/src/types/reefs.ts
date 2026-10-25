@@ -7,6 +7,7 @@ export type Reef = {
 };
 
 export type ReefStress = {
+  reefId?: string;
   baa: number;
   dhw: number;
   tempAnomaly: number;

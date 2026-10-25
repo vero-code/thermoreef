@@ -1,7 +1,7 @@
-import json
 import math
 import time
 from pathlib import Path
+from typing import Optional
 from fastapi import FastAPI, HTTPException, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -11,7 +11,6 @@ from .constants import (
     CORS_ORIGINS,
     NOAA_ERDDAP_BASE,
     NOAA_CACHE_TTL_SECONDS,
-    CORAL_REEFS_JSON_PATH,
     load_backend_env,
 )
 from .nemotron import generate_intervention_protocol
@@ -26,12 +25,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Load reef centroids once at startup
-with open(CORAL_REEFS_JSON_PATH, encoding="utf-8") as _f:
-    _REEFS: list[dict] = json.load(_f)
-
-_REEFS_BY_ID: dict[str, dict] = {str(r["id"]): r for r in _REEFS}
 
 
 def alert_level(baa: float) -> str:
@@ -61,7 +54,8 @@ async def fetch_noaa(lat: float, lng: float, search_nearest: bool = False) -> di
             return cached_data
 
     if search_nearest:
-        delta = 0.08  # ~8.8 km radius covering surrounding grid cells
+        max_proxy_km = 15.0
+        delta = 0.15  # Covers ERDDAP bounding box to filter points within 15.0 km
         url = (
             f"{NOAA_ERDDAP_BASE}"
             f"?CRW_BAA[(last)][({lat - delta}):({lat + delta})][({lng - delta}):({lng + delta})]"
@@ -85,10 +79,11 @@ async def fetch_noaa(lat: float, lng: float, search_nearest: bool = False) -> di
                 d_lat = (r_lat - lat) * 111.0
                 d_lng = (r_lng - lng) * 111.0 * math.cos(math.radians(lat))
                 dist_km = math.sqrt(d_lat**2 + d_lng**2)
-                valid_points.append((dist_km, r_lat, r_lng, baa, dhw, ssta, sst))
+                if dist_km <= max_proxy_km:
+                    valid_points.append((dist_km, r_lat, r_lng, baa, dhw, ssta, sst))
 
         if not valid_points:
-            raise HTTPException(status_code=404, detail="No valid ocean data found in surrounding area")
+            raise HTTPException(status_code=404, detail="No valid ocean data found within 15 km")
 
         valid_points.sort(key=lambda x: x[0])
         dist_km, r_lat, r_lng, baa, dhw, ssta, sst = valid_points[0]
@@ -141,36 +136,41 @@ async def fetch_noaa(lat: float, lng: float, search_nearest: bool = False) -> di
     return result
 
 
-@app.get("/reefs")
-async def get_reefs():
-    """Return all reef centroids (id, lat, lng)."""
-    return _REEFS
-
-
-def get_clean_reef(reef_id: str):
-    clean_id = str(reef_id).split(".")[0]
-    return _REEFS_BY_ID.get(clean_id) or _REEFS_BY_ID.get(str(reef_id))
-
-
 @app.get("/reefs/{reef_id}/stress")
-async def get_reef_stress(reef_id: str, nearest: bool = False):
-    """Fetch live NOAA thermal stress data for a reef by its id."""
-    reef = get_clean_reef(reef_id)
-    if not reef:
-        raise HTTPException(status_code=404, detail="Reef not found")
-    return await fetch_noaa(reef["lat"], reef["lng"], search_nearest=nearest)
+async def get_reef_stress(
+    reef_id: str,
+    lat: Optional[float] = None,
+    lng: Optional[float] = None,
+    nearest: bool = False,
+):
+    """Fetch live NOAA thermal stress data for a reef at the specified coordinates."""
+    if lat is None or lng is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Coordinates required: specify 'lat' and 'lng' query parameters.",
+        )
+    clean_id = str(reef_id).split(".")[0]
+    data = await fetch_noaa(lat, lng, search_nearest=nearest)
+    return {**data, "reefId": clean_id}
 
 
 @app.get("/reefs/{reef_id}/intervention")
 async def get_reef_intervention(
     reef_id: str,
     request: Request,
+    lat: Optional[float] = None,
+    lng: Optional[float] = None,
     mock: bool = Query(False, description="Run in instant offline mock/demo mode"),
 ):
     """Generate emergency rescue protocol using NVIDIA Nemotron on Nebius Token Factory or offline mock simulator."""
-    reef = get_clean_reef(reef_id)
-    if not reef:
-        raise HTTPException(status_code=404, detail="Reef not found")
+    if lat is None or lng is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Coordinates required: specify 'lat' and 'lng' query parameters.",
+        )
+    target_lat, target_lng = lat, lng
+    clean_id = str(reef_id).split(".")[0]
+    reef_name = f"Reef #{clean_id}"
 
     custom_nebius_key = request.headers.get("x-nebius-key")
     custom_tavily_key = request.headers.get("x-tavily-key")
@@ -178,26 +178,26 @@ async def get_reef_intervention(
     is_mock = mock or header_mock
 
     try:
-        stress_data = await fetch_noaa(reef["lat"], reef["lng"], search_nearest=False)
+        stress_data = await fetch_noaa(target_lat, target_lng, search_nearest=False)
     except HTTPException:
         # Fallback to closest open water if coastal mask
-        stress_data = await fetch_noaa(reef["lat"], reef["lng"], search_nearest=True)
+        stress_data = await fetch_noaa(target_lat, target_lng, search_nearest=True)
     try:
         # Regional ecological news via Tavily
         tavily_data = await search_reef_context(
-            lat=reef["lat"],
-            lng=reef["lng"],
-            reef_name=reef.get("name"),
+            lat=target_lat,
+            lng=target_lng,
+            reef_name=reef_name,
             custom_tavily_key=custom_tavily_key,
             use_mock=is_mock,
         )
 
         protocol = await generate_intervention_protocol(
-            reef_id=str(reef_id).split(".")[0],
+            reef_id=clean_id,
             stress_data=stress_data,
-            lat=reef["lat"],
-            lng=reef["lng"],
-            reef_name=reef.get("name"),
+            lat=target_lat,
+            lng=target_lng,
+            reef_name=reef_name,
             tavily_context=tavily_data,
             custom_nebius_key=custom_nebius_key,
             use_mock=is_mock,
@@ -209,7 +209,7 @@ async def get_reef_intervention(
 
     return {
         "reef_id": str(reef_id).split(".")[0],
-        "coordinates": {"lat": reef["lat"], "lng": reef["lng"]},
+        "coordinates": {"lat": target_lat, "lng": target_lng},
         "stress": stress_data,
         "web_intelligence": tavily_data,
         "protocol": protocol,

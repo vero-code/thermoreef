@@ -14,7 +14,6 @@ flowchart LR
 
     subgraph Backend["FastAPI backend"]
         API["main.py<br/>routes"]
-        Reefs[("coral_reefs.json<br/>centroids")]
         Cache[("In-memory<br/>NOAA cache, 1 h")]
         Tav["tavily.py"]
         Nem["nemotron/<br/>prompt, client, schema"]
@@ -24,11 +23,10 @@ flowchart LR
     TavilyAPI["Tavily Search API"]
     Nebius["Nebius Token Factory<br/>Nemotron-3 Ultra / Super"]
 
-    Map -- "click: reef id" --> UI
+    Map -- "click: id, lat, lng" --> UI
     LS -.-> UI
-    UI -- "GET /reefs/{id}/stress" --> API
-    UI -- "GET /reefs/{id}/intervention" --> API
-    API --> Reefs
+    UI -- "GET /reefs/{id}/stress?lat=&lng=" --> API
+    UI -- "GET /reefs/{id}/intervention?lat=&lng=" --> API
     API --> Cache
     Cache -- "miss" --> NOAA
     API --> Tav --> TavilyAPI
@@ -40,8 +38,8 @@ flowchart LR
 React + TypeScript + Vite.
 
 - **Map:** Google Maps via `@vis.gl/react-google-maps`.
-- **Reef polygons:** UNEP-WCMC dataset hosted in Google Maps Datasets, rendered with `getDatasetFeatureLayer` ([ReefDatasetLayer.tsx](frontend/src/components/map/ReefDatasetLayer.tsx)). Clicking a polygon reads its `OBJECTID` and uses it as the reef id.
-- **Stress card:** on reef selection, requests `/reefs/{id}/stress`.
+- **Reef polygons & Global IDs:** UNEP-WCMC global coral reef geospatial dataset hosted in Google Maps Datasets, rendered with `getDatasetFeatureLayer` ([ReefDatasetLayer.tsx](frontend/src/components/map/ReefDatasetLayer.tsx)). The displayed `Reef #ID` (e.g., `#8270`) is the official global `OBJECTID` from the UN Environment Programme World Conservation Monitoring Centre (UNEP-WCMC) dataset, permanently attached to the vector polygon feature in Google Maps. Clicking a polygon provides both its global `OBJECTID` and exact mouse click coordinates (`lat`, `lng`).
+- **Stress card:** on reef selection, requests `/reefs/{id}/stress?lat=&lng=`.
 - **Intervention modal:** on "Inspect Reef", requests `/reefs/{id}/intervention` and shows the protocol in tabs (Shading, Triage, Monitoring, Web Intel).
 - **Settings:** three execution modes stored in `localStorage`:
 
@@ -59,9 +57,8 @@ FastAPI, HTTPX, Pydantic, managed with `uv`.
 
 | File | Purpose |
 |---|---|
-| `main.py` | Routes, NOAA request, CORS |
+| `main.py` | Routes, NOAA request proxy, CORS |
 | `constants.py` | URLs, timeouts, model names, `.env` loading |
-| `coral_reefs.json` | Reef centroids (`id`, `lat`, `lng`), loaded into memory at startup |
 | `tavily.py` | Tavily search for regional reports |
 | `nemotron/client.py` | Nebius API call with retry and fallback model |
 | `nemotron/prompts.py` | System prompt (JSON schema) and user prompt builder |
@@ -72,8 +69,7 @@ FastAPI, HTTPX, Pydantic, managed with `uv`.
 
 | Method | Path | Description |
 |---|---|---|
-| GET | `/reefs` | All reef centroids |
-| GET | `/reefs/{id}/stress` | Current NOAA thermal stress for the reef |
+| GET | `/reefs/{id}/stress` | Current NOAA thermal stress for clicked coordinates |
 | GET | `/reefs/{id}/intervention` | Generated intervention protocol |
 | GET | `/config/dev-check` | Whether `NEBIUS_API_KEY` and `TAVILY_API_KEY` are set in `.env` |
 | GET | `/` | Health check |
@@ -82,12 +78,13 @@ FastAPI, HTTPX, Pydantic, managed with `uv`.
 
 ### `/reefs/{id}/stress`
 
-1. Look up reef centroid by id in `coral_reefs.json`.
-2. Query NOAA ERDDAP `dhw_5km` (PacIOOS) for the latest `CRW_BAA`, `CRW_DHW`, `CRW_SSTANOMALY`, `CRW_SST` at that point.
-3. Map BAA (0–4) to alert level: `normal`, `watch`, `warning`, `alert1`, `alert2`.
-4. Cache result in memory for 1 hour per coordinate.
+1. Receive clicked coordinates (`lat`, `lng`) directly from Google Maps.
+2. Query NOAA ERDDAP `dhw_5km` (PacIOOS) for the latest `CRW_BAA`, `CRW_DHW`, `CRW_SSTANOMALY`, `CRW_SST` at that ocean point.
+3. If land mask encountered and `nearest=true`, search adjacent unmasked ocean pixels within 15 km.
+4. Map BAA (0–4) to alert level: `normal`, `watch`, `warning`, `alert1`, `alert2`.
+5. Cache result in memory for 1 hour per coordinate.
 
-Errors: `404` if the reef is unknown or NOAA has no value for the pixel (land, coastline); `502` if NOAA is unreachable.
+Errors: `400` if coordinates are missing; `404` if NOAA has no ocean value for the pixel; `502` if NOAA is unreachable.
 
 ### `/reefs/{id}/intervention`
 

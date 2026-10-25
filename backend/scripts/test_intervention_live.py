@@ -7,9 +7,10 @@ load_dotenv()
 from backend.main import get_reef_intervention
 
 async def main():
-    print("Testing live end-to-end intervention for Reef #1...")
-    # Calls NOAA satellite API, then sends to NVIDIA Nemotron-3 Ultra on Nebius Token Factory
-    res = await get_reef_intervention(reef_id="1")
+    from unittest.mock import MagicMock
+    mock_request = MagicMock()
+    mock_request.headers = {}
+    res = await get_reef_intervention(reef_id="1", request=mock_request, lat=-17.1532, lng=39.0578)
     print("\n--- NOAA Satellite Stress Data ---")
     print(json.dumps(res["stress"], indent=2))
 

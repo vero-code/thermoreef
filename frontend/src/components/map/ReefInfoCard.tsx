@@ -66,12 +66,12 @@ export function ReefInfoCard({
           className={`nearest-water-btn ${loadingNearest ? 'is-loading' : ''}`}
           disabled={loadingNearest}
           onClick={onFetchNearest}
-          title="Query NOAA ERDDAP for the nearest open ocean grid point (~5-10 km offshore)"
+          title="Query NOAA ERDDAP for the nearest open ocean grid point (≤ 15 km offshore)"
         >
           {loadingNearest ? (
             <span>Scanning nearest open ocean...</span>
           ) : (
-            <span>Check Nearest Ocean (~5–10 km)</span>
+            <span>Check Nearest Ocean (≤ 15 km)</span>
           )}
         </button>
       )}

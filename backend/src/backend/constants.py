@@ -33,9 +33,6 @@ else:
 NOAA_ERDDAP_BASE = "https://pae-paha.pacioos.hawaii.edu/erddap/griddap/dhw_5km.json"
 NOAA_CACHE_TTL_SECONDS = 3600  # 1 hour cache TTL for NOAA daily satellite rasters
 
-# UNEP-WCMC Coral Reef Dataset file
-CORAL_REEFS_JSON_PATH = Path(__file__).parent / "coral_reefs.json"
-
 # Nebius Token Factory and Nemotron
 NEBIUS_DEFAULT_BASE_URL = "https://api.tokenfactory.nebius.com/v1"
 NEBIUS_DEFAULT_MODEL = "nvidia/Nemotron-3-Ultra-550b-a55b"
