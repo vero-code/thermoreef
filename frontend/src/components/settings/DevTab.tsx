@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import type { DevTabProps } from './types';
 import { CopyIcon } from './Icons';
+import { GITHUB_INSTALLATION_URL } from '../../constants';
 
 export function DevTab({ devInvalid, devError }: DevTabProps) {
   const [copied, setCopied] = useState(false);
-  const codeSnippet = 'NEBIUS_API_KEY=your_key_here  TAVILY_API_KEY=your_key_here';
+  const codeSnippet = 'NEBIUS_API_KEY=\nTAVILY_API_KEY=';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(codeSnippet);
@@ -15,8 +16,16 @@ export function DevTab({ devInvalid, devError }: DevTabProps) {
   return (
     <div className={`dev-tab-inner ${devInvalid ? 'is-invalid' : ''}`}>
       <p className="dev-tab-desc">
-        If running locally on your computer, configure your keys directly in{' '}
-        <span className="dev-env-badge">backend/.env</span> :
+        Configure your keys directly in{' '}
+        <span className="dev-env-badge">backend/.env</span> for running locally on your computer. More details in{' '}
+        <a
+          href={GITHUB_INSTALLATION_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="dev-repo-link"
+        >
+          GitHub repository ↗
+        </a>
       </p>
 
       <div className="dev-code-box">

@@ -5,7 +5,7 @@ import { JudgeTab } from './settings/JudgeTab';
 import { LiveCloudTab } from './settings/LiveCloudTab';
 import { DevTab } from './settings/DevTab';
 import { SettingsCloseIcon } from './settings/Icons';
-import { API_BASE, STORAGE_KEYS } from '../constants';
+import { API_BASE, STORAGE_KEYS, NEBIUS_GET_KEY_URL, TAVILY_GET_KEY_URL } from '../constants';
 import '../styles/settings.css';
 
 export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProps) {
@@ -152,13 +152,13 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
         {activeTab === 'mock' ? (
           <div className="settings-mock-footer-hint">
             <span className="footer-cyan-dot">●</span>
-            <span>Pre-generated mock data with Nemotron-3 Ultra reasoning</span>
+            <span>Offline mode</span>
           </div>
         ) : (
           <div className="settings-footer-links">
             <span className="get-keys-label">Get keys:</span>
             <a
-              href="https://tokenfactory.nebius.com/project/api-keys"
+              href={NEBIUS_GET_KEY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="settings-footer-link"
@@ -167,7 +167,7 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
               Nebius ↗
             </a>
             <a
-              href="https://app.tavily.com/home"
+              href={TAVILY_GET_KEY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="settings-footer-link"

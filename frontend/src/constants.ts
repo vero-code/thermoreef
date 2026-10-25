@@ -18,8 +18,11 @@ export const UNEP_DATASET_ID = '43b2e1f3-d661-4a63-b2fe-535c743d144f';
 export const UNEP_WCMC_FEATURE_SERVER_URL =
   'https://data-gis.unep-wcmc.org/server/rest/services/HabitatsAndBiotopes/Global_Distribution_of_Coral_Reefs/FeatureServer/2';
 
-// Project links
+// Project and external service links
 export const GITHUB_REPO_URL = 'https://github.com/vero-code/thermoreef';
+export const GITHUB_INSTALLATION_URL = 'https://github.com/vero-code/thermoreef#installation';
+export const NEBIUS_GET_KEY_URL = 'https://tokenfactory.nebius.com/project/api-keys';
+export const TAVILY_GET_KEY_URL = 'https://app.tavily.com/home';
 
 // Living Oceanic Background Specimens
 export const OCEAN_SPECIMEN_01 = {
