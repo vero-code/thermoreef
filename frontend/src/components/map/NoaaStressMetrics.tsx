@@ -140,6 +140,10 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: NoaaSt
             </div>
           </div>
 
+          <div className="noaa-observation-footer">
+            <span>🛰️ Daily 24h · {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+          </div>
+
           {stress.isNearest && (
             <div className="noaa-nearest-badge">
               📍 Sampled ~{stress.nearestDistanceKm} km offshore (open ocean proxy)
