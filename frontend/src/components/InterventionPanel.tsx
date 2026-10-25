@@ -5,7 +5,7 @@ import { ShadingTab } from './intervention/ShadingTab';
 import { TriageTab } from './intervention/TriageTab';
 import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
-import { ChevronLeftIcon, ChevronRightIcon } from './intervention/Icons';
+import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from './intervention/Icons';
 import { useReefLocation } from '../utils/geocoding';
 import '../styles/intervention.css';
 
@@ -145,15 +145,16 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
         {activeTab === 'triage' && <TriageTab triage={protocol.triage} model={protocol.model_used} />}
         {activeTab === 'monitoring' && <MonitoringTab monitoring={protocol.monitoring} model={protocol.model_used} />}
         {activeTab === 'webintel' && <WebIntelTab intel={data.web_intelligence} model={protocol.model_used} />}
-
-        {/* Scientific Disclaimer Note */}
-        <div className="intervention-disclaimer">
-          ⚠️ <strong>Disclaimer:</strong> AI-generated intervention protocols are intended for decision-support and conservation research. Field actions must be verified by certified marine biologists and local park authorities before deployment.
-        </div>
       </div>
 
       {/* Panel Footer */}
       <div className="intervention-panel-footer">
+        <div className="intervention-footer-disclaimer">
+          <WarningIcon />
+          <span>
+            <strong>Disclaimer:</strong> Decision-support only. Verification by marine biologists required.
+          </span>
+        </div>
         <div className="intervention-footer-actions">
           <button
             onClick={handleCopy}
