@@ -12,6 +12,9 @@ export type ReefStress = {
   tempAnomaly: number;
   sst: number;
   alertLevel: AlertLevel;
+  isNearest?: boolean;
+  nearestDistanceKm?: number;
+  nearestCoords?: { lat: number; lng: number };
 };
 
 export type ShadingAction = {

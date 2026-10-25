@@ -52,6 +52,12 @@ def build_user_prompt(
         f"- SST Anomaly: {stress_data.get('tempAnomaly')} °C\n"
     )
 
+    if stress_data.get("isNearest"):
+        prompt += (
+            f"- Sampling Proxy: Measured at nearest unmasked ocean cell (~{stress_data.get('nearestDistanceKm')} km offshore) "
+            f"due to coastal satellite masking at reef centroid.\n"
+        )
+
     if tavily_context and tavily_context.get("status") == "success":
         results = tavily_context.get("results", [])
         answer = tavily_context.get("answer")

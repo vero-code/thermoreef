@@ -50,12 +50,16 @@ export type ReefInfoCardProps = {
   loadingStress: boolean;
   stressError: string | null;
   inspecting: boolean;
+  loadingNearest?: boolean;
   onClose: () => void;
   onInspect: () => void;
+  onFetchNearest?: () => void;
 };
 
 export type NoaaStressMetricsProps = {
   stress: ReefStress | null;
   loadingStress: boolean;
   stressError: string | null;
+  loadingNearest?: boolean;
+  onFetchNearest?: () => void;
 };

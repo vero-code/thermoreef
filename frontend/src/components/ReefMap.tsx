@@ -29,6 +29,7 @@ export default function ReefMap() {
   const [stress, setStress] = useState<ReefStress | null>(null);
   const [loadingStress, setLoadingStress] = useState(false);
   const [stressError, setStressError] = useState<string | null>(null);
+  const [loadingNearest, setLoadingNearest] = useState(false);
 
   const [inspecting, setInspecting] = useState(false);
   const [interventionData, setInterventionData] = useState<InterventionResponse | null>(null);
@@ -58,12 +59,34 @@ export default function ReefMap() {
       })
       .catch((err) => {
         console.warn('Failed to fetch NOAA stress:', err);
-        setStressError('Live NOAA satellite data unavailable for this reef');
+        setStressError('No satellite water temperature data for this reef');
       })
       .finally(() => {
         setLoadingStress(false);
       });
   }, []);
+
+  const handleFetchNearest = useCallback(() => {
+    if (!selected) return;
+    setLoadingNearest(true);
+    setStressError(null);
+
+    fetch(`${API_BASE}/reefs/${selected.id}/stress?nearest=true`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data: ReefStress) => {
+        setStress(data);
+      })
+      .catch((err) => {
+        console.warn('Failed to fetch nearest NOAA open water:', err);
+        setStressError('No open water NOAA telemetry found within 10 km');
+      })
+      .finally(() => {
+        setLoadingNearest(false);
+      });
+  }, [selected]);
 
   const handleInspectReef = async () => {
     if (!selected) return;
@@ -166,11 +189,14 @@ export default function ReefMap() {
                 loadingStress={loadingStress}
                 stressError={stressError}
                 inspecting={inspecting}
+                loadingNearest={loadingNearest}
                 onClose={() => {
                   setSelected(null);
                   setStress(null);
+                  setStressError(null);
                 }}
                 onInspect={handleInspectReef}
+                onFetchNearest={handleFetchNearest}
               />
             )}
           </>
@@ -210,7 +236,7 @@ export default function ReefMap() {
           </div>
 
           <div className="plaque-hint">
-            <span>✨ Click anywhere or use &ldquo;Show Map&rdquo; to return</span>
+            <span>Show Map&rdquo; to return</span>
           </div>
         </div>
       )}

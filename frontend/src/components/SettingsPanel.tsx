@@ -108,8 +108,7 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
         <div className="settings-panel-title-group">
           <span className="settings-panel-icon">⚙️</span>
           <div>
-            <h2 className="settings-panel-title">OBSERVATORY SETTINGS</h2>
-            <div className="settings-panel-subtitle">EXECUTION MODE & API KEY CONFIGURATION</div>
+            <h2 className="settings-panel-title">SETTINGS</h2>
           </div>
         </div>
         <button
@@ -118,7 +117,6 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
           title="Return to satellite map view"
         >
           <span>✕</span>
-          <span className="settings-close-label">MAP VIEW</span>
         </button>
       </div>
 
@@ -185,14 +183,14 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
             onClick={onClose}
             className="btn-ghost settings-return-btn"
           >
-            Cancel & Return
+            Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={devChecking}
             className="btn-primary settings-apply-btn"
           >
-            {devChecking ? 'Checking .env...' : saved ? '✓ Applied & Returning...' : 'Apply & View Map'}
+            {devChecking ? 'Checking .env...' : saved ? '✓ Applied...' : 'Apply'}
           </button>
         </div>
       </div>

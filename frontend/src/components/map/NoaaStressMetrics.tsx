@@ -52,6 +52,12 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: NoaaSt
               </div>
             </div>
           </div>
+
+          {stress.isNearest && (
+            <div className="noaa-nearest-badge">
+              📍 Sampled ~{stress.nearestDistanceKm} km offshore (open ocean proxy)
+            </div>
+          )}
         </div>
       ) : stressError ? (
         <div className="noaa-error-box">

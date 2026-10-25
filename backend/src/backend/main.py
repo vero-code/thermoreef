@@ -1,4 +1,5 @@
 import json
+import math
 import time
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, Request, Query
@@ -49,15 +50,61 @@ def alert_level(baa: float) -> str:
 _STRESS_CACHE: dict[tuple[float, float], tuple[float, dict]] = {}
 
 
-async def fetch_noaa(lat: float, lng: float) -> dict:
+async def fetch_noaa(lat: float, lng: float, search_nearest: bool = False) -> dict:
     """Sends a request to the NOAA ERDDAP API using coordinates, with in-memory caching."""
-    cache_key = (round(lat, 3), round(lng, 3))
+    cache_key = (round(lat, 3), round(lng, 3), search_nearest)
     now = time.time()
 
     if cache_key in _STRESS_CACHE:
         cached_time, cached_data = _STRESS_CACHE[cache_key]
         if now - cached_time < NOAA_CACHE_TTL_SECONDS:
             return cached_data
+
+    if search_nearest:
+        delta = 0.08  # ~8.8 km radius covering surrounding grid cells
+        url = (
+            f"{NOAA_ERDDAP_BASE}"
+            f"?CRW_BAA[(last)][({lat - delta}):({lat + delta})][({lng - delta}):({lng + delta})]"
+            f",CRW_DHW[(last)][({lat - delta}):({lat + delta})][({lng - delta}):({lng + delta})]"
+            f",CRW_SSTANOMALY[(last)][({lat - delta}):({lat + delta})][({lng - delta}):({lng + delta})]"
+            f",CRW_SST[(last)][({lat - delta}):({lat + delta})][({lng - delta}):({lng + delta})]"
+        )
+        try:
+            async with httpx.AsyncClient(timeout=15) as client:
+                resp = await client.get(url)
+                resp.raise_for_status()
+                data = resp.json()
+        except httpx.HTTPError as exc:
+            raise HTTPException(status_code=502, detail=f"NOAA ERDDAP unavailable: {exc}")
+
+        rows = data["table"]["rows"]
+        valid_points = []
+        for row in rows:
+            time_, r_lat, r_lng, baa, dhw, ssta, sst = row
+            if None not in (baa, dhw, ssta, sst):
+                d_lat = (r_lat - lat) * 111.0
+                d_lng = (r_lng - lng) * 111.0 * math.cos(math.radians(lat))
+                dist_km = math.sqrt(d_lat**2 + d_lng**2)
+                valid_points.append((dist_km, r_lat, r_lng, baa, dhw, ssta, sst))
+
+        if not valid_points:
+            raise HTTPException(status_code=404, detail="No valid ocean data found in surrounding area")
+
+        valid_points.sort(key=lambda x: x[0])
+        dist_km, r_lat, r_lng, baa, dhw, ssta, sst = valid_points[0]
+
+        result = {
+            "baa": baa,
+            "dhw": round(dhw, 1),
+            "tempAnomaly": round(ssta, 1),
+            "sst": round(sst, 1),
+            "alertLevel": alert_level(baa),
+            "isNearest": True,
+            "nearestDistanceKm": round(dist_km, 1),
+            "nearestCoords": {"lat": r_lat, "lng": r_lng},
+        }
+        _STRESS_CACHE[cache_key] = (now, result)
+        return result
 
     url = (
         f"{NOAA_ERDDAP_BASE}"
@@ -88,6 +135,7 @@ async def fetch_noaa(lat: float, lng: float) -> dict:
         "tempAnomaly": round(ssta, 1),
         "sst": round(sst, 1),
         "alertLevel": alert_level(baa),
+        "isNearest": False,
     }
     _STRESS_CACHE[cache_key] = (now, result)
     return result
@@ -105,12 +153,12 @@ def get_clean_reef(reef_id: str):
 
 
 @app.get("/reefs/{reef_id}/stress")
-async def get_reef_stress(reef_id: str):
+async def get_reef_stress(reef_id: str, nearest: bool = False):
     """Fetch live NOAA thermal stress data for a reef by its id."""
     reef = get_clean_reef(reef_id)
     if not reef:
         raise HTTPException(status_code=404, detail="Reef not found")
-    return await fetch_noaa(reef["lat"], reef["lng"])
+    return await fetch_noaa(reef["lat"], reef["lng"], search_nearest=nearest)
 
 
 @app.get("/reefs/{reef_id}/intervention")
@@ -129,7 +177,11 @@ async def get_reef_intervention(
     header_mock = request.headers.get("x-mock-mode", "").lower() in ["true", "1"]
     is_mock = mock or header_mock
 
-    stress_data = await fetch_noaa(reef["lat"], reef["lng"])
+    try:
+        stress_data = await fetch_noaa(reef["lat"], reef["lng"], search_nearest=False)
+    except HTTPException:
+        # Fallback to closest open water if coastal mask
+        stress_data = await fetch_noaa(reef["lat"], reef["lng"], search_nearest=True)
     try:
         # Regional ecological news via Tavily
         tavily_data = await search_reef_context(
