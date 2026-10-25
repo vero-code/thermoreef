@@ -42,6 +42,23 @@ export default function ReefMap() {
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isMapHidden, setIsMapHidden] = useState(false);
+  const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
+
+  const handleFlyToRegion = useCallback((lat: number, lng: number, zoom: number) => {
+    setIsSettingsOpen(false);
+    setIsMapHidden(false);
+    if (mapInstance) {
+      mapInstance.panTo({ lat, lng });
+      mapInstance.setZoom(zoom);
+    }
+  }, [mapInstance]);
+
+  const handleResetMap = useCallback(() => {
+    handleFlyToRegion(DEFAULT_MAP_CENTER.lat, DEFAULT_MAP_CENTER.lng, DEFAULT_MAP_ZOOM);
+    setSelected(null);
+    setStress(null);
+    setStressError(null);
+  }, [handleFlyToRegion]);
 
   const handleSelectReef = useCallback((reef: ReefData) => {
     setSelected(reef);
@@ -146,6 +163,8 @@ export default function ReefMap() {
         }}
         isMapHidden={isMapHidden}
         onToggleMap={() => setIsMapHidden((prev) => !prev)}
+        onFlyToRegion={handleFlyToRegion}
+        onResetMap={handleResetMap}
       />
 
       {/* Showcase frame */}
@@ -177,6 +196,7 @@ export default function ReefMap() {
                 <ReefDatasetLayer
                   selectedId={selected?.id ?? null}
                   onSelectReef={handleSelectReef}
+                  onMapReady={setMapInstance}
                 />
               </Map>
             </APIProvider>

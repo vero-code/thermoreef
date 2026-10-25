@@ -3,8 +3,14 @@ import { useMap } from '@vis.gl/react-google-maps';
 import { UNEP_DATASET_ID } from '../../constants';
 import type { ReefDatasetLayerProps } from './types';
 
-export function ReefDatasetLayer({ selectedId, onSelectReef }: ReefDatasetLayerProps) {
+export function ReefDatasetLayer({ selectedId, onSelectReef, onMapReady }: ReefDatasetLayerProps) {
   const map = useMap();
+
+  useEffect(() => {
+    if (map && onMapReady) {
+      onMapReady(map);
+    }
+  }, [map, onMapReady]);
 
   useEffect(() => {
     if (!map || !UNEP_DATASET_ID) return;

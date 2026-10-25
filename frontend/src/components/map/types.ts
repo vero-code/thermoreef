@@ -9,6 +9,17 @@ export type ReefData = {
   metadataId?: string | number;
 };
 
+export type ReefRegion = {
+  id: string;
+  name: string;
+  shortName: string;
+  ocean: string;
+  flag: string;
+  lat: number;
+  lng: number;
+  zoom: number;
+};
+
 export type OceanSpecimen = {
   id: string;
   name: string;
@@ -26,12 +37,29 @@ export type MapFooterProps = {
   onOpenPrivacy: () => void;
 };
 
+export type HeaderBrandProps = {
+  onResetMap?: () => void;
+};
+
+export type ReefRegionDropdownProps = {
+  onFlyToRegion?: (lat: number, lng: number, zoom: number) => void;
+  onResetMap?: () => void;
+};
+
+export type HeaderModeButtonProps = {
+  executionMode: ModeTab;
+  isSettingsOpen: boolean;
+  onToggleSettings: () => void;
+};
+
 export type MapHeaderProps = {
   executionMode: ModeTab;
   isSettingsOpen: boolean;
   onToggleSettings: () => void;
   isMapHidden: boolean;
   onToggleMap: () => void;
+  onFlyToRegion?: (lat: number, lng: number, zoom: number) => void;
+  onResetMap?: () => void;
 };
 
 export type OceanBackgroundCanvasProps = {
@@ -42,6 +70,7 @@ export type OceanBackgroundCanvasProps = {
 export type ReefDatasetLayerProps = {
   selectedId: string | number | null;
   onSelectReef: (reef: ReefData) => void;
+  onMapReady?: (map: google.maps.Map) => void;
 };
 
 export type ReefInfoCardProps = {

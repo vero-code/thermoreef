@@ -94,3 +94,21 @@ export function InfoCircleIcon() {
     </svg>
   );
 }
+
+export function LocationPinIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#38bdf8"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}

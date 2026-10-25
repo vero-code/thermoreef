@@ -1,5 +1,6 @@
 import type { AlertLevel } from './types/reefs';
 import type { ModeTab } from './components/settings/types';
+import type { ReefRegion } from './components/map/types';
 
 // Backend API configuration
 // When deployed together on Render (same origin), API_BASE is empty string.
@@ -104,3 +105,87 @@ export const MODE_BADGE_CONFIG: Record<
     sub: 'Local .env setup',
   },
 };
+
+// Global Coral Reef Systems for Observatory Navigation
+export const REEF_REGIONS: ReefRegion[] = [
+  {
+    id: 'gbr',
+    name: 'Great Barrier Reef',
+    shortName: 'Great Barrier Reef',
+    ocean: 'Coral Sea · SW Pacific',
+    flag: '🇦🇺',
+    lat: -16.85,
+    lng: 146.2,
+    zoom: 8,
+  },
+  {
+    id: 'red-sea',
+    name: 'Red Sea Reefs',
+    shortName: 'Red Sea',
+    ocean: 'Red Sea · Middle East',
+    flag: '🇪🇬',
+    lat: 27.2,
+    lng: 33.9,
+    zoom: 9,
+  },
+  {
+    id: 'mesoamerican',
+    name: 'Mesoamerican Reef',
+    shortName: 'Mesoamerican',
+    ocean: 'Caribbean Sea · Mexico/Belize',
+    flag: '🇲🇽',
+    lat: 19.8,
+    lng: -87.4,
+    zoom: 8,
+  },
+  {
+    id: 'maldives',
+    name: 'Maldives Archipelago',
+    shortName: 'Maldives',
+    ocean: 'Laccadive Sea · Indian Ocean',
+    flag: '🇲🇻',
+    lat: 4.15,
+    lng: 73.5,
+    zoom: 8,
+  },
+  {
+    id: 'coral-triangle',
+    name: 'Coral Triangle',
+    shortName: 'Coral Triangle',
+    ocean: 'Banda/Flores Sea · Indo-Pacific',
+    flag: '🇮🇩',
+    lat: -4.5,
+    lng: 124.0,
+    zoom: 7,
+  },
+  {
+    id: 'florida-keys',
+    name: 'Florida Keys Reef Tract',
+    shortName: 'Florida Keys',
+    ocean: 'Straits of Florida · Atlantic',
+    flag: '🇺🇸',
+    lat: 24.6,
+    lng: -81.4,
+    zoom: 9,
+  },
+  {
+    id: 'hawaii',
+    name: 'Hawaii Coral Reefs',
+    shortName: 'Hawaii',
+    ocean: 'Central Pacific',
+    flag: '🌺',
+    lat: 21.0,
+    lng: -157.0,
+    zoom: 8,
+  },
+  {
+    id: 'french-polynesia',
+    name: 'French Polynesia Reefs',
+    shortName: 'French Polynesia',
+    ocean: 'Tuamotus/Society · South Pacific',
+    flag: '🇵🇫',
+    lat: -16.5,
+    lng: -151.7,
+    zoom: 8,
+  },
+];
