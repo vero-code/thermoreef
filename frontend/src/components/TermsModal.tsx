@@ -117,7 +117,7 @@ export function TermsModal({ isOpen, onClose }: ModalProps) {
             onClick={onClose}
             className="btn-primary"
           >
-            Close
+            CLOSE
           </button>
         </div>
       </div>

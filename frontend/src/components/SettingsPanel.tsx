@@ -183,14 +183,14 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
             onClick={onClose}
             className="settings-cancel-btn"
           >
-            Cancel
+            CANCEL
           </button>
           <button
             onClick={handleSave}
             disabled={devChecking}
             className="settings-apply-btn"
           >
-            {devChecking ? 'Checking...' : saved ? '✓ Applied' : 'Apply'}
+            {devChecking ? 'CHECKING...' : saved ? '✓ APPLIED' : 'APPLY'}
           </button>
         </div>
       </div>

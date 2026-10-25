@@ -101,13 +101,13 @@
 }
 
 .floating-meta-title {
-  color: #cbd5e1; /* White like footer copyright */
+  color: #cbd5e1;
   font-weight: 500;
 }
 
 .floating-meta-sep {
-  opacity: 0.35;
-  color: #64748b;
+  color: #cbd5e1;
+  font-weight: 500;
 }
 
 .floating-meta-tech {
@@ -263,24 +263,6 @@
   display: inline-flex;
 }
 
-.region-select-btn {
-  border-color: rgba(56, 189, 248, 0.4);
-  background: rgba(15, 23, 42, 0.75);
-}
-
-.region-select-btn:hover {
-  background: rgba(8, 33, 46, 0.95);
-  border-color: rgba(0, 220, 255, 0.45);
-  color: #ffffff;
-}
-
-.region-select-btn.active {
-  background: rgba(0, 220, 255, 0.18);
-  border-color: #00e5ff;
-  color: #00e5ff;
-  box-shadow: 0 0 16px rgba(0, 229, 255, 0.25);
-}
-
 .region-btn-label {
   font-weight: 400; /* Regular, non-bold */
   letter-spacing: 0.08em;
@@ -289,8 +271,8 @@
 
 .dropdown-caret {
   font-size: 14px;
-  color: #38bdf8;
-  opacity: 0.85;
+  color: inherit;
+  opacity: 0.75;
   transition: transform 0.2s ease;
   line-height: 1;
 }

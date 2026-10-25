@@ -41,7 +41,7 @@ export function MapHeader({
           title={isMapHidden ? 'Show satellite map' : 'Hide map to view ocean background'}
         >
           <span className="btn-icon">{isMapHidden ? <MapIcon /> : <WavesIcon />}</span>
-          <span>{isMapHidden ? 'SHOW MAP' : 'OCEAN VIEW'}</span>
+          <span>{isMapHidden ? 'SMAP' : 'OCEAN'}</span>
         </button>
 
         {/* Hydrophone Ambient Audio Toggle */}
@@ -54,7 +54,7 @@ export function MapHeader({
           <span className={`btn-icon ${audioActive ? 'pulse-icon' : ''}`}>
             {audioActive ? <SoundOnIcon /> : <SoundOffIcon />}
           </span>
-          <span>{audioActive ? 'HYDROPHONE' : 'SOUND OFF'}</span>
+          <span>SOUND</span>
         </button>
 
         {/* Global Reef Regions Dropdown & Reset */}

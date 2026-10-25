@@ -248,44 +248,6 @@ export default function ReefMap() {
         )}
       </div>
 
-      {/* Atmospheric Specimen Plaque (Shown when map is hidden to enjoy the background) */}
-      {isMapHidden && (
-        <div
-          className="ocean-view-plaque"
-          onClick={() => setIsMapHidden(false)}
-          role="button"
-          tabIndex={0}
-          title="Click to restore map console"
-        >
-          <div className="plaque-tag">
-            SPECIMEN № {activeSpecimen.id} // {activeSpecimen.locale.toUpperCase()}
-          </div>
-          <h1 className="plaque-title">{activeSpecimen.name}</h1>
-          <p className="plaque-sub">
-            {activeSpecimen.commonName} · Depth: {activeSpecimen.depth}
-          </p>
-
-          {/* Unsplash creator credit */}
-          <div className="plaque-credit-box">
-            <a
-              href={activeSpecimen.unsplashUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="plaque-unsplash-link"
-              title="View original photograph on Unsplash"
-            >
-              <span>📷 {activeSpecimen.photoCredit}</span>
-              <span className="plaque-link-arrow">↗</span>
-            </a>
-          </div>
-
-          <div className="plaque-hint">
-            <span>Return</span>
-          </div>
-        </div>
-      )}
-
       {/* Bottom Footer over background */}
       <MapFooter
         onOpenTerms={() => setIsTermsOpen(true)}

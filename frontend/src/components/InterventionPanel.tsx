@@ -164,7 +164,7 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
             className={`btn-copy ${copied ? 'is-copied' : ''}`}
             title="Copy full protocol report to clipboard"
           >
-            {copied ? '✓ Copied' : '📋 Copy'}
+            {copied ? '✓ COPIED' : 'COPY'}
           </button>
           <button
             onClick={onClose}

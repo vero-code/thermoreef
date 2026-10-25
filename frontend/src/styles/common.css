@@ -23,6 +23,7 @@
   flex-direction: column;
   color: #f8fafc;
   overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .modal-header {
@@ -114,6 +115,8 @@
   padding: 8px 16px;
   font-size: 16px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -126,6 +129,8 @@
   border: none;
   padding: 8px 14px;
   font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   cursor: pointer;
   border-radius: 8px;
 }

@@ -114,9 +114,9 @@ export function ReefInfoCard({
           title="Query NOAA ERDDAP for the nearest open ocean grid point (≤ 15 km offshore)"
         >
           {loadingNearest ? (
-            <span>Scanning nearest open ocean...</span>
+            <span>SCANNING NEAREST OPEN OCEAN...</span>
           ) : (
-            <span>Check Nearest Ocean (≤ 15 km)</span>
+            <span>CHECK NEAREST OCEAN (≤ 15 KM)</span>
           )}
         </button>
       )}
@@ -141,7 +141,7 @@ export function ReefInfoCard({
             <span className="inspect-btn-sparkle">
               <SparkleIcon size={15} />
             </span>
-            <span>Inspect Reef</span>
+            <span>INSPECT REEF</span>
           </>
         )}
       </button>
