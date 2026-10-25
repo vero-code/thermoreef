@@ -5,7 +5,7 @@ export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
   return (
     <div>
       <label className="info-label">
-        Execution Mode
+        Select your role
       </label>
 
       <div className="mode-selector-grid">

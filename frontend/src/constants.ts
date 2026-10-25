@@ -88,19 +88,19 @@ export const MODE_BADGE_CONFIG: Record<
   mock: {
     className: 'badge-mock',
     dotColor: '#fbbf24',
-    label: 'JUDGES',
+    label: 'JUDGE',
     sub: 'No API key needed',
   },
   custom: {
     className: 'badge-custom',
     dotColor: '#34d399',
-    label: 'SCIENTISTS',
+    label: 'SCIENTIST',
     sub: 'Enter your own keys',
   },
   dev: {
     className: 'badge-dev',
     dotColor: '#c084fc',
-    label: 'DEVS',
+    label: 'DEVELOPER',
     sub: 'Local .env setup',
   },
 };

@@ -5,6 +5,7 @@ import { ShadingTab } from './intervention/ShadingTab';
 import { TriageTab } from './intervention/TriageTab';
 import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
+import { ChevronLeftIcon, ChevronRightIcon } from './intervention/Icons';
 import '../styles/intervention.css';
 
 const INTERVENTION_TABS = [
@@ -117,9 +118,7 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
             title={`Previous tab: ${INTERVENTION_TABS[(currentIndex - 1 + INTERVENTION_TABS.length) % INTERVENTION_TABS.length].label}`}
             aria-label="Previous tab"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
+            <ChevronLeftIcon />
           </button>
           <span className="tab-arrow-counter">
             {currentIndex + 1} / {INTERVENTION_TABS.length}
@@ -130,9 +129,7 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
             title={`Next tab: ${INTERVENTION_TABS[(currentIndex + 1) % INTERVENTION_TABS.length].label}`}
             aria-label="Next tab"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
+            <ChevronRightIcon />
           </button>
         </div>
       </div>
