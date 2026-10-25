@@ -192,7 +192,7 @@ export function SettingsModal({ isOpen, onClose, mode, onModeChange }: Props) {
               disabled={devChecking}
               className="btn-primary"
             >
-              {devChecking ? 'Checking .env...' : saved ? '✓ Saved!' : 'Apply Settings'}
+              {devChecking ? 'Checking .env...' : saved ? '✓ Saved!' : 'Apply'}
             </button>
           </div>
         </div>

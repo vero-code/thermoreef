@@ -148,7 +148,7 @@ export default function InterventionModal({ data, onClose }: Props) {
               onClick={handleCopy}
               className={`btn-copy ${copied ? 'is-copied' : ''}`}
             >
-              {copied ? '✓ Copied' : '📋 Copy Protocol'}
+              {copied ? '✓ Copied' : '📋 Copy'}
             </button>
             <button
               onClick={onClose}

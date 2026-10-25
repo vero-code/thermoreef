@@ -19,7 +19,7 @@ export function ModeSelector({ activeTab, onSelectTab }: Props) {
           className={`mode-card mock ${activeTab === 'mock' ? 'is-active' : ''}`}
         >
           <div className="icon">🟡</div>
-          <div className="title">For Judges</div>
+          <div className="title">For judges</div>
           <div className="sub">No API key needed</div>
         </div>
 
@@ -29,7 +29,7 @@ export function ModeSelector({ activeTab, onSelectTab }: Props) {
           className={`mode-card custom ${activeTab === 'custom' ? 'is-active' : ''}`}
         >
           <div className="icon">🟢</div>
-          <div className="title">Live Cloud API</div>
+          <div className="title">For users</div>
           <div className="sub">Enter your own keys</div>
         </div>
 
@@ -39,7 +39,7 @@ export function ModeSelector({ activeTab, onSelectTab }: Props) {
           className={`mode-card dev ${activeTab === 'dev' ? 'is-active' : ''}`}
         >
           <div className="icon">💻</div>
-          <div className="title">For Developers</div>
+          <div className="title">For developers</div>
           <div className="sub">Local .env setup</div>
         </div>
       </div>

@@ -19,7 +19,7 @@ export function LiveCloudTab({
     <div className="live-cloud-tab">
       <div>
         <label className="info-label">
-          Nebius API Key (Token Factory):
+          Nebius API Key:
         </label>
         <input
           type="password"
@@ -32,7 +32,7 @@ export function LiveCloudTab({
 
       <div>
         <label className="info-label">
-          Tavily Search API Key:
+          Tavily API Key:
         </label>
         <input
           type="password"

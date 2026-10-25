@@ -35,7 +35,7 @@ export default function ReefMap() {
   const [executionMode, setExecutionMode] = useState<ModeTab>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.MODE) as ModeTab;
     if (saved === 'mock' || saved === 'custom' || saved === 'dev') return saved;
-    return 'custom';
+    return 'mock';
   });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
