@@ -141,10 +141,10 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
         </div>
 
         {/* Active Tab View */}
-        {activeTab === 'shading' && <ShadingTab shading={protocol.shading} />}
-        {activeTab === 'triage' && <TriageTab triage={protocol.triage} />}
-        {activeTab === 'monitoring' && <MonitoringTab monitoring={protocol.monitoring} />}
-        {activeTab === 'webintel' && <WebIntelTab intel={data.web_intelligence} />}
+        {activeTab === 'shading' && <ShadingTab shading={protocol.shading} model={protocol.model_used} />}
+        {activeTab === 'triage' && <TriageTab triage={protocol.triage} model={protocol.model_used} />}
+        {activeTab === 'monitoring' && <MonitoringTab monitoring={protocol.monitoring} model={protocol.model_used} />}
+        {activeTab === 'webintel' && <WebIntelTab intel={data.web_intelligence} model={protocol.model_used} />}
 
         {/* Scientific Disclaimer Note */}
         <div className="intervention-disclaimer">
@@ -154,10 +154,6 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
 
       {/* Panel Footer */}
       <div className="intervention-panel-footer">
-        <div className="intervention-model-meta">
-          <span>AI Model: </span>
-          <span style={{ color: '#38bdf8', fontWeight: 600 }}>{protocol.model_used}</span>
-        </div>
         <div className="intervention-footer-actions">
           <button
             onClick={handleCopy}

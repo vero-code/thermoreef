@@ -8,26 +8,46 @@ function getDomain(url: string): string {
   }
 }
 
-export function WebIntelTab({ intel }: WebIntelTabProps) {
+export function WebIntelTab({ intel, model }: WebIntelTabProps) {
   if (!intel || intel.status === 'disabled') {
     return (
-      <div className="web-intel-standby">
-        <div style={{ fontSize: 24, marginBottom: 8 }}>🌐</div>
-        <div style={{ fontWeight: 700, fontSize: 18, color: '#f8fafc', marginBottom: 6 }}>
-          Tavily Web Intelligence Standby
+      <div className="tab-stack">
+        <div className="web-intel-standby">
+          <div style={{ fontSize: 24, marginBottom: 8 }}>🌐</div>
+          <div style={{ fontWeight: 700, fontSize: 18, color: '#f8fafc', marginBottom: 6 }}>
+            Tavily Web Intelligence Standby
+          </div>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.5 }}>
+            Add <code className="web-intel-code">TAVILY_API_KEY</code> to{' '}
+            <code className="web-intel-code">backend/.env</code> to enable real-time regional coral news, environmental alerts, and local field reports search before prompting Nemotron.
+          </p>
         </div>
-        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.5 }}>
-          Add <code className="web-intel-code">TAVILY_API_KEY</code> to{' '}
-          <code className="web-intel-code">backend/.env</code> to enable real-time regional coral news, environmental alerts, and local field reports search before prompting Nemotron.
-        </p>
+        {model && (
+          <div className="info-card">
+            <div className="info-label light">AI Reasoning Model</div>
+            <div className="info-val highlight">
+              {model}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
   if (intel.status === 'error') {
     return (
-      <div className="web-intel-error">
-        ⚠️ Tavily search could not be completed ({intel.error || 'Network error'}). Nemotron generated protocol using satellite telemetry.
+      <div className="tab-stack">
+        <div className="web-intel-error">
+          ⚠️ Tavily search could not be completed ({intel.error || 'Network error'}). Nemotron generated protocol using satellite telemetry.
+        </div>
+        {model && (
+          <div className="info-card">
+            <div className="info-label light">AI Reasoning Model</div>
+            <div className="info-val highlight">
+              {model}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -89,6 +109,15 @@ export function WebIntelTab({ intel }: WebIntelTabProps) {
           })
         )}
       </div>
+
+      {model && (
+        <div className="info-card">
+          <div className="info-label light">AI Reasoning Model</div>
+          <div className="info-val highlight">
+            {model}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

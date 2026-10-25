@@ -1,4 +1,6 @@
 import type { ModalProps } from '../types/modals';
+import { OCEAN_SPECIMEN_01, OCEAN_SPECIMEN_02, OCEAN_SPECIMEN_03 } from '../constants';
+import { DocumentLegalIcon, ModalCloseIcon } from './ModalIcons';
 
 export function TermsModal({ isOpen, onClose }: ModalProps) {
   if (!isOpen) return null;
@@ -13,7 +15,7 @@ export function TermsModal({ isOpen, onClose }: ModalProps) {
         {/* Header */}
         <div className="modal-header">
           <h3 className="modal-title">
-            <span>📜</span>
+            <DocumentLegalIcon />
             <span>Terms of Service</span>
           </h3>
           <button
@@ -21,7 +23,7 @@ export function TermsModal({ isOpen, onClose }: ModalProps) {
             className="modal-close-btn"
             title="Close"
           >
-            ✕
+            <ModalCloseIcon />
           </button>
         </div>
 
@@ -71,6 +73,54 @@ export function TermsModal({ isOpen, onClose }: ModalProps) {
               </li>
               <li>
                 <strong>Map Platform:</strong> Google Maps Platform (Vector, Dataset Feature Layer)
+              </li>
+              <li>
+                <strong>Oceanic Photography:</strong> Living coral background specimens curated under the Unsplash License
+              </li>
+            </ul>
+          </div>
+
+          {/* Oceanic Photography Credits */}
+          <div className="info-card">
+            <div className="info-label" style={{ color: '#38bdf8' }}>
+              Ocean Background Imagery & Specimen Credits
+            </div>
+            <p style={{ margin: '0 0 8px', fontSize: 14, lineHeight: 1.5, color: '#e2e8f0' }}>
+              Atmospheric ocean specimens displayed in the observatory background are provided by community photographers on Unsplash under the Unsplash License:
+            </p>
+            <ul style={{ margin: 0, paddingLeft: 18, fontSize: 14, lineHeight: 1.6, color: '#cbd5e1' }}>
+              <li>
+                <strong>Specimen {OCEAN_SPECIMEN_01.id} ({OCEAN_SPECIMEN_01.name} · {OCEAN_SPECIMEN_01.locale}):</strong>{' '}
+                <a
+                  href={OCEAN_SPECIMEN_01.unsplashUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600 }}
+                >
+                  {OCEAN_SPECIMEN_01.photoCredit} ↗
+                </a>
+              </li>
+              <li>
+                <strong>Specimen {OCEAN_SPECIMEN_02.id} ({OCEAN_SPECIMEN_02.name} · {OCEAN_SPECIMEN_02.locale}):</strong>{' '}
+                <a
+                  href={OCEAN_SPECIMEN_02.unsplashUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600 }}
+                >
+                  {OCEAN_SPECIMEN_02.photoCredit} ↗
+                </a>
+              </li>
+              <li>
+                <strong>Specimen {OCEAN_SPECIMEN_03.id} ({OCEAN_SPECIMEN_03.name} · {OCEAN_SPECIMEN_03.locale}):</strong>{' '}
+                <a
+                  href={OCEAN_SPECIMEN_03.unsplashUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600 }}
+                >
+                  {OCEAN_SPECIMEN_03.photoCredit} ↗
+                </a>
               </li>
             </ul>
           </div>

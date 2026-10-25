@@ -1,6 +1,6 @@
 import type { MonitoringTabProps } from './types';
 
-export function MonitoringTab({ monitoring }: MonitoringTabProps) {
+export function MonitoringTab({ monitoring, model }: MonitoringTabProps) {
   return (
     <div className="tab-stack">
       <div className="info-card">
@@ -29,6 +29,15 @@ export function MonitoringTab({ monitoring }: MonitoringTabProps) {
           {monitoring.alert_dispatch}
         </div>
       </div>
+
+      {model && (
+        <div className="info-card">
+          <div className="info-label light">AI Reasoning Model</div>
+          <div className="info-val highlight">
+            {model}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

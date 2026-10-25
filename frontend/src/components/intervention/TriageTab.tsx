@@ -1,6 +1,6 @@
 import type { TriageTabProps } from './types';
 
-export function TriageTab({ triage }: TriageTabProps) {
+export function TriageTab({ triage, model }: TriageTabProps) {
   return (
     <div className="tab-stack">
       <div className="info-card">
@@ -39,6 +39,15 @@ export function TriageTab({ triage }: TriageTabProps) {
           ))}
         </ul>
       </div>
+
+      {model && (
+        <div className="info-card">
+          <div className="info-label light">AI Reasoning Model</div>
+          <div className="info-val highlight">
+            {model}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

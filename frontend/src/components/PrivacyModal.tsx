@@ -1,4 +1,5 @@
 import type { ModalProps } from '../types/modals';
+import { ShieldLockIcon, ModalCloseIcon } from './ModalIcons';
 
 export function PrivacyModal({ isOpen, onClose }: ModalProps) {
   if (!isOpen) return null;
@@ -13,7 +14,7 @@ export function PrivacyModal({ isOpen, onClose }: ModalProps) {
         {/* Header */}
         <div className="modal-header">
           <h3 className="modal-title">
-            <span>🔒</span>
+            <ShieldLockIcon />
             <span>Privacy Policy</span>
           </h3>
           <button
@@ -21,7 +22,7 @@ export function PrivacyModal({ isOpen, onClose }: ModalProps) {
             className="modal-close-btn"
             title="Close"
           >
-            ✕
+            <ModalCloseIcon />
           </button>
         </div>
 

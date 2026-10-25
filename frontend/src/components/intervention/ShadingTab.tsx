@@ -1,6 +1,6 @@
 import type { ShadingTabProps } from './types';
 
-export function ShadingTab({ shading }: ShadingTabProps) {
+export function ShadingTab({ shading, model }: ShadingTabProps) {
   return (
     <div className="tab-stack">
       <div className="info-card">
@@ -23,6 +23,15 @@ export function ShadingTab({ shading }: ShadingTabProps) {
           Hours: <strong>{shading.target_hours}</strong> | Expected delta: <strong>{shading.expected_cooling_delta}</strong>
         </div>
       </div>
+
+      {model && (
+        <div className="info-card">
+          <div className="info-label light">AI Reasoning Model</div>
+          <div className="info-val highlight">
+            {model}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
