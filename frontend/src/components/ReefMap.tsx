@@ -127,16 +127,16 @@ export default function ReefMap() {
 
       {/* Central Interactive Showcase Frame (Displays Map, Settings Panel, or Intervention Rescue Protocol) */}
       <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''}`}>
-        {interventionData ? (
-          <InterventionPanel
-            data={interventionData}
-            onClose={() => setInterventionData(null)}
-          />
-        ) : isSettingsOpen ? (
+        {isSettingsOpen ? (
           <SettingsPanel
             mode={executionMode}
             onModeChange={setExecutionMode}
             onClose={() => setIsSettingsOpen(false)}
+          />
+        ) : interventionData ? (
+          <InterventionPanel
+            data={interventionData}
+            onClose={() => setInterventionData(null)}
           />
         ) : (
           <>
