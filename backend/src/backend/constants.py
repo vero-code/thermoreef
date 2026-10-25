@@ -18,10 +18,16 @@ def load_backend_env(override: bool = False) -> None:
 load_backend_env()
 
 # CORS configuration
-CORS_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+_cors_env = os.getenv("ALLOWED_ORIGINS", "").strip()
+if _cors_env:
+    CORS_ORIGINS = [origin.strip() for origin in _cors_env.split(",") if origin.strip()]
+else:
+    CORS_ORIGINS = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ]
 
 # NOAA ERDDAP 5km satellite telemetry
 NOAA_ERDDAP_BASE = "https://pae-paha.pacioos.hawaii.edu/erddap/griddap/dhw_5km.json"

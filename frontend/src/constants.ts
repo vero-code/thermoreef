@@ -1,5 +1,12 @@
 // API & Backend configuration
-export const API_BASE = (import.meta.env.VITE_API_BASE as string) || 'http://localhost:8000';
+// When deployed together on Render (same origin), API_BASE is empty string.
+// In local dev without VITE_API_BASE, defaults to http://localhost:8000.
+export const API_BASE =
+  import.meta.env.VITE_API_BASE !== undefined
+    ? (import.meta.env.VITE_API_BASE as string)
+    : import.meta.env.DEV
+      ? 'http://localhost:8000'
+      : '';
 
 // Google Maps & UNEP-WCMC Dataset configuration
 export const GOOGLE_MAPS_API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string) || '';

@@ -1,7 +1,9 @@
 import json
 import time
+from pathlib import Path
 from fastapi import FastAPI, HTTPException, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import httpx
 
 from .constants import (
@@ -19,6 +21,7 @@ app = FastAPI(title="ThermoReef API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
+    allow_origin_regex=r"https://.*\.onrender\.com|https://.*\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -189,6 +192,21 @@ def check_dev_config():
     }
 
 
-@app.get("/")
-def read_root():
+@app.get("/api/health")
+def health_check():
     return {"status": "ok"}
+
+
+# Serve built frontend static assets in production if available
+FRONTEND_DIST = Path(__file__).resolve().parent.parent.parent.parent / "frontend" / "dist"
+
+if FRONTEND_DIST.exists():
+    app.mount("/", StaticFiles(directory=str(FRONTEND_DIST), html=True), name="frontend")
+else:
+    @app.get("/")
+    def read_root():
+        return {
+            "status": "ok",
+            "service": "ThermoReef API",
+            "notice": "Frontend dist not built. For production, run npm run build in frontend directory.",
+        }

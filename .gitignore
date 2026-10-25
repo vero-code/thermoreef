@@ -35,5 +35,5 @@ frontend/dist-ssr/
 frontend/*.local
 
 # Generated data files (scripts/download_reefs.py)
+# Keep lightweight centroid json (1.1MB) for deployment, ignore 448MB raw geojson
 backend/src/backend/coral_reefs.geojson
-backend/src/backend/coral_reefs.json
