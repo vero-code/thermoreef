@@ -25,6 +25,18 @@ import {
   STORAGE_KEYS,
 } from '../constants';
 
+const OCEAN_SPECIMEN = {
+  id: '01',
+  name: 'Acropora millepora',
+  commonName: 'Staghorn Calcium Matrix',
+  locale: 'Great Barrier Reef · Lizard Island',
+  depth: '11.4m',
+  bgImageUrl: 'https://images.unsplash.com/photo-1546026423-cc4642628d2b?q=85&w=2400&auto=format&fit=crop',
+  tintRgba: 'rgba(7, 18, 25, 0.45)',
+  unsplashUrl: 'https://unsplash.com/photos/brown-and-black-underwater-coral-cc4642628d2b',
+  photoCredit: 'Francesco Ungaro on Unsplash',
+};
+
 export default function ReefMap() {
   const [selected, setSelected] = useState<ReefData | null>(null);
   const [stress, setStress] = useState<ReefStress | null>(null);
@@ -41,6 +53,7 @@ export default function ReefMap() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isMapHidden, setIsMapHidden] = useState(false);
 
   const handleSelectReef = useCallback((reef: ReefData) => {
     setSelected(reef);
@@ -104,16 +117,21 @@ export default function ReefMap() {
   return (
     <div className="reef-map-container">
       {/* Living Oceanic Particle & Caustics Background */}
-      <OceanBackgroundCanvas />
+      <OceanBackgroundCanvas
+        bgImageUrl={OCEAN_SPECIMEN.bgImageUrl}
+        tintRgba={OCEAN_SPECIMEN.tintRgba}
+      />
 
       {/* Top Header over background */}
       <MapHeader
         executionMode={executionMode}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        isMapHidden={isMapHidden}
+        onToggleMap={() => setIsMapHidden((prev) => !prev)}
       />
 
       {/* Central Interactive Map Showcase Frame */}
-      <div className="reef-map-frame">
+      <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''}`}>
         <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
           <Map
             mapId={GOOGLE_MAPS_MAP_ID}
@@ -149,6 +167,44 @@ export default function ReefMap() {
         )}
       </div>
 
+      {/* Atmospheric Specimen Plaque (Shown when map is hidden to enjoy the background) */}
+      {isMapHidden && (
+        <div
+          className="ocean-view-plaque"
+          onClick={() => setIsMapHidden(false)}
+          role="button"
+          tabIndex={0}
+          title="Click to restore map console"
+        >
+          <div className="plaque-tag">
+            SPECIMEN № {OCEAN_SPECIMEN.id} // {OCEAN_SPECIMEN.locale.toUpperCase()}
+          </div>
+          <h1 className="plaque-title">{OCEAN_SPECIMEN.name}</h1>
+          <p className="plaque-sub">
+            {OCEAN_SPECIMEN.commonName} · Depth: {OCEAN_SPECIMEN.depth}
+          </p>
+
+          {/* Unsplash Creator Credit & Direct Link */}
+          <div className="plaque-credit-box">
+            <a
+              href={OCEAN_SPECIMEN.unsplashUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="plaque-unsplash-link"
+              title="View original photograph on Unsplash"
+            >
+              <span>📷 {OCEAN_SPECIMEN.photoCredit}</span>
+              <span className="plaque-link-arrow">↗</span>
+            </a>
+          </div>
+
+          <div className="plaque-hint">
+            <span>✨ Click anywhere or use &ldquo;Show Map&rdquo; to return</span>
+          </div>
+        </div>
+      )}
+
       {/* Bottom Footer over background */}
       <MapFooter
         onOpenTerms={() => setIsTermsOpen(true)}
@@ -162,8 +218,6 @@ export default function ReefMap() {
           onClose={() => setInterventionData(null)}
         />
       )}
-
-
 
       {/* Terms of Service Modal */}
       <TermsModal

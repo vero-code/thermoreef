@@ -5,37 +5,37 @@ interface Props {
 
 export function MapFooter({ onOpenTerms, onOpenPrivacy }: Props) {
   return (
-    <footer className="map-footer">
-      <div className="map-footer-left">
-        <span>© 2026 ThermoReef</span>
-        <span className="map-footer-divider">•</span>
+    <footer className="floating-footer">
+      <div className="floating-footer-left">
+        <span className="footer-copyright">© 2026 THERMOREEF</span>
+        <span className="footer-dot">/</span>
         <button
           onClick={onOpenTerms}
-          className="map-footer-btn"
+          className="floating-footer-btn"
           title="View Terms of Service"
         >
-          Terms of Service
+          TERMS OF SERVICE
         </button>
-        <span className="map-footer-divider">•</span>
+        <span className="footer-dot">/</span>
         <button
           onClick={onOpenPrivacy}
-          className="map-footer-btn"
+          className="floating-footer-btn"
           title="View Privacy Policy"
         >
-          Privacy Policy
+          PRIVACY POLICY
         </button>
       </div>
 
-      <div className="map-footer-right">
-        <span>Author:</span>
+      <div className="floating-footer-right">
+        <span className="footer-author-label">AUTHOR:</span>
         <a
           href="https://github.com/vero-code/thermoreef"
           target="_blank"
           rel="noopener noreferrer"
           title="Open GitHub repository in new tab"
-          className="map-author-link"
+          className="floating-author-link"
         >
-          Veronika Kashtanova ↗
+          VERONIKA KASHTANOVA ↗
         </a>
       </div>
     </footer>

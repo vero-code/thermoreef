@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   bgImageUrl?: string;
+  tintRgba?: string;
 }
 
 export function OceanBackgroundCanvas({
-  bgImageUrl = 'https://images.unsplash.com/photo-1546026423-cc4642628d2b?q=85&w=2400&auto=format&fit=crop'
+  bgImageUrl = 'https://images.unsplash.com/photo-1546026423-cc4642628d2b?q=85&w=2400&auto=format&fit=crop',
+  tintRgba = 'rgba(7, 18, 25, 0.45)',
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const imgWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -159,6 +161,7 @@ export function OceanBackgroundCanvas({
         style={{ filter: 'url(#coral-undulation-filter)' }}
       >
         <img
+          key={bgImageUrl}
           src={bgImageUrl}
           alt=""
           referrerPolicy="no-referrer"
@@ -168,7 +171,7 @@ export function OceanBackgroundCanvas({
       </div>
 
       {/* Luxury Vignette and Tint */}
-      <div className="ocean-bg-tint" />
+      <div className="ocean-bg-tint" style={{ backgroundColor: tintRgba }} />
       <div className="ocean-bg-vignette" />
 
       {/* Floating Canvas Particles */}
