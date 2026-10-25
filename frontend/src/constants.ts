@@ -1,4 +1,5 @@
 import type { AlertLevel } from './types/reefs';
+import type { ModeTab } from './components/settings/types';
 
 // Backend API configuration
 // When deployed together on Render (same origin), API_BASE is empty string.
@@ -75,3 +76,28 @@ export const STORAGE_KEYS = {
 // Default Map Viewport
 export const DEFAULT_MAP_CENTER = { lat: 10, lng: 20 };
 export const DEFAULT_MAP_ZOOM = 2;
+
+// Execution Mode Badge and Card Configuration
+export const MODE_BADGE_CONFIG: Record<
+  ModeTab,
+  { className: string; dot: string; label: string; sub: string }
+> = {
+  mock: {
+    className: 'badge-mock',
+    dot: '🟡',
+    label: 'JUDGES',
+    sub: 'No API key needed',
+  },
+  custom: {
+    className: 'badge-custom',
+    dot: '🟢',
+    label: 'USERS',
+    sub: 'Enter your own keys',
+  },
+  dev: {
+    className: 'badge-dev',
+    dot: '🟣',
+    label: 'DEVS',
+    sub: 'Local .env setup',
+  },
+};

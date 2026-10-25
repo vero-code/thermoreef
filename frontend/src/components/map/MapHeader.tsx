@@ -2,7 +2,10 @@ import { useState } from 'react';
 import type { MapHeaderProps } from './types';
 import logo from '../../assets/logo.png';
 import { hydrophone } from '../../utils/audioHydrophone';
+import { MODE_BADGE_CONFIG } from '../../constants';
 import '../../styles/map.css';
+
+export { MODE_BADGE_CONFIG };
 
 export function MapHeader({
   executionMode,
@@ -18,28 +21,7 @@ export function MapHeader({
     setAudioActive(active);
   };
 
-  const getBadgeClassAndLabel = () => {
-    switch (executionMode) {
-      case 'mock':
-        return {
-          className: 'badge-mock',
-          label: '🟡 FOR JUDGES',
-        };
-      case 'dev':
-        return {
-          className: 'badge-dev',
-          label: '🟣 FOR DEVS',
-        };
-      case 'custom':
-      default:
-        return {
-          className: 'badge-custom',
-          label: '🟢 FOR USERS',
-        };
-    }
-  };
-
-  const badge = getBadgeClassAndLabel();
+  const badge = MODE_BADGE_CONFIG[executionMode] || MODE_BADGE_CONFIG.custom;
 
   return (
     <header className="floating-header">
@@ -87,7 +69,9 @@ export function MapHeader({
           className={`floating-control-btn floating-mode-btn ${badge.className} ${isSettingsOpen ? 'active' : ''}`}
           title={isSettingsOpen ? 'Close settings and return to satellite map' : 'Open observatory settings instead of map'}
         >
-          <span>{badge.label}</span>
+          <span>
+            {badge.dot} FOR {badge.label}
+          </span>
           <span className="floating-gear">{isSettingsOpen ? '✕' : '⚙️'}</span>
         </button>
       </div>

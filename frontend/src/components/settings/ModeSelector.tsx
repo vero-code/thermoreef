@@ -1,4 +1,5 @@
 import type { ModeSelectorProps } from './types';
+import { MODE_BADGE_CONFIG } from '../../constants';
 
 export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
   return (
@@ -13,9 +14,9 @@ export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
           onClick={() => onSelectTab('mock')}
           className={`mode-card mock ${activeTab === 'mock' ? 'is-active' : ''}`}
         >
-          <div className="icon">🟡</div>
-          <div className="title">For judges</div>
-          <div className="sub">No API key needed</div>
+          <div className="icon">{MODE_BADGE_CONFIG.mock.dot}</div>
+          <div className="title">{MODE_BADGE_CONFIG.mock.label}</div>
+          <div className="sub">{MODE_BADGE_CONFIG.mock.sub}</div>
         </div>
 
         {/* Card 2: Live Cloud API */}
@@ -23,9 +24,9 @@ export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
           onClick={() => onSelectTab('custom')}
           className={`mode-card custom ${activeTab === 'custom' ? 'is-active' : ''}`}
         >
-          <div className="icon">🟢</div>
-          <div className="title">For users</div>
-          <div className="sub">Enter your own keys</div>
+          <div className="icon">{MODE_BADGE_CONFIG.custom.dot}</div>
+          <div className="title">{MODE_BADGE_CONFIG.custom.label}</div>
+          <div className="sub">{MODE_BADGE_CONFIG.custom.sub}</div>
         </div>
 
         {/* Card 3: For Developers */}
@@ -33,9 +34,9 @@ export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
           onClick={() => onSelectTab('dev')}
           className={`mode-card dev ${activeTab === 'dev' ? 'is-active' : ''}`}
         >
-          <div className="icon">💻</div>
-          <div className="title">For developers</div>
-          <div className="sub">Local .env setup</div>
+          <div className="icon">{MODE_BADGE_CONFIG.dev.dot}</div>
+          <div className="title">{MODE_BADGE_CONFIG.dev.label}</div>
+          <div className="sub">{MODE_BADGE_CONFIG.dev.sub}</div>
         </div>
       </div>
     </div>
