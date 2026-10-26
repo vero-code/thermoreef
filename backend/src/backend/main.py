@@ -191,6 +191,7 @@ async def get_reef_intervention(
             lng=target_lng,
             reef_name=reef_name,
             location=location,
+            stress_data=stress_data,
             custom_tavily_key=custom_tavily_key,
             use_mock=is_mock,
         )

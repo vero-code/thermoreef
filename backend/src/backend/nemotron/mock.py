@@ -1,5 +1,7 @@
 from typing import Any, Optional
 
+from ..heat_stress import classify_heat_stress
+
 
 def get_mock_intervention(reef_id: str, stress_data: dict[str, Any], reef_name: Optional[str] = None, model_name: str = "") -> dict[str, Any]:
     """Fallback protocol when remote API is unreachable."""
@@ -9,8 +11,9 @@ def get_mock_intervention(reef_id: str, stress_data: dict[str, Any], reef_name: 
     anom = stress_data.get("tempAnomaly", 0.0)
 
     name = reef_name or f"Reef #{reef_id}"
-    is_critical = alert_lvl in ["alert2", "alert1"]
-    is_warning = alert_lvl == "warning"
+    stress_level = classify_heat_stress(stress_data)
+    is_critical = stress_level == "critical"
+    is_warning = stress_level == "high"
 
     if is_critical:
         urgency = "Critical / Immediate Action"
@@ -28,7 +31,7 @@ def get_mock_intervention(reef_id: str, stress_data: dict[str, Any], reef_name: 
             "priority": "Critical",
         }
         triage = {
-            "species_at_risk": ["Acropora cervicornis (Staghorn)", "Pocillopora verrucosa"],
+            "species_at_risk": ["Acropora spp.", "Orbicella spp."],
             "donor_relocation": True,
             "antioxidant_or_feeding": "Administer probiotic microbiome inoculants to resilient donor colonies.",
             "action_items": [
@@ -40,7 +43,7 @@ def get_mock_intervention(reef_id: str, stress_data: dict[str, Any], reef_name: 
         monitoring = {
             "survey_frequency": "Every 24-48 hours",
             "recommended_tools": ["PAM Fluorometry", "CoralWatch Coral Health Chart"],
-            "alert_dispatch": f"URGENT: Level {alert_lvl.upper()} alert dispatched to Marine Park Authority.",
+            "alert_dispatch": f"URGENT: Critical thermal-stress response dispatched to Marine Park Authority (NOAA BAA: {alert_lvl.upper()}).",
         }
     elif is_warning:
         urgency = "High Alert"
@@ -57,10 +60,13 @@ def get_mock_intervention(reef_id: str, stress_data: dict[str, Any], reef_name: 
             "priority": "High",
         }
         triage = {
-            "species_at_risk": ["Acropora millepora", "Montipora digitata"],
-            "donor_relocation": False,
+            "species_at_risk": ["Acropora spp.", "Orbicella spp."],
+            "donor_relocation": True,
             "antioxidant_or_feeding": "Increase heterotrophic feeding monitoring for offshore nursery tables.",
-            "action_items": ["Identify top 10 heat-tolerant mother colonies for priority protection."],
+            "action_items": [
+                "Deploy shade cloth over priority colonies during peak solar hours.",
+                "Identify heat-tolerant mother colonies and prepare donor fragments.",
+            ],
         }
         monitoring = {
             "survey_frequency": "Twice weekly",
@@ -71,8 +77,8 @@ def get_mock_intervention(reef_id: str, stress_data: dict[str, Any], reef_name: 
         urgency = "Watch / Baseline Monitoring"
         window = "14 Days"
         summary = (
-            f"{name} shows normal to mild temperature indicators (SST: {sst} °C, DHW: {dhw}). "
-            f"Conditions are currently stable, continuous satellite tracking maintained."
+            f"{name} shows baseline thermal conditions (SST: {sst} °C, DHW: {dhw} °C-weeks, "
+            f"SST anomaly: {anom} °C). No active heat-stress intervention is indicated; routine monitoring continues."
         )
         shading = {
             "needed": False,

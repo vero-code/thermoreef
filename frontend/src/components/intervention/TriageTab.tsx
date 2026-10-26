@@ -15,7 +15,7 @@ export function TriageTab({ triage, model, generatedBy }: TriageTabProps) {
               </span>
             ))
           ) : (
-            <span style={{ color: '#94a3b8', fontStyle: 'italic', fontSize: '14px' }}>
+            <span className="none-identified">
               None identified for current status
             </span>
           )}

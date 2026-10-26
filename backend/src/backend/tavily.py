@@ -12,6 +12,7 @@ from .constants import (
     TAVILY_MAX_SNIPPET_LEN,
     load_backend_env,
 )
+from .heat_stress import classify_heat_stress
 
 load_backend_env()
 
@@ -38,6 +39,7 @@ async def search_reef_context(
     custom_tavily_key: Optional[str] = None,
     use_mock: bool = False,
     location: Optional[str] = None,
+    stress_data: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
     """
     Search for recent ecological news, bleaching events, and local marine reports using Tavily.
@@ -54,11 +56,27 @@ async def search_reef_context(
     )
 
     if use_mock:
-        return {
-            "query": query,
-            "status": "success",
-            "answer": "Field monitoring indicates heightened sea surface temperature anomalies across this reef sector. Conservation groups and park authorities are conducting bi-weekly surveys, recommending proactive shading and genetic donor relocation for vulnerable shallow Acropora taxa.",
-            "results": [
+        stress_level = classify_heat_stress(stress_data or {})
+        if stress_level == "baseline":
+            mock_answer = (
+                "Regional satellite telemetry and field surveys confirm stable thermal baseline conditions across this reef sector. "
+                "No active mass bleaching alerts are currently in effect; routine benthic monitoring is maintained."
+            )
+            mock_results = [
+                {
+                    "title": "NOAA Coral Reef Watch: Satellite Monitoring",
+                    "url": "https://coralreefwatch.noaa.gov/",
+                    "snippet": "Routine satellite monitoring provides ongoing observations of sea surface temperature and coral bleaching conditions.",
+                    "score": 0.89,
+                },
+            ]
+        else:
+            mock_answer = (
+                "Field monitoring indicates heightened sea surface temperature anomalies across this reef sector. "
+                "Conservation groups and park authorities are conducting frequent surveys and recommending proactive shading "
+                "and genetic donor relocation for vulnerable coral taxa."
+            )
+            mock_results = [
                 {
                     "title": "Regional Marine Heatwave and Bleaching Monitoring Report",
                     "url": "https://www.aims.gov.au/coral-bleaching-monitoring",
@@ -71,7 +89,12 @@ async def search_reef_context(
                     "snippet": "Targeted surface shading deployment during peak solar irradiance (10:30-15:30) buffered localized water temperature by up to 1.2°C in field trials.",
                     "score": 0.83,
                 },
-            ],
+            ]
+        return {
+            "query": query,
+            "status": "success",
+            "answer": mock_answer,
+            "results": mock_results,
         }
 
     api_key = (custom_tavily_key.strip() if custom_tavily_key else "") or os.getenv("TAVILY_API_KEY", "").strip() or TAVILY_API_KEY
