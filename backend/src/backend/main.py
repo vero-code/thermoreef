@@ -15,6 +15,7 @@ from .constants import (
 )
 from .nemotron import generate_intervention_protocol
 from .tavily import search_reef_context
+from .heat_stress import get_noaa_alert_level
 
 app = FastAPI(title="ThermoReef API")
 
@@ -25,19 +26,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-def alert_level(baa: float) -> str:
-    """Converts the NOAA number (0-4) into a text-based alert level."""
-    if baa >= 4:
-        return "alert2"
-    if baa >= 3:
-        return "alert1"
-    if baa >= 2:
-        return "warning"
-    if baa >= 1:
-        return "watch"
-    return "normal"
 
 
 _STRESS_CACHE: dict[tuple[float, float], tuple[float, dict]] = {}
@@ -93,7 +81,7 @@ async def fetch_noaa(lat: float, lng: float, search_nearest: bool = False) -> di
             "dhw": round(dhw, 1),
             "tempAnomaly": round(ssta, 1),
             "sst": round(sst, 1),
-            "alertLevel": alert_level(baa),
+            "alertLevel": get_noaa_alert_level(baa, dhw),
             "isNearest": True,
             "nearestDistanceKm": round(dist_km, 1),
             "nearestCoords": {"lat": r_lat, "lng": r_lng},
@@ -129,7 +117,7 @@ async def fetch_noaa(lat: float, lng: float, search_nearest: bool = False) -> di
         "dhw": round(dhw, 1),
         "tempAnomaly": round(ssta, 1),
         "sst": round(sst, 1),
-        "alertLevel": alert_level(baa),
+        "alertLevel": get_noaa_alert_level(baa, dhw),
         "isNearest": False,
     }
     _STRESS_CACHE[cache_key] = (now, result)
