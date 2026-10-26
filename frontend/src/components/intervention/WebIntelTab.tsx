@@ -8,7 +8,7 @@ function getDomain(url: string): string {
   }
 }
 
-export function WebIntelTab({ intel, model }: WebIntelTabProps) {
+export function WebIntelTab({ intel, model, generatedBy }: WebIntelTabProps) {
   if (!intel || intel.status === 'disabled') {
     return (
       <div className="tab-stack">
@@ -22,11 +22,11 @@ export function WebIntelTab({ intel, model }: WebIntelTabProps) {
             <code className="web-intel-code">backend/.env</code> to enable real-time regional coral news, environmental alerts, and local field reports search before prompting Nemotron.
           </p>
         </div>
-        {model && (
+        {(model || generatedBy) && (
           <div className="info-card">
             <div className="info-label light">AI Reasoning Model</div>
             <div className="info-val highlight">
-              {model}
+              {[model, generatedBy].filter(Boolean).join(' · ')}
             </div>
           </div>
         )}
@@ -40,11 +40,11 @@ export function WebIntelTab({ intel, model }: WebIntelTabProps) {
         <div className="web-intel-error">
           ⚠️ Tavily search could not be completed ({intel.error || 'Network error'}). Nemotron generated protocol using satellite telemetry.
         </div>
-        {model && (
+        {(model || generatedBy) && (
           <div className="info-card">
             <div className="info-label light">AI Reasoning Model</div>
             <div className="info-val highlight">
-              {model}
+              {[model, generatedBy].filter(Boolean).join(' · ')}
             </div>
           </div>
         )}
@@ -110,11 +110,11 @@ export function WebIntelTab({ intel, model }: WebIntelTabProps) {
         )}
       </div>
 
-      {model && (
+      {(model || generatedBy) && (
         <div className="info-card">
           <div className="info-label light">AI Reasoning Model</div>
           <div className="info-val highlight">
-            {model}
+            {[model, generatedBy].filter(Boolean).join(' · ')}
           </div>
         </div>
       )}

@@ -19,19 +19,23 @@ export type InterventionModalProps = {
 export type TriageTabProps = {
   triage: BiologicalTriage;
   model?: string;
+  generatedBy?: string;
 };
 
 export type ShadingTabProps = {
   shading: ShadingAction;
   model?: string;
+  generatedBy?: string;
 };
 
 export type MonitoringTabProps = {
   monitoring: MonitoringProtocol;
   model?: string;
+  generatedBy?: string;
 };
 
 export type WebIntelTabProps = {
   intel?: WebIntelligence;
   model?: string;
+  generatedBy?: string;
 };

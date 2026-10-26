@@ -1,6 +1,6 @@
 import type { TriageTabProps } from './types';
 
-export function TriageTab({ triage, model }: TriageTabProps) {
+export function TriageTab({ triage, model, generatedBy }: TriageTabProps) {
   return (
     <div className="tab-stack">
       <div className="info-card">
@@ -29,6 +29,15 @@ export function TriageTab({ triage, model }: TriageTabProps) {
         </div>
       </div>
 
+      {triage.antioxidant_or_feeding && (
+        <div className="info-card">
+          <div className="info-label light">Antioxidant &amp; Feeding Protocol</div>
+          <div className="info-val">
+            {triage.antioxidant_or_feeding}
+          </div>
+        </div>
+      )}
+
       <div className="info-card">
         <div className="info-label light">
           Action Items
@@ -40,11 +49,11 @@ export function TriageTab({ triage, model }: TriageTabProps) {
         </ul>
       </div>
 
-      {model && (
+      {(model || generatedBy) && (
         <div className="info-card">
           <div className="info-label light">AI Reasoning Model</div>
           <div className="info-val highlight">
-            {model}
+            {[model, generatedBy].filter(Boolean).join(' · ')}
           </div>
         </div>
       )}

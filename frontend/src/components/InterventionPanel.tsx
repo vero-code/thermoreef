@@ -174,10 +174,10 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
       <div ref={bodyRef} className="intervention-panel-body">
 
         {/* Active Tab View */}
-        {activeTab === 'shading' && <ShadingTab shading={protocol.shading} model={protocol.model_used} />}
-        {activeTab === 'triage' && <TriageTab triage={protocol.triage} model={protocol.model_used} />}
-        {activeTab === 'monitoring' && <MonitoringTab monitoring={protocol.monitoring} model={protocol.model_used} />}
-        {activeTab === 'webintel' && <WebIntelTab intel={data.web_intelligence} model={protocol.model_used} />}
+        {activeTab === 'shading' && <ShadingTab shading={protocol.shading} model={protocol.model_used} generatedBy={protocol.generated_by} />}
+        {activeTab === 'triage' && <TriageTab triage={protocol.triage} model={protocol.model_used} generatedBy={protocol.generated_by} />}
+        {activeTab === 'monitoring' && <MonitoringTab monitoring={protocol.monitoring} model={protocol.model_used} generatedBy={protocol.generated_by} />}
+        {activeTab === 'webintel' && <WebIntelTab intel={data.web_intelligence} model={protocol.model_used} generatedBy={protocol.generated_by} />}
       </div>
 
       {/* Panel Footer */}

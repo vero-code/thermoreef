@@ -1,12 +1,13 @@
 import type { ShadingTabProps } from './types';
 
-export function ShadingTab({ shading, model }: ShadingTabProps) {
+export function ShadingTab({ shading, model, generatedBy }: ShadingTabProps) {
   return (
     <div className="tab-stack">
       <div className="info-card">
         <div className="info-label light">Shading Needed</div>
         <div className={`info-val lg ${shading.needed ? 'warn' : 'safe'}`}>
           {shading.needed ? 'YES — Urgent Deployment' : 'NO — Standby Mode'}
+          {shading.priority && ` (Priority: ${shading.priority})`}
         </div>
       </div>
 
@@ -24,11 +25,11 @@ export function ShadingTab({ shading, model }: ShadingTabProps) {
         </div>
       </div>
 
-      {model && (
+      {(model || generatedBy) && (
         <div className="info-card">
           <div className="info-label light">AI Reasoning Model</div>
           <div className="info-val highlight">
-            {model}
+            {[model, generatedBy].filter(Boolean).join(' · ')}
           </div>
         </div>
       )}

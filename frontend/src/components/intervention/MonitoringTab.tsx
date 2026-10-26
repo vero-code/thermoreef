@@ -1,6 +1,6 @@
 import type { MonitoringTabProps } from './types';
 
-export function MonitoringTab({ monitoring, model }: MonitoringTabProps) {
+export function MonitoringTab({ monitoring, model, generatedBy }: MonitoringTabProps) {
   return (
     <div className="tab-stack">
       <div className="info-card">
@@ -30,11 +30,11 @@ export function MonitoringTab({ monitoring, model }: MonitoringTabProps) {
         </div>
       </div>
 
-      {model && (
+      {(model || generatedBy) && (
         <div className="info-card">
           <div className="info-label light">AI Reasoning Model</div>
           <div className="info-val highlight">
-            {model}
+            {[model, generatedBy].filter(Boolean).join(' · ')}
           </div>
         </div>
       )}
