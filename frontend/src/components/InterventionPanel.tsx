@@ -46,7 +46,10 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
   const urgencyColor = getUrgencyColor(protocol.urgency_level);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(formatProtocolAsText(data));
+    const locationName = location
+      ? `${location.countryCode ? `${location.countryCode} ` : ''}${location.name}`
+      : undefined;
+    navigator.clipboard.writeText(formatProtocolAsText(data, locationName));
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
