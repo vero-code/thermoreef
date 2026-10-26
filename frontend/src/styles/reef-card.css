@@ -133,7 +133,7 @@
 }
 
 .reef-card-location .location-text {
-  font-size: 14px; /* Strict typography: 14px */
+  font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -149,19 +149,17 @@
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   font-family: 'Inter', sans-serif;
-  font-size: 14px; /* Strict typography: 14px */
+  font-size: 16px;
 }
 
 .coords-label {
   color: #8fa6b8;
-  font-size: 14px; /* Strict typography: 14px */
   font-weight: 500;
   letter-spacing: 0.02em;
 }
 
 .coords-val {
   color: #00e5ff;
-  font-size: 14px; /* Strict typography: 14px */
   font-weight: 700;
   letter-spacing: 0.02em;
 }
@@ -174,7 +172,7 @@
   cursor: pointer;
   color: #00e5ff;
   font-family: 'Inter', sans-serif;
-  font-size: 14px; /* Strict typography: 14px */
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.02em;
   display: inline-flex;

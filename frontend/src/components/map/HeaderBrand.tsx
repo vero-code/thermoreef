@@ -28,7 +28,7 @@ export function HeaderBrand({ onResetMap }: HeaderBrandProps) {
       <div className="floating-meta-row">
         <span className="floating-meta-title">AI CORAL BLEACHING RESCUE</span>
         <span className="floating-meta-sep">/</span>
-        <span className="floating-meta-tech">NVIDIA NEMOTRON × NEBIUS</span>
+        <span className="floating-meta-tech">NVIDIA NEMOTRON × NEBIUS × TAVILY</span>
       </div>
     </div>
   );

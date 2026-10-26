@@ -14,7 +14,7 @@ const INTERVENTION_TABS = [
   { id: 'shading', label: 'Shading' },
   { id: 'triage', label: 'Biological Triage' },
   { id: 'monitoring', label: 'Monitoring' },
-  { id: 'webintel', label: 'Web Intel (Tavily)' },
+  { id: 'webintel', label: 'Web Intel' },
 ] as const;
 
 type TabId = (typeof INTERVENTION_TABS)[number]['id'];

@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 16px 24px 0;
+  padding: 16px 24px 14px;
 }
 .protocol-passport-row {
   display: flex;
@@ -55,7 +55,7 @@
 .urgency-badge { font-weight: 700; padding: 2px 8px; border-radius: 6px; }
 .urgency-window { font-weight: 600; color: #38bdf8; }
 .executive-summary-text {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   color: #cbd5e1;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -110,6 +110,21 @@
   text-align: center;
   color: #94a3b8;
 }
+.web-intel-standby-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.web-intel-standby-title {
+  margin-bottom: 6px;
+  color: #f8fafc;
+  font-size: 18px;
+  font-weight: 700;
+}
+.web-intel-standby-description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
 .web-intel-code { color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 4px; }
 .web-intel-error {
   background: rgba(239, 68, 68, 0.1);
@@ -143,6 +158,21 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+.web-intel-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.web-intel-empty {
+  color: #94a3b8;
+  font-size: 14px;
+  font-style: italic;
+}
+.web-intel-news-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .web-intel-news-link {
   font-size: 16px;
@@ -243,8 +273,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 8px 24px;
+  padding: 10px 24px;
   background: rgba(15, 23, 42, 0.75);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
@@ -256,6 +287,8 @@
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  padding: 4px;
+  margin: -4px;
 }
 .intervention-tab-items::-webkit-scrollbar {
   display: none;
@@ -309,13 +342,13 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 7px 12px;
   border-radius: 8px;
   border: 1px solid transparent;
   background: rgba(255, 255, 255, 0.03);
   color: #94a3b8;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
@@ -383,9 +416,4 @@
 /* 2. Чуть уплотняем отступы вкладок, чтобы "Web Intel (Tavily)" влезала целиком */
 .intervention-tab-items {
   gap: 6px;
-}
-
-.intervention-tab-btn {
-  padding: 7px 12px;
-  font-size: 13.5px;
 }

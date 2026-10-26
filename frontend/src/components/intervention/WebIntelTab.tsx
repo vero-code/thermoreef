@@ -13,11 +13,11 @@ export function WebIntelTab({ intel, model }: WebIntelTabProps) {
     return (
       <div className="tab-stack">
         <div className="web-intel-standby">
-          <div style={{ fontSize: 24, marginBottom: 8 }}>🌐</div>
-          <div style={{ fontWeight: 700, fontSize: 18, color: '#f8fafc', marginBottom: 6 }}>
+          <div className="web-intel-standby-icon">🌐</div>
+          <div className="web-intel-standby-title">
             Tavily Web Intelligence Standby
           </div>
-          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.5 }}>
+          <p className="web-intel-standby-description">
             Add <code className="web-intel-code">TAVILY_API_KEY</code> to{' '}
             <code className="web-intel-code">backend/.env</code> to enable real-time regional coral news, environmental alerts, and local field reports search before prompting Nemotron.
           </p>
@@ -69,13 +69,13 @@ export function WebIntelTab({ intel, model }: WebIntelTabProps) {
         </div>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div className="web-intel-results">
         <div className="info-label light">
           Regional Field Reports & Ecological News ({intel.results.length})
         </div>
 
         {intel.results.length === 0 ? (
-          <div style={{ color: '#94a3b8', fontStyle: 'italic', fontSize: 14 }}>No local news or reports found for these exact coordinates.</div>
+          <div className="web-intel-empty">No local news or reports found for these exact coordinates.</div>
         ) : (
           intel.results.map((res, idx) => {
             const domain = getDomain(res.url);
@@ -83,7 +83,7 @@ export function WebIntelTab({ intel, model }: WebIntelTabProps) {
 
             return (
               <div key={idx} className="web-intel-news-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className="web-intel-news-header">
                   <a
                     href={res.url}
                     target="_blank"
