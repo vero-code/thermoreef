@@ -4,36 +4,37 @@ import { LocationPinIcon } from './Icons';
 import { REEF_REGIONS, DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from '../../constants';
 
 export function ReefRegionDropdown({
+  isOpen,
+  onOpenChange,
   onFlyToRegion,
   onResetMap,
 }: ReefRegionDropdownProps) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<ReefRegion | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
+        onOpenChange(false);
       }
     };
-    if (isDropdownOpen) {
+    if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isDropdownOpen]);
+  }, [isOpen, onOpenChange]);
 
   const handleSelectRegion = (region: ReefRegion) => {
     setSelectedRegion(region);
-    setIsDropdownOpen(false);
+    onOpenChange(false);
     onFlyToRegion?.(region.lat, region.lng, region.zoom);
   };
 
   const handleResetToGlobal = () => {
     setSelectedRegion(null);
-    setIsDropdownOpen(false);
+    onOpenChange(false);
     if (onResetMap) {
       onResetMap();
     } else {
@@ -45,18 +46,18 @@ export function ReefRegionDropdown({
     <div className="region-dropdown-container" ref={dropdownRef}>
       <button
         type="button"
-        onClick={() => setIsDropdownOpen((prev) => !prev)}
-        className={`floating-control-btn region-select-btn ${isDropdownOpen ? 'active' : ''}`}
+        onClick={() => onOpenChange(!isOpen)}
+        className={`floating-control-btn region-select-btn ${isOpen ? 'active' : ''}`}
         title="Navigate to global coral reef systems"
       >
         <span className="btn-icon">{selectedRegion ? selectedRegion.flag : <LocationPinIcon />}</span>
         <span className="region-btn-label">
           {selectedRegion ? selectedRegion.shortName : 'REGIONS'}
         </span>
-        <span className="dropdown-caret">{isDropdownOpen ? '▴' : '▾'}</span>
+        <span className="dropdown-caret">{isOpen ? '▴' : '▾'}</span>
       </button>
 
-      {isDropdownOpen && (
+      {isOpen && (
         <div className="region-dropdown-menu">
           <div className="region-dropdown-header">
             <span>GLOBAL REEF SYSTEMS</span>

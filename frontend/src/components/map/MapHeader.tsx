@@ -20,10 +20,20 @@ export function MapHeader({
   onResetMap,
 }: MapHeaderProps) {
   const [audioActive, setAudioActive] = useState(false);
+  const [isRegionsOpen, setIsRegionsOpen] = useState(false);
 
   const handleToggleAudio = () => {
     const active = hydrophone.toggle();
     setAudioActive(active);
+  };
+
+  const handleSettingsToggle = () => {
+    setIsRegionsOpen(false);
+    onToggleSettings();
+  };
+
+  const handleRegionsOpenChange = (open: boolean) => {
+    setIsRegionsOpen(open);
   };
 
   return (
@@ -33,7 +43,12 @@ export function MapHeader({
 
       <div className="floating-controls-block">
         {/* Regions Dropdown */}
-        <ReefRegionDropdown onFlyToRegion={onFlyToRegion} onResetMap={onResetMap} />
+        <ReefRegionDropdown
+          isOpen={isRegionsOpen}
+          onOpenChange={handleRegionsOpenChange}
+          onFlyToRegion={onFlyToRegion}
+          onResetMap={onResetMap}
+        />
 
         {/* View Toggle */}
         <button
@@ -64,7 +79,7 @@ export function MapHeader({
         <HeaderModeButton
           executionMode={executionMode}
           isSettingsOpen={isSettingsOpen}
-          onToggleSettings={onToggleSettings}
+          onToggleSettings={handleSettingsToggle}
         />
       </div>
     </header>

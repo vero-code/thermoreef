@@ -43,6 +43,8 @@ export type HeaderBrandProps = {
 };
 
 export type ReefRegionDropdownProps = {
+  isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
   onFlyToRegion?: (lat: number, lng: number, zoom: number) => void;
   onResetMap?: () => void;
 };

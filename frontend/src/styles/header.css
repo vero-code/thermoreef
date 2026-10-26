@@ -6,7 +6,7 @@
   left: 0;
   right: 0;
   padding: 20px 32px;
-  z-index: 20;
+  z-index: 1100;
   pointer-events: none;
   display: flex;
   justify-content: space-between;
@@ -115,11 +115,6 @@
   font-weight: 400;
 }
 
-.floating-utc-time {
-  color: #FAF9F6;
-  font-weight: 500;
-}
-
 /* Floating Controls Block */
 .floating-controls-block {
   pointer-events: auto;
@@ -129,35 +124,6 @@
   font-family: 'Cinzel', serif;
   font-size: 14px;
   letter-spacing: 0.08em;
-}
-
-.floating-tech-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(56, 189, 248, 0.22);
-  border-radius: 8px;
-  color: #cbd5e1;
-  font-size: 14px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  white-space: nowrap;
-}
-
-.floating-sparkle {
-  font-size: 14px;
-}
-
-.floating-tech-text strong {
-  color: #38bdf8;
-  font-weight: 600;
-}
-
-.floating-tech-sep {
-  color: rgba(255, 255, 255, 0.3);
-  margin: 0 5px;
 }
 
 .floating-control-btn {
@@ -462,9 +428,6 @@
   .floating-observatory-tag {
     display: none;
   }
-  /* On tablets and mobile, switch view, sound & region toggles to sleek compact icon buttons */
-  .ocean-view-btn span:not(.btn-icon),
-  .sound-toggle-btn span:not(.btn-icon),
   .region-select-btn span:not(.btn-icon) {
     display: none;
   }
