@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { MapHeaderProps } from './types';
-import { WavesIcon, MapIcon, SoundOffIcon, SoundOnIcon } from './Icons';
+import { SoundOffIcon, SoundOnIcon, EyeIcon, EyeOffIcon } from './Icons';
 import { hydrophone } from '../../utils/audioHydrophone';
 import { MODE_BADGE_CONFIG } from '../../constants';
 import { HeaderBrand } from './HeaderBrand';
@@ -28,23 +28,27 @@ export function MapHeader({
 
   return (
     <header className="floating-header">
-      {/* Brand logo & observatory title */}
+      {/* Logo & title */}
       <HeaderBrand onResetMap={onResetMap} />
 
-      {/* Floating Interactive Controls */}
       <div className="floating-controls-block">
-        {/* Ocean Background View Toggle */}
+        {/* Regions Dropdown */}
+        <ReefRegionDropdown onFlyToRegion={onFlyToRegion} onResetMap={onResetMap} />
+
+        {/* View Toggle */}
         <button
           type="button"
           onClick={onToggleMap}
           className={`floating-control-btn ocean-view-btn ${isMapHidden ? 'active' : ''}`}
-          title={isMapHidden ? 'Show satellite map' : 'Hide map to view ocean background'}
+          title={isMapHidden ? 'Show component' : 'View ocean background'}
+          aria-label={isMapHidden ? 'Show component' : 'View ocean background'}
         >
-          <span className="btn-icon">{isMapHidden ? <MapIcon /> : <WavesIcon />}</span>
-          <span>{isMapHidden ? 'SMAP' : 'OCEAN'}</span>
+          <span className="btn-icon">
+            {isMapHidden ? <EyeOffIcon /> : <EyeIcon />}
+          </span>
         </button>
 
-        {/* Hydrophone Ambient Audio Toggle */}
+        {/* Audio Toggle */}
         <button
           type="button"
           onClick={handleToggleAudio}
@@ -54,11 +58,7 @@ export function MapHeader({
           <span className={`btn-icon ${audioActive ? 'pulse-icon' : ''}`}>
             {audioActive ? <SoundOnIcon /> : <SoundOffIcon />}
           </span>
-          <span>SOUND</span>
         </button>
-
-        {/* Global Reef Regions Dropdown & Reset */}
-        <ReefRegionDropdown onFlyToRegion={onFlyToRegion} onResetMap={onResetMap} />
 
         {/* Execution Mode & Settings Toggle Button */}
         <HeaderModeButton
