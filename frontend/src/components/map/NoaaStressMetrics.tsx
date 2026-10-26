@@ -14,6 +14,15 @@ type MetricTooltipProps = {
   position?: 'left' | 'center' | 'right';
 };
 
+type MetricSeverity = 0 | 1 | 2 | 3;
+
+function getMetricSeverity(value: number, watchThreshold: number, highThreshold: number): MetricSeverity {
+  if (value >= highThreshold) return 3;
+  if (value >= watchThreshold) return 2;
+  if (value > 0) return 1;
+  return 0;
+}
+
 function MetricTooltip({ title, desc, position = 'center' }: MetricTooltipProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -49,6 +58,14 @@ function MetricTooltip({ title, desc, position = 'center' }: MetricTooltipProps)
 export function NoaaStressMetrics({ stress, loadingStress, stressError }: NoaaStressMetricsProps) {
   const alertLvl: AlertLevel = stress?.alertLevel || 'normal';
   const alertColor = ALERT_COLORS[alertLvl] || '#10b981';
+  const dhwValue = stress?.dhw ?? 0;
+  const anomalyValue = stress?.tempAnomaly ?? 0;
+  const dhwSeverity = getMetricSeverity(dhwValue, 4, 8);
+  const anomalySeverity = getMetricSeverity(anomalyValue, 1, 1.5);
+  const highlightDhw = dhwSeverity > anomalySeverity || (dhwSeverity === anomalySeverity && dhwSeverity > 0 && dhwValue >= 4);
+  const highlightAnomaly = anomalySeverity > dhwSeverity || (anomalySeverity === dhwSeverity && anomalySeverity > 0 && !highlightDhw);
+  const activeSeverity = Math.max(dhwSeverity, anomalySeverity);
+  const severityClass = activeSeverity === 3 ? 'severity-critical' : activeSeverity === 2 ? 'severity-high' : 'severity-watch';
 
   return (
     <div className="noaa-stress-section">
@@ -104,7 +121,7 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: NoaaSt
             </div>
 
             {/* SST Anomaly Tile */}
-            <div className={`noaa-metric-cell ${stress.tempAnomaly > 0 ? 'is-anomaly-active' : ''}`}>
+            <div className={`noaa-metric-cell ${highlightAnomaly ? `is-metric-active ${severityClass}` : ''}`}>
               <div className="name">
                 <span>Anomaly</span>
                 <MetricTooltip
@@ -119,7 +136,7 @@ export function NoaaStressMetrics({ stress, loadingStress, stressError }: NoaaSt
             </div>
 
             {/* DHW Tile */}
-            <div className="noaa-metric-cell">
+            <div className={`noaa-metric-cell ${highlightDhw ? `is-metric-active ${severityClass}` : ''}`}>
               <div className="name">
                 <span>DHW</span>
                 <MetricTooltip

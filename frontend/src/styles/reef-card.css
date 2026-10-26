@@ -338,8 +338,8 @@
   transition: all 0.2s ease;
 }
 
-.noaa-metric-cell.is-anomaly-active {
-  border: 1.5px solid rgba(245, 158, 11, 0.65);
+.noaa-metric-cell.is-metric-active {
+  border-width: 1.5px;
   background: rgba(9, 33, 44, 0.9);
 }
 
@@ -355,7 +355,7 @@
   line-height: 1;
 }
 
-.noaa-metric-cell.is-anomaly-active .name {
+.noaa-metric-cell.is-metric-active .name {
   color: #fbbf24;
 }
 
@@ -368,8 +368,30 @@
   line-height: 1.2;
 }
 
-.noaa-metric-cell.is-anomaly-active .val {
+.noaa-metric-cell.is-metric-active .val {
   color: #fbbf24;
+}
+
+.noaa-metric-cell.is-metric-active.severity-watch {
+  border-color: rgba(245, 158, 11, 0.65);
+}
+
+.noaa-metric-cell.is-metric-active.severity-high {
+  border-color: rgba(249, 115, 22, 0.75);
+}
+
+.noaa-metric-cell.is-metric-active.severity-high .name,
+.noaa-metric-cell.is-metric-active.severity-high .val {
+  color: #fb923c;
+}
+
+.noaa-metric-cell.is-metric-active.severity-critical {
+  border-color: rgba(239, 68, 68, 0.8);
+}
+
+.noaa-metric-cell.is-metric-active.severity-critical .name,
+.noaa-metric-cell.is-metric-active.severity-critical .val {
+  color: #f87171;
 }
 
 /* Tooltips */
