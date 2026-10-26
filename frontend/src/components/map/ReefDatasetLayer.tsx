@@ -28,7 +28,9 @@ export function ReefDatasetLayer({ selectedId, onSelectReef, onMapReady }: ReefD
       const attrs = feature.datasetAttributes;
       const rawId = attrs['OBJECTID'] ?? attrs['objectid'];
 
-      const isSelected = selectedId !== null && String(rawId) === String(selectedId);
+      const cleanFeatureId = String(rawId).split('.')[0];
+      const cleanSelectedId = selectedId !== null ? String(selectedId).split('.')[0] : null;
+      const isSelected = cleanSelectedId !== null && cleanFeatureId === cleanSelectedId;
 
       return {
         fillColor: isSelected ? '#f59e0b' : '#06b6d4',
