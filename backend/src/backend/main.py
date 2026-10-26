@@ -160,6 +160,7 @@ async def get_reef_intervention(
     request: Request,
     lat: Optional[float] = None,
     lng: Optional[float] = None,
+    location: Optional[str] = Query(None, max_length=160),
     mock: bool = Query(False, description="Run in instant offline mock/demo mode"),
 ):
     """Generate emergency rescue protocol using NVIDIA Nemotron on Nebius Token Factory or offline mock simulator."""
@@ -171,6 +172,7 @@ async def get_reef_intervention(
     target_lat, target_lng = lat, lng
     clean_id = str(reef_id).split(".")[0]
     reef_name = f"Reef #{clean_id}"
+    location = " ".join((location or "").split()) or None
 
     custom_nebius_key = request.headers.get("x-nebius-key")
     custom_tavily_key = request.headers.get("x-tavily-key")
@@ -188,6 +190,7 @@ async def get_reef_intervention(
             lat=target_lat,
             lng=target_lng,
             reef_name=reef_name,
+            location=location,
             custom_tavily_key=custom_tavily_key,
             use_mock=is_mock,
         )
@@ -198,6 +201,7 @@ async def get_reef_intervention(
             lat=target_lat,
             lng=target_lng,
             reef_name=reef_name,
+            location=location,
             tavily_context=tavily_data,
             custom_nebius_key=custom_nebius_key,
             use_mock=is_mock,

@@ -37,16 +37,21 @@ async def search_reef_context(
     max_results: int = TAVILY_DEFAULT_MAX_RESULTS,
     custom_tavily_key: Optional[str] = None,
     use_mock: bool = False,
+    location: Optional[str] = None,
 ) -> dict[str, Any]:
     """
     Search for recent ecological news, bleaching events, and local marine reports using Tavily.
     Gracefully falls back to empty results or mock simulation if configured.
     """
-    # Build targeted environmental query based on reef name or coordinates
-    if reef_name and not reef_name.startswith("Reef #"):
-        query = f"{reef_name} coral reef bleaching temperature marine ecology report"
-    else:
-        query = f"coral reef marine heatwave bleaching event coordinates {lat:.2f} {lng:.2f}"
+    # Geographic terms are more useful for web search than numeric coordinates.
+    location_terms = " ".join((location or "").split())
+    reef_terms = reef_name if reef_name and not reef_name.startswith("Reef #") else ""
+    search_terms = " ".join(term for term in (location_terms, reef_terms) if term)
+    query = (
+        f"coral reef bleaching marine heatwave {search_terms} regional monitoring report"
+        if search_terms
+        else "coral reef bleaching marine heatwave regional monitoring report"
+    )
 
     if use_mock:
         return {

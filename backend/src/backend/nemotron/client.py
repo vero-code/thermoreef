@@ -42,6 +42,7 @@ async def generate_intervention_protocol(
     tavily_context: Optional[dict[str, Any]] = None,
     custom_nebius_key: Optional[str] = None,
     use_mock: bool = False,
+    location: Optional[str] = None,
 ) -> dict[str, Any]:
     """Call NVIDIA Nemotron on Nebius Token Factory or return instant mock protocol."""
     if use_mock:
@@ -62,6 +63,7 @@ async def generate_intervention_protocol(
         lng=lng,
         area_km2=area_km2,
         reef_name=reef_name,
+        location=location,
         tavily_context=tavily_context,
     )
     headers = {

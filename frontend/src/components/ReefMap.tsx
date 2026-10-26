@@ -7,6 +7,7 @@ import { TermsModal } from './TermsModal';
 import { PrivacyModal } from './PrivacyModal';
 import type { ModeTab } from './settings/types';
 import type { ReefData } from './map/types';
+import { reverseGeocode } from '../utils/geocoding';
 import { ReefDatasetLayer } from './map/ReefDatasetLayer';
 import { MapHeader } from './map/MapHeader';
 import { ReefInfoCard } from './map/ReefInfoCard';
@@ -130,6 +131,18 @@ export default function ReefMap() {
     setInspecting(true);
 
     try {
+      let location = '';
+      try {
+        const resolvedLocation = await reverseGeocode(selected.lat, selected.lng);
+        if (resolvedLocation) {
+          location = resolvedLocation.region
+            ? `${resolvedLocation.region}, ${resolvedLocation.country || ''}`.replace(/, $/, '')
+            : resolvedLocation.name;
+        }
+      } catch (err) {
+        console.warn('Failed to resolve reef region for web search:', err);
+      }
+
       const customNebius = localStorage.getItem(STORAGE_KEYS.NEBIUS_KEY);
       const customTavily = localStorage.getItem(STORAGE_KEYS.TAVILY_KEY);
 
@@ -145,7 +158,13 @@ export default function ReefMap() {
         }
       }
 
-      const url = `${API_BASE}/reefs/${selected.id}/intervention?lat=${selected.lat}&lng=${selected.lng}${executionMode === 'mock' ? '&mock=true' : ''}`;
+      const params = new URLSearchParams({
+        lat: String(selected.lat),
+        lng: String(selected.lng),
+      });
+      if (location) params.set('location', location);
+      if (executionMode === 'mock') params.set('mock', 'true');
+      const url = `${API_BASE}/reefs/${selected.id}/intervention?${params.toString()}`;
       const res = await fetch(url, { headers });
       if (!res.ok) {
         const errJson = await res.json().catch(() => null);

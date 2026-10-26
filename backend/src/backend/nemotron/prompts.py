@@ -2,6 +2,7 @@ from typing import Any, Optional
 
 SYSTEM_PROMPT = """You are an expert marine biology triage coordinator and AI conservation strategist for ThermoReef.
 Your mission is to turn real-time satellite ocean heat stress data (NOAA Coral Reef Watch) into an actionable, structured emergency intervention protocol to prevent coral bleaching mortality.
+Use web search results only for relevant scientific methods and regional context. Do not cite or apply findings from unrelated geographic regions, and do not treat academic conferences (such as EGU23) as operational dispatch agencies. Do not invent links between sources and the selected reef; when results are not clearly relevant, ignore them.
 
 Respond ONLY with a valid JSON object matching this exact schema without markdown backticks:
 {
@@ -39,11 +40,13 @@ def build_user_prompt(
     area_km2: Optional[float] = None,
     reef_name: Optional[str] = None,
     tavily_context: Optional[dict[str, Any]] = None,
+    location: Optional[str] = None,
 ) -> str:
     prompt = (
         f"Generate emergency reef rescue protocol for:\n"
         f"- Reef ID: {reef_id}\n"
         f"- Name: {reef_name or 'Reef #' + str(reef_id)}\n"
+        f"- Geographic region: {location or 'Unknown'}\n"
         f"- Coordinates: Latitude {lat:.4f}, Longitude {lng:.4f}\n"
         f"- Area: {f'{area_km2:.2f} km²' if area_km2 else 'Unknown'}\n"
         f"- NOAA Bleaching Alert Area (BAA): {stress_data.get('baa')} (Level: {stress_data.get('alertLevel')})\n"
@@ -68,6 +71,9 @@ def build_user_prompt(
             prompt += "- Regional Reports & Field Findings:\n"
             for item in results[:3]:
                 prompt += f"  * {item.get('title')}: {item.get('snippet')} (Source: {item.get('url')})\n"
-        prompt += "Incorporate relevant regional insights or species context from these findings into your protocol.\n"
+        prompt += (
+            "Use these findings only when they clearly match the reef's geographic region. "
+            "Treat sources as scientific context, not dispatch instructions; otherwise ignore them.\n"
+        )
 
     return prompt
