@@ -10,10 +10,10 @@ AI-powered coral bleaching early warning system. Monitors ocean thermal stress u
 
 ## System Components
 
-- **NVIDIA Nemotron-3 Ultra (550B MoE):** Synthesizes multi-variable data (NOAA SST anomalies, DHW, solar zenith hours, species heat limits) into structured JSON intervention protocols.
-- **Nebius Token Factory:** Serverless OpenAI-compatible API hosting 550B MoE models on NVIDIA GPU clusters, providing on-demand inference without dedicated multi-node infrastructure.
-- **Tavily Search API:** Retrieves regional field reports and local news by reef coordinates to augment 5km-grid satellite telemetry with current ground observations and cited sources.
-- **Google Maps Platform (Datasets & Geocoding):** Renders 17,504 UNEP-WCMC vector polygons and resolves clicked coordinates to country/region names via client-side `google.maps.Geocoder`.
+- **NVIDIA Nemotron-3 Ultra:** Uses NOAA metrics and regional Tavily context to generate Pydantic-validated reef intervention protocols.
+- **Nebius Token Factory:** Hosts Nemotron models via an OpenAI-compatible API.
+- **Tavily Search API:** Finds regional ecological reports using the geocoded region when available; otherwise it uses a generic reef query.
+- **Google Maps Platform:** Displays 17,504 UNEP-WCMC reef polygons and reverse-geocodes selected locations.
 
 ## Architecture
 
@@ -39,7 +39,7 @@ Structured Emergency Rescue Protocol (JSON)
 - **AI Inference:** NVIDIA Nemotron (Nemotron-3 Ultra 550B / Super 120B) on Nebius Token Factory
 - **Web Intelligence:** Tavily Search API (real-time regional ecological reports & news)
 - **Mapping:** Google Maps Platform (Datasets, Geocoding API) via @vis.gl/react-google-maps
-- **Backend:** Python 3.12+, FastAPI, uv, HTTPX, Pydantic
+- **Backend:** Python 3.14+, FastAPI, uv, HTTPX, Pydantic
 - **Frontend:** React, TypeScript, Vite
 
 ## Data & Media Sources
@@ -67,7 +67,7 @@ Settings checks key presence; the backend validates keys on use and reports auth
 
 ### Requirements
 
-- [Python 3.12+](https://www.python.org/)
+- [Python 3.14+](https://www.python.org/)
 - [uv](https://docs.astral.sh/uv/)
 - [Node.js](https://nodejs.org/)
 
@@ -141,7 +141,7 @@ App starts at `http://localhost:5173`
 |---|---|---|
 | `GET` | `/reefs` | Centroids for all 17,504 reefs (`id, lat, lng`) |
 | `GET` | `/reefs/{id}/stress` | Live NOAA thermal stress data (`sst, tempAnomaly, dhw, baa, alertLevel`) |
-| `GET` | `/reefs/{id}/intervention` | AI rescue protocol (supports `x-nebius-key`, `x-tavily-key`, `x-execution-mode`) |
+| `GET` | `/reefs/{id}/intervention?lat={lat}&lng={lng}&location={region}` | Rescue protocol; accepts `x-nebius-key`, `x-tavily-key`, `x-mock-mode: true`, or `mock=true` |
 | `GET` | `/config/dev-check` | Diagnostics checking if `NEBIUS_API_KEY` and `TAVILY_API_KEY` are set in `.env` |
 | `GET` | `/` | Health check (`{"status": "ok"}`) |
 
