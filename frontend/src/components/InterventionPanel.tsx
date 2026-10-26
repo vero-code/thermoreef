@@ -6,6 +6,7 @@ import { TriageTab } from './intervention/TriageTab';
 import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
 import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from './intervention/Icons';
+import { CopyIcon, SettingsCloseIcon } from './settings/Icons';
 import { useReefLocation } from '../utils/geocoding';
 import '../styles/intervention.css';
 
@@ -55,24 +56,35 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
       {/* Panel Header */}
       <div className="intervention-panel-header">
         <div className="intervention-header-left">
-          
           <h2 className="intervention-panel-title">
-            Rescue Protocol — {protocol.reef_name || 'Reef #' + protocol.reef_id}
+            RESCUE PROTOCOL
           </h2>
-          <div className="coords-sub">
-            {location && (
-              <span className="intervention-location-badge" title="Geographic Location">
-                {location.displayString}
-                <span className="coords-separator">•</span>
-              </span>
-            )}
-            Coords: {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)} | SST: {stress.sst}°C | DHW: {stress.dhw}
-          </div>
         </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="intervention-panel-close-box"
+          title="Close rescue protocol"
+          aria-label="Close rescue protocol"
+        >
+          <SettingsCloseIcon />
+        </button>
       </div>
 
+      <div className="coords-sub">
+        {protocol.reef_name || 'Reef #' + protocol.reef_id}
+        {location && (
+          <span className="intervention-location-badge" title="Geographic Location">
+            {location.displayString}
+            <span className="coords-separator">•</span>
+          </span>
+        )}
+        Coords: {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)} | SST: {stress.sst}°C | DHW: {stress.dhw}
+      </div>
+      
       {/* Pinned Tab Selector Bar (Always visible above scrollable body) */}
       <div className="intervention-tab-bar">
+
         <div className="intervention-tab-items">
           {INTERVENTION_TABS.map((tab) => (
             <button
@@ -157,18 +169,21 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
         </div>
         <div className="intervention-footer-actions">
           <button
-            onClick={handleCopy}
-            className={`btn-copy ${copied ? 'is-copied' : ''}`}
-            title="Copy full protocol report to clipboard"
-          >
-            {copied ? '✓ COPIED' : 'COPY'}
-          </button>
-          <button
+            type="button"
             onClick={onClose}
             className="protocol-footer-return-btn"
             title="Return to satellite map view"
           >
-            CANCEL
+            CLOSE
+          </button>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className={`btn-copy ${copied ? 'is-copied' : ''}`}
+            title={copied ? 'Protocol copied' : 'Copy full protocol report to clipboard'}
+            aria-label={copied ? 'Protocol copied' : 'Copy full protocol report'}
+          >
+            {copied ? '✓ COPIED' : <CopyIcon />}
           </button>
         </div>
       </div>
