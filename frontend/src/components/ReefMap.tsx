@@ -163,10 +163,10 @@ export default function ReefMap() {
     }
   };
 
-  const activeSpecimen = interventionData
-    ? OCEAN_SPECIMEN_03
-    : isSettingsOpen
-      ? OCEAN_SPECIMEN_02
+  const activeSpecimen = isSettingsOpen
+    ? OCEAN_SPECIMEN_02
+    : interventionData
+      ? OCEAN_SPECIMEN_03
       : OCEAN_SPECIMEN_01;
 
   return (
@@ -192,7 +192,7 @@ export default function ReefMap() {
       />
 
       {/* Showcase frame */}
-      <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''} ${isSettingsOpen || interventionData ? 'panel-open' : ''}`}>
+      <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''} ${isSettingsOpen || interventionData ? 'settings-open' : ''}`}>
         <div className={`reef-map-viewport ${isSettingsOpen || interventionData ? 'is-hidden' : ''}`}>
           <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
             <Map
@@ -235,9 +235,9 @@ export default function ReefMap() {
           />
         )}
 
-        {/* In-frame Settings overlay (keeps map and its zoom/center mounted underneath) */}
+        {/* In-frame Settings overlay */}
         {isSettingsOpen && (
-          <div className="reef-frame-overlay">
+          <div className="reef-frame-overlay settings-overlay" style={{ zIndex: 30 }}>
             <SettingsPanel
               mode={executionMode}
               onModeChange={setExecutionMode}

@@ -52,7 +52,7 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
   };
 
   return (
-    <div className="intervention-frame-panel">
+    <div className="intervention-frame-panel intervention-card">
       {/* Panel Header */}
       <div className="intervention-panel-header">
         <div className="intervention-header-left">

@@ -86,6 +86,11 @@
 }
 
 .reef-frame-overlay.is-hidden {
-  visibility: hidden;
-  pointer-events: none;
+  display: none !important;
+}
+
+.reef-map-frame.settings-open {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }

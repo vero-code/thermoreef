@@ -1,6 +1,10 @@
 /* Intervention console and tabs */
 
-.intervention-card { max-width: 700px; max-height: 90vh; }
+.intervention-card {
+  max-width: 700px;
+  max-height: 90vh;
+  box-shadow: 0 12px 32px rgba(2, 6, 23, 0.45), 0 0 24px rgba(56, 189, 248, 0.08);
+}
 .coords-sub {
   display: flex;
   flex-direction: column;
