@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import type { ReefRegion, ReefRegionDropdownProps } from './types';
 import { LocationPinIcon } from './Icons';
 import { REEF_REGIONS, DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from '../../constants';
@@ -6,10 +6,11 @@ import { REEF_REGIONS, DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from '../../consta
 export function ReefRegionDropdown({
   isOpen,
   onOpenChange,
+  selectedRegion,
+  onSelectedRegionChange,
   onFlyToRegion,
   onResetMap,
 }: ReefRegionDropdownProps) {
-  const [selectedRegion, setSelectedRegion] = useState<ReefRegion | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,13 +28,13 @@ export function ReefRegionDropdown({
   }, [isOpen, onOpenChange]);
 
   const handleSelectRegion = (region: ReefRegion) => {
-    setSelectedRegion(region);
+    onSelectedRegionChange(region);
     onOpenChange(false);
     onFlyToRegion?.(region.lat, region.lng, region.zoom);
   };
 
   const handleResetToGlobal = () => {
-    setSelectedRegion(null);
+    onSelectedRegionChange(null);
     onOpenChange(false);
     if (onResetMap) {
       onResetMap();

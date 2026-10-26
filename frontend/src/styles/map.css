@@ -52,7 +52,7 @@
   transform: scale(0.96);
 }
 
-.reef-map-frame.settings-open {
+.reef-map-frame.panel-open {
   box-shadow: none;
 }
 

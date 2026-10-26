@@ -45,6 +45,8 @@ export type HeaderBrandProps = {
 export type ReefRegionDropdownProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
+  selectedRegion: ReefRegion | null;
+  onSelectedRegionChange: (region: ReefRegion | null) => void;
   onFlyToRegion?: (lat: number, lng: number, zoom: number) => void;
   onResetMap?: () => void;
 };

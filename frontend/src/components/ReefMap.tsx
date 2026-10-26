@@ -70,7 +70,14 @@ export default function ReefMap() {
     setSelected(null);
     setStress(null);
     setStressError(null);
+    setLoadingStress(false);
+    setLoadingNearest(false);
+    setInspecting(false);
     setInterventionData(null);
+    setIsSettingsOpen(false);
+    setIsTermsOpen(false);
+    setIsPrivacyOpen(false);
+    setIsMapHidden(false);
   }, [handleFlyToRegion]);
 
   const handleSelectReef = useCallback((reef: ReefData) => {
@@ -185,8 +192,8 @@ export default function ReefMap() {
       />
 
       {/* Showcase frame */}
-      <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''} ${isSettingsOpen ? 'settings-open' : ''}`}>
-        <div className={`reef-map-viewport ${isSettingsOpen ? 'is-hidden' : ''}`}>
+      <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''} ${isSettingsOpen || interventionData ? 'panel-open' : ''}`}>
+        <div className={`reef-map-viewport ${isSettingsOpen || interventionData ? 'is-hidden' : ''}`}>
           <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
             <Map
               mapId={GOOGLE_MAPS_MAP_ID}

@@ -5,7 +5,7 @@ import { ShadingTab } from './intervention/ShadingTab';
 import { TriageTab } from './intervention/TriageTab';
 import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
-import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from './intervention/Icons';
+import { ChevronLeftIcon, ChevronRightIcon } from './intervention/Icons';
 import { SettingsCloseIcon } from './settings/Icons';
 import { useReefLocation } from '../utils/geocoding';
 import '../styles/intervention.css';

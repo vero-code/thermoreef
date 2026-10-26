@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { MapHeaderProps } from './types';
+import type { MapHeaderProps, ReefRegion } from './types';
 import { SoundOffIcon, SoundOnIcon, EyeIcon, EyeOffIcon } from './Icons';
 import { hydrophone } from '../../utils/audioHydrophone';
 import { MODE_BADGE_CONFIG } from '../../constants';
@@ -21,6 +21,7 @@ export function MapHeader({
 }: MapHeaderProps) {
   const [audioActive, setAudioActive] = useState(false);
   const [isRegionsOpen, setIsRegionsOpen] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState<ReefRegion | null>(null);
 
   const handleToggleAudio = () => {
     const active = hydrophone.toggle();
@@ -36,18 +37,30 @@ export function MapHeader({
     setIsRegionsOpen(open);
   };
 
+  const handleResetMap = () => {
+    setSelectedRegion(null);
+    setIsRegionsOpen(false);
+    if (audioActive) {
+      hydrophone.toggle();
+      setAudioActive(false);
+    }
+    onResetMap?.();
+  };
+
   return (
     <header className="floating-header">
       {/* Logo & title */}
-      <HeaderBrand onResetMap={onResetMap} />
+      <HeaderBrand onResetMap={handleResetMap} />
 
       <div className="floating-controls-block">
         {/* Regions Dropdown */}
         <ReefRegionDropdown
           isOpen={isRegionsOpen}
           onOpenChange={handleRegionsOpenChange}
+          selectedRegion={selectedRegion}
+          onSelectedRegionChange={setSelectedRegion}
           onFlyToRegion={onFlyToRegion}
-          onResetMap={onResetMap}
+          onResetMap={handleResetMap}
         />
 
         {/* View Toggle */}
@@ -67,10 +80,10 @@ export function MapHeader({
         <button
           type="button"
           onClick={handleToggleAudio}
-          className={`floating-control-btn sound-toggle-btn ${audioActive ? 'audio-active' : ''}`}
+          className={`floating-control-btn sound-toggle-btn ${audioActive ? 'active' : ''}`}
           title={audioActive ? 'Mute ocean hydrophone ambience' : 'Play deep ocean hydrophone soundscape'}
         >
-          <span className={`btn-icon ${audioActive ? 'pulse-icon' : ''}`}>
+          <span className="btn-icon">
             {audioActive ? <SoundOnIcon /> : <SoundOffIcon />}
           </span>
         </button>
