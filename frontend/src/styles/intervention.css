@@ -188,7 +188,7 @@
 }
 
 .intervention-specimen-id {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: #64748b;
@@ -198,7 +198,7 @@
 .intervention-specimen-pill {
   display: inline-flex;
   align-items: center;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: #38bdf8;
@@ -212,7 +212,7 @@
 
 .intervention-panel-title {
   margin: 0;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -313,7 +313,7 @@
 }
 
 .tab-arrow-counter {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: #64748b;
@@ -436,4 +436,3 @@
   color: #ffffff;
   transform: translateY(-1px);
 }
-

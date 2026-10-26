@@ -104,7 +104,7 @@
   letter-spacing: 0.1em;
   color: #94a3b8;
   text-transform: uppercase;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Inter', sans-serif;
 }
 
 .cloud-field-input {
@@ -116,7 +116,7 @@
   border-radius: 8px;
   color: #f8fafc;
   font-size: 14px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   outline: none;
   box-sizing: border-box;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -146,7 +146,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
 }
 
 .judge-check {
@@ -177,7 +177,7 @@
   border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
 }
 
 .judge-badge-pill.amber {
@@ -234,7 +234,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
 }
 
 .dev-status-pill {
@@ -248,11 +248,11 @@
   font-weight: 600;
   padding: 3px 10px;
   border-radius: 999px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
 }
 
 .dev-tab-desc {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   color: #94a3b8;
   margin: 0 0 16px 0;
@@ -260,7 +260,7 @@
 }
 
 .dev-env-badge {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
 }
 
@@ -296,7 +296,7 @@
 }
 
 .dev-code-text {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   color: #94a3b8;
   white-space: pre-line;
@@ -414,7 +414,7 @@
 
 .settings-panel-title {
   margin: 0;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -586,4 +586,3 @@
     padding: 8px 4px;
   }
 }
-

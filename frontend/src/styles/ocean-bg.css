@@ -104,7 +104,7 @@
   font-weight: 700;
   color: #d4af37;
   margin-bottom: 8px;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Inter', sans-serif;
 }
 
 .plaque-title {
@@ -141,7 +141,7 @@
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'Inter', sans-serif;
   color: #cbd5e1;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
