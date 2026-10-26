@@ -57,6 +57,17 @@
   height: 100%;
 }
 
+.reef-map-viewport {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.3s ease;
+}
+
+.reef-map-viewport.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* In-Frame Overlays (Settings & Intervention Panels, keeping Map mounted underneath) */
 .reef-frame-overlay {
   position: absolute;

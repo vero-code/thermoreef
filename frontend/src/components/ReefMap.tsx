@@ -185,26 +185,28 @@ export default function ReefMap() {
       />
 
       {/* Showcase frame */}
-      <div className={`reef-map-frame ${isMapHidden ? 'is-hidden' : ''}`}>
-        <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
-          <Map
-            mapId={GOOGLE_MAPS_MAP_ID}
-            defaultCenter={DEFAULT_MAP_CENTER}
-            defaultZoom={DEFAULT_MAP_ZOOM}
-            minZoom={2}
-            colorScheme="DARK"
-            mapTypeControl={false}
-            streetViewControl={false}
-            fullscreenControl={false}
-            className="reef-map-canvas"
-          >
-            <ReefDatasetLayer
-              selectedId={selected?.id ?? null}
-              onSelectReef={handleSelectReef}
-              onMapReady={setMapInstance}
-            />
-          </Map>
-        </APIProvider>
+      <div className={`reef-map-frame ${isMapHidden && !isSettingsOpen ? 'is-hidden' : ''}`}>
+        <div className={`reef-map-viewport ${isSettingsOpen ? 'is-hidden' : ''}`}>
+          <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
+            <Map
+              mapId={GOOGLE_MAPS_MAP_ID}
+              defaultCenter={DEFAULT_MAP_CENTER}
+              defaultZoom={DEFAULT_MAP_ZOOM}
+              minZoom={2}
+              colorScheme="DARK"
+              mapTypeControl={false}
+              streetViewControl={false}
+              fullscreenControl={false}
+              className="reef-map-canvas"
+            >
+              <ReefDatasetLayer
+                selectedId={selected?.id ?? null}
+                onSelectReef={handleSelectReef}
+                onMapReady={setMapInstance}
+              />
+            </Map>
+          </APIProvider>
+        </div>
 
         {/* Reef telemetry card */}
         {selected && !isSettingsOpen && !interventionData && (
