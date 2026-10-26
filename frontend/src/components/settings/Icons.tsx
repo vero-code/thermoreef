@@ -16,7 +16,7 @@ export function SettingsGearIcon({ size = 15 }: { size?: number } = {}) {
   );
 }
 
-export function SettingsCloseIcon() {
+export function CloseIcon() {
   return (
     <svg
       width="14"

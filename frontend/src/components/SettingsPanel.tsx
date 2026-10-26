@@ -4,7 +4,7 @@ import { ModeSelector } from './settings/ModeSelector';
 import { JudgeTab } from './settings/JudgeTab';
 import { LiveCloudTab } from './settings/LiveCloudTab';
 import { DevTab } from './settings/DevTab';
-import { SettingsCloseIcon } from './settings/Icons';
+import { CloseIcon } from './settings/Icons';
 import { API_BASE, STORAGE_KEYS, NEBIUS_GET_KEY_URL, TAVILY_GET_KEY_URL } from '../constants';
 import '../styles/settings.css';
 
@@ -114,7 +114,7 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
           className="settings-panel-close-box"
           title="Return to satellite map view"
         >
-          <SettingsCloseIcon />
+          <CloseIcon />
         </button>
       </div>
 

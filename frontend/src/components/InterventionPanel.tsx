@@ -6,7 +6,7 @@ import { TriageTab } from './intervention/TriageTab';
 import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
 import { ChevronLeftIcon, ChevronRightIcon } from './intervention/Icons';
-import { SettingsCloseIcon } from './settings/Icons';
+import { CloseIcon } from './settings/Icons';
 import { useReefLocation } from '../utils/geocoding';
 import '../styles/intervention.css';
 
@@ -67,22 +67,69 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
           title="Close rescue protocol"
           aria-label="Close rescue protocol"
         >
-          <SettingsCloseIcon />
+          <CloseIcon />
         </button>
       </div>
 
-      <div className="coords-sub">
-        {protocol.reef_name || 'Reef #' + protocol.reef_id}
-        {location && (
-          <span className="intervention-location-badge" title="Geographic Location">
-            {location.displayString}
-            <span className="coords-separator">•</span>
+      <div className="protocol-overview-row">
+        <div className="coords-sub">
+          <div className="reef-card-title-group">
+            <h2 className="reef-card-title">
+              {protocol.reef_name || 'Reef #' + protocol.reef_id}
+            </h2>
+            {location && (
+              <div className="reef-card-location" title={location.name}>
+                {location.countryCode ? (
+                  <span className="location-code">{location.countryCode}</span>
+                ) : (
+                  <span className="location-flag">{location.flag}</span>
+                )}
+                <span className="location-text">{location.name}</span>
+              </div>
+            )}
+          </div>
+          <div className="reef-card-coords-row protocol-coords-row">
+            <span className="coords-label">Coordinates:</span>
+            <span className="coords-val">
+              {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)}
+            </span>
+          </div>
+          <span className="coords-label protocol-stress-line">
+            SST: {stress.sst}°C | Anomaly: {stress.tempAnomaly > 0 ? '+' : ''}{stress.tempAnomaly}°C | DHW: {stress.dhw}
           </span>
-        )}
-        Coords: {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)} | SST: {stress.sst}°C | DHW: {stress.dhw}
+        </div>
+
+        {/* Urgency summary */}
+        <div
+          className="urgency-summary-box"
+          style={{ border: `1px solid ${urgencyColor}55` }}
+        >
+          <div className="urgency-header-row">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span className="info-label" style={{ margin: 0 }}>URGENCY:</span>
+              <span
+                className="urgency-badge"
+                style={{
+                  backgroundColor: `${urgencyColor}22`,
+                  color: urgencyColor,
+                  border: `1px solid ${urgencyColor}88`,
+                }}
+              >
+                {protocol.urgency_level}
+              </span>
+            </div>
+            <div className="urgency-window">
+              ⏱ Window: {protocol.intervention_window}
+            </div>
+          </div>
+
+          <div className="executive-summary-text">
+            {protocol.executive_summary}
+          </div>
+        </div>
       </div>
       
-      {/* Pinned Tab Selector Bar (Always visible above scrollable body) */}
+      {/* Selector Bar */}
       <div className="intervention-tab-bar">
 
         <div className="intervention-tab-items">
@@ -123,34 +170,6 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
 
       {/* Panel Scrollable Body */}
       <div ref={bodyRef} className="intervention-panel-body">
-        {/* Urgency summary */}
-        <div
-          className="urgency-summary-box"
-          style={{ border: `1px solid ${urgencyColor}55` }}
-        >
-          <div className="urgency-header-row">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span className="info-label" style={{ margin: 0 }}>URGENCY:</span>
-              <span
-                className="urgency-badge"
-                style={{
-                  backgroundColor: `${urgencyColor}22`,
-                  color: urgencyColor,
-                  border: `1px solid ${urgencyColor}88`,
-                }}
-              >
-                {protocol.urgency_level}
-              </span>
-            </div>
-            <div className="urgency-window">
-              ⏱ Window: {protocol.intervention_window}
-            </div>
-          </div>
-
-          <div className="executive-summary-text">
-            {protocol.executive_summary}
-          </div>
-        </div>
 
         {/* Active Tab View */}
         {activeTab === 'shading' && <ShadingTab shading={protocol.shading} model={protocol.model_used} />}

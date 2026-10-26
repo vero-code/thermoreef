@@ -248,7 +248,7 @@ export default function ReefMap() {
 
         {/* In-frame Intervention Protocol overlay */}
         {interventionData && (
-          <div className="reef-frame-overlay">
+          <div className={`reef-frame-overlay ${isSettingsOpen ? 'is-hidden' : ''}`}>
             <InterventionPanel
               data={interventionData}
               onClose={() => setInterventionData(null)}
