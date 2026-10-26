@@ -9,39 +9,39 @@ export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
       </label>
 
       <div className="mode-selector-grid">
-        {/* Card 1: For Judges (Mock) */}
+        {/* Judge */}
         <div
           onClick={() => onSelectTab('mock')}
           className={`mode-card mock ${activeTab === 'mock' ? 'is-active' : ''}`}
         >
-          <div className="icon">
+          <div className="mode-card-heading">
             <span className="mode-glowing-dot mock" />
+            <span className="title">{MODE_BADGE_CONFIG.mock.label}</span>
           </div>
-          <div className="title">{MODE_BADGE_CONFIG.mock.label}</div>
           <div className="sub">{MODE_BADGE_CONFIG.mock.sub}</div>
         </div>
 
-        {/* Card 2: Live Cloud API */}
+        {/* Scientist */}
         <div
           onClick={() => onSelectTab('custom')}
           className={`mode-card custom ${activeTab === 'custom' ? 'is-active' : ''}`}
         >
-          <div className="icon">
+          <div className="mode-card-heading">
             <span className="mode-glowing-dot custom" />
+            <span className="title">{MODE_BADGE_CONFIG.custom.label}</span>
           </div>
-          <div className="title">{MODE_BADGE_CONFIG.custom.label}</div>
           <div className="sub">{MODE_BADGE_CONFIG.custom.sub}</div>
         </div>
 
-        {/* Card 3: For Developers */}
+        {/* Developer */}
         <div
           onClick={() => onSelectTab('dev')}
           className={`mode-card dev ${activeTab === 'dev' ? 'is-active' : ''}`}
         >
-          <div className="icon">
+          <div className="mode-card-heading">
             <span className="mode-glowing-dot dev" />
+            <span className="title">{MODE_BADGE_CONFIG.dev.label}</span>
           </div>
-          <div className="title">{MODE_BADGE_CONFIG.dev.label}</div>
           <div className="sub">{MODE_BADGE_CONFIG.dev.sub}</div>
         </div>
       </div>

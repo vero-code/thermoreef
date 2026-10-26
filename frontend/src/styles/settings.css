@@ -1,34 +1,29 @@
-/* Settings modal and tabs */
-
-.settings-card { max-width: 560px; }
-
 /* Mode Selector Grid */
 .mode-selector-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
+  gap: 12px;
   margin-top: 8px;
 }
 .mode-card {
-  padding: 10px 8px;
+  padding: 10px 8px 10px 16px;
   border-radius: 10px;
   cursor: pointer;
-  text-align: center;
+  text-align: left;
   transition: all 0.15s;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.03);
 }
-.mode-card .icon {
+.mode-card-heading {
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 20px;
-  margin-bottom: 6px;
+  justify-content: flex-start;
+  gap: 12px;
 }
 .mode-glowing-dot {
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   transition: all 0.25s ease;
 }
@@ -46,6 +41,7 @@
 }
 
 .mode-card .title {
+  margin: 0;
   font-weight: 700;
   font-size: 16px;
   color: #f8fafc;
@@ -61,10 +57,6 @@
   border: 1.5px solid #38bdf8;
   background: rgba(56, 189, 248, 0.08);
   box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
-}
-
-.mode-card.is-active .title {
-  color: #38bdf8;
 }
 
 /* Container Box */
@@ -84,7 +76,7 @@
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Tab 1: Live Cloud (Users) */
+/* Scientist */
 .live-cloud-tab-inner {
   display: flex;
   flex-direction: column;
@@ -134,72 +126,16 @@
   box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
 }
 
-/* Tab 2: Judges (Mock) */
+/* Judges */
 .judge-tab-inner {
   display: flex;
   flex-direction: column;
 }
 
-.judge-tab-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #38bdf8;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  font-family: 'Inter', sans-serif;
-}
-
-.judge-check {
-  font-size: 16px;
-  font-weight: 900;
-  color: #38bdf8;
-}
-
-.badge-dot-bullet {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.badge-dot-bullet.amber {
-  background: #fbbf24;
-  box-shadow: 0 0 6px #fbbf24;
-}
-
-.badge-dot-bullet.cyan {
-  background: #38bdf8;
-  box-shadow: 0 0 6px #38bdf8;
-}
-
-.badge-dot-bullet.purple {
-  background: #c084fc;
-  box-shadow: 0 0 6px #c084fc;
-}
-
-/* Tab 3: Devs */
+/* Devs */
 .dev-tab-inner {
   display: flex;
   flex-direction: column;
-}
-
-.dev-tab-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.dev-tab-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #f8fafc;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Inter', sans-serif;
 }
 
 .dev-tab-desc {
@@ -263,27 +199,6 @@
   border-color: #38bdf8;
 }
 
-.dev-info-note {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: #94a3b8;
-}
-
-.dev-info-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  color: #cbd5e1;
-  font-size: 14px;
-  font-weight: 700;
-}
-
 .dev-error-box {
   padding: 6px 10px;
   border-radius: 6px;
@@ -341,18 +256,6 @@
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.settings-panel-gear-box {
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(56, 189, 248, 0.45);
-  border-radius: 8px;
-  background: rgba(56, 189, 248, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
 }
 
 .settings-panel-title {
@@ -542,6 +445,6 @@
     gap: 6px;
   }
   .mode-card {
-    padding: 8px 4px;
+    padding: 8px 4px 8px 12px;
   }
 }
