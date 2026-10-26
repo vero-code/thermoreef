@@ -6,7 +6,7 @@ import { TriageTab } from './intervention/TriageTab';
 import { MonitoringTab } from './intervention/MonitoringTab';
 import { WebIntelTab } from './intervention/WebIntelTab';
 import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from './intervention/Icons';
-import { CopyIcon, SettingsCloseIcon } from './settings/Icons';
+import { SettingsCloseIcon } from './settings/Icons';
 import { useReefLocation } from '../utils/geocoding';
 import '../styles/intervention.css';
 
@@ -162,28 +162,24 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
       {/* Panel Footer */}
       <div className="intervention-panel-footer">
         <div className="intervention-footer-disclaimer">
-          <WarningIcon />
+          <span className="footer-cyan-dot">●</span>
           <span>
             <strong>Disclaimer:</strong> Decision-support only. Verification by marine biologists required.
           </span>
         </div>
         <div className="intervention-footer-actions">
           <button
-            type="button"
             onClick={onClose}
             className="protocol-footer-return-btn"
-            title="Return to satellite map view"
           >
             CLOSE
           </button>
           <button
-            type="button"
             onClick={handleCopy}
-            className={`btn-copy ${copied ? 'is-copied' : ''}`}
-            title={copied ? 'Protocol copied' : 'Copy full protocol report to clipboard'}
-            aria-label={copied ? 'Protocol copied' : 'Copy full protocol report'}
+            disabled={copied}
+            className="btn-copy"
           >
-            {copied ? '✓ COPIED' : <CopyIcon />}
+            {copied ? '✓ COPIED' : 'COPY'}
           </button>
         </div>
       </div>

@@ -79,6 +79,172 @@
   align-items: center;
 }
 
+/* Shared in-frame panels */
+.settings-frame-panel,
+.intervention-frame-panel {
+  width: fit-content;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(11, 20, 32, 0.68);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  overflow: hidden;
+  animation: framePanelFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 16px;
+}
+
+@keyframes framePanelFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.settings-panel-header,
+.intervention-panel-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, rgba(15, 23, 42, 0) 100%);
+  flex-shrink: 0;
+}
+
+.settings-panel-title-group,
+.intervention-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.settings-panel-title,
+.intervention-panel-title {
+  margin: 0;
+  font-family: 'Cinzel', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: #f8fafc;
+}
+
+.settings-panel-close-box,
+.intervention-panel-close-box {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-panel-close-box:hover,
+.intervention-panel-close-box:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* Panel Footer*/
+.settings-panel-footer,
+.intervention-panel-footer {
+  font-family: 'Cinzel', sans-serif;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: rgba(7, 13, 22, 0.5);
+  flex-shrink: 0;
+}
+
+.settings-mock-footer-hint,
+.intervention-footer-disclaimer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.footer-cyan-dot {
+  color: #06b6d4;
+  font-size: 14px;
+}
+
+/* Panel Footer Action Bar */
+.settings-panel-actions,
+.intervention-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.settings-cancel-btn,
+.protocol-footer-return-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: color 0.15s;
+}
+
+.settings-cancel-btn:hover,
+.protocol-footer-return-btn:hover {
+  color: #f8fafc;
+}
+
+.settings-apply-btn,
+.btn-copy {
+  background: #00b4d8;
+  color: #02121d;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 9px 24px;
+  cursor: pointer;
+  box-shadow: 0 0 16px rgba(0, 180, 216, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.settings-apply-btn:hover,
+.btn-copy:hover {
+  background: #38bdf8;
+  box-shadow: 0 0 22px rgba(56, 189, 248, 0.6);
+  transform: translateY(-1px);
+}
+
+.settings-apply-btn,
+.settings-cancel-btn,
+.protocol-footer-return-btn,
+.btn-copy {
+  font-family: 'Cinzel', sans-serif;
+}
+
 /* Badges */
 .badge {
   display: inline-flex;
