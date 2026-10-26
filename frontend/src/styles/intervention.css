@@ -89,7 +89,7 @@
 
 /* Action items */
 .species-pill, .tool-pill {
-  font-size: 14px;
+  font-size: 16px;
   padding: 2px 8px;
   border-radius: 6px;
   display: inline-block;
@@ -147,7 +147,7 @@
   border-radius: 10px;
 }
 .web-intel-brief-title {
-  font-size: 14px;
+  font-size: 16px;
   color: #38bdf8;
   text-transform: uppercase;
   font-weight: 700;
@@ -194,9 +194,25 @@
   padding: 2px 6px;
   border-radius: 4px;
 }
-.web-intel-query-bar { display: flex; justify-content: space-between; font-size: 16px; color: #94a3b8; }
+.web-intel-query-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 16px;
+  color: #94a3b8;
+}
+.web-intel-query-bar > span:last-child {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 .web-intel-brief-text { font-size: 16px; line-height: 1.5; color: #cbd5e1; }
-.web-intel-news-snippet { font-size: 14px; color: #cbd5e1; margin: 0; line-height: 1.4; }
+.web-intel-news-snippet {
+  font-size: 16px;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.4;
+}
 .species-risk-wrap, .tools-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
 .intervention-disclaimer {
   font-size: 14px;

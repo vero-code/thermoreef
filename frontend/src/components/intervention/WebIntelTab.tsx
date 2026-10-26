@@ -62,7 +62,6 @@ export function WebIntelTab({ intel, model, generatedBy }: WebIntelTabProps) {
       {intel.answer && (
         <div className="web-intel-brief-card">
           <div className="web-intel-brief-title">
-            <span>⚡</span>
             <span>Tavily Intelligence Brief</span>
           </div>
           <div className="web-intel-brief-text">{intel.answer}</div>
