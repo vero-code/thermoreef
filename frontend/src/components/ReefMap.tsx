@@ -258,7 +258,6 @@ export default function ReefMap() {
         {isSettingsOpen && (
           <div className="reef-frame-overlay settings-overlay" style={{ zIndex: 30 }}>
             <SettingsPanel
-              mode={executionMode}
               onModeChange={setExecutionMode}
               onClose={() => setIsSettingsOpen(false)}
             />

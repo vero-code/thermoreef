@@ -17,21 +17,19 @@ AI-powered coral bleaching early warning system. Monitors ocean thermal stress u
 
 ## Architecture
 
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the system design and request flows.
+
 ```
-UNEP-WCMC (17,504 reef polygons)
+UNEP-WCMC reef polygon
         ↓
-Google Maps Dataset Layer (vector polygons) + Geocoder
-        +
-NOAA ERDDAP (live SST, DHW, BAA per reef)
-        +
-Tavily Search API (real-time regional ecological reports & news)
+Google Maps + Geocoding (reef ID, coordinates, region)
         ↓
-FastAPI backend (/reefs/{id}/intervention)
+FastAPI backend
+        ├── NOAA ERDDAP (thermal stress metrics)
+        ├── Tavily (regional reports, live modes)
+        └── Nemotron via Nebius (validated intervention protocol)
         ↓
-NVIDIA Nemotron-3 Ultra (via Nebius Token Factory)
-        ↓
-Structured Emergency Rescue Protocol (JSON)
-(Shading parameters, biological triage, nursery relocation, ranger alerts, web intelligence)
+Protocol displayed in the app
 ```
 
 ## Tech Stack

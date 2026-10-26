@@ -8,11 +8,11 @@ import { CloseIcon } from './settings/Icons';
 import { API_BASE, STORAGE_KEYS, NEBIUS_GET_KEY_URL, TAVILY_GET_KEY_URL } from '../constants';
 import '../styles/settings.css';
 
-export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProps) {
+export function SettingsPanel({ onModeChange, onClose }: SettingsPanelProps) {
   const [activeTab, setActiveTab] = useState<ModeTab>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.SETTING_TAB);
     if (saved === 'mock' || saved === 'custom' || saved === 'dev') return saved;
-    return mode;
+    return 'custom';
   });
 
   const [nebiusKey, setNebiusKey] = useState('');
