@@ -51,13 +51,15 @@ Structured Emergency Rescue Protocol (JSON)
   - *Specimen 02* (*Diploria labyrinthiformis*, Belize Barrier Reef · Mesoamerican Shield): by [David Clode on Unsplash](https://unsplash.com/photos/gray-and-black-stone-fragment-46a013bb70d5).
   - Both photographs are free under the [Unsplash License](https://unsplash.com/license).
 
-## Execution Modes
+## User Roles
 
-The application supports three operating modes configured in Settings:
+The application supports 3 user roles configured in Settings:
 
-- **For Judges (Mock):** Uses pre-generated offline responses without requiring API keys.
-- **Live Cloud API:** Uses Nebius and Tavily API keys entered in the UI and stored in the browser session.
-- **For Developers:** Uses `NEBIUS_API_KEY` and `TAVILY_API_KEY` defined in `backend/.env`.
+- **Judge:** Uses live NOAA metrics with locally generated demo protocols and Tavily-style results. No Nebius or Tavily keys are needed.
+- **Scientist:** Uses Nebius and Tavily API keys entered in Settings, stored in the browser's local storage, and sent to the backend with requests.
+- **Developer:** Uses `NEBIUS_API_KEY` and `TAVILY_API_KEY` from `backend/.env`.
+
+Settings checks key presence; the backend validates keys on use and reports authentication errors.
 
 ---
 
@@ -178,7 +180,7 @@ thermoreef/
 │           ├── client.py        # Token Factory API client
 │           ├── schemas.py       # Pydantic data contracts
 │           ├── prompts.py       # Structured triage prompt templates
-│           └── mock.py          # Offline fallback generator
+│           └── mock.py          # NOAA-driven local demo protocol generator
 ├── frontend/
 │   ├── src/
 │   │   ├── App.tsx
