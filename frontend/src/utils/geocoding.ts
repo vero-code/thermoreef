@@ -118,7 +118,7 @@ export async function reverseGeocode(lat: number, lng: number): Promise<GeocodeL
       const flag = getCountryFlag(countryCode);
       const placeDetail = naturalFeatureName || regionName || localityName;
 
-      let cleanName = '';
+      let cleanName: string;
       if (countryName && placeDetail && placeDetail !== countryName) {
         cleanName = `${placeDetail}, ${countryName}`;
       } else if (countryName) {
@@ -156,37 +156,37 @@ export async function reverseGeocode(lat: number, lng: number): Promise<GeocodeL
  * Custom React hook for fetching reef location from Google Maps Geocoder.
  */
 export function useReefLocation(lat?: number, lng?: number) {
-  const [location, setLocation] = useState<GeocodeLocation | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const coordinatesKey = lat !== undefined && lng !== undefined ? `${lat},${lng}` : null;
+  const [result, setResult] = useState<{
+    coordinatesKey: string | null;
+    location: GeocodeLocation | null;
+  }>({ coordinatesKey: null, location: null });
 
   useEffect(() => {
-    if (lat === undefined || lng === undefined) {
-      setLocation(null);
-      setLoading(false);
-      return;
-    }
+    if (coordinatesKey === null || lat === undefined || lng === undefined) return;
 
     let isMounted = true;
-    setLoading(true);
 
     reverseGeocode(lat, lng)
       .then((loc) => {
         if (isMounted) {
-          setLocation(loc);
-          setLoading(false);
+          setResult({ coordinatesKey, location: loc });
         }
       })
       .catch(() => {
         if (isMounted) {
-          setLocation(null);
-          setLoading(false);
+          setResult({ coordinatesKey, location: null });
         }
       });
 
     return () => {
       isMounted = false;
     };
-  }, [lat, lng]);
+  }, [coordinatesKey, lat, lng]);
 
-  return { location, loading };
+  const resultIsCurrent = result.coordinatesKey === coordinatesKey;
+  return {
+    location: resultIsCurrent ? result.location : null,
+    loading: coordinatesKey !== null && !resultIsCurrent,
+  };
 }

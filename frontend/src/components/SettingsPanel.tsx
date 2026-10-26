@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { ModeTab, SettingsPanelProps } from './settings/types';
 import { ModeSelector } from './settings/ModeSelector';
 import { JudgeTab } from './settings/JudgeTab';
@@ -15,23 +15,18 @@ export function SettingsPanel({ onModeChange, onClose }: SettingsPanelProps) {
     return 'custom';
   });
 
-  const [nebiusKey, setNebiusKey] = useState('');
-  const [tavilyKey, setTavilyKey] = useState('');
+  const [nebiusKey, setNebiusKey] = useState(() => {
+    return localStorage.getItem(STORAGE_KEYS.NEBIUS_KEY) || '';
+  });
+  const [tavilyKey, setTavilyKey] = useState(() => {
+    return localStorage.getItem(STORAGE_KEYS.TAVILY_KEY) || '';
+  });
   const [nebiusInvalid, setNebiusInvalid] = useState(false);
   const [tavilyInvalid, setTavilyInvalid] = useState(false);
   const [devError, setDevError] = useState<string | null>(null);
   const [devChecking, setDevChecking] = useState(false);
   const [devInvalid, setDevInvalid] = useState(false);
   const [saved, setSaved] = useState(false);
-
-  useEffect(() => {
-    setNebiusKey(localStorage.getItem(STORAGE_KEYS.NEBIUS_KEY) || '');
-    setTavilyKey(localStorage.getItem(STORAGE_KEYS.TAVILY_KEY) || '');
-    setNebiusInvalid(false);
-    setTavilyInvalid(false);
-    setDevError(null);
-    setDevInvalid(false);
-  }, []);
 
   const handleSelectTab = (tab: ModeTab) => {
     setActiveTab(tab);
@@ -71,8 +66,9 @@ export function SettingsPanel({ onModeChange, onClose }: SettingsPanelProps) {
           setDevChecking(false);
           return;
         }
-      } catch (err: any) {
-        setDevError(`Backend check failed: ${err.message}. Is backend running?`);
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : String(err);
+        setDevError(`Backend check failed: ${errorMessage}. Is backend running?`);
         setDevInvalid(true);
         setDevChecking(false);
         return;

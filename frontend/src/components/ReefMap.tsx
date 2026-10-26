@@ -174,9 +174,10 @@ export default function ReefMap() {
       setInterventionData(data);
       setIsMapHidden(false);
       setIsSettingsOpen(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to generate rescue protocol:', err);
-      alert(`⚠️ Cannot generate protocol:\n\n${err?.message || 'Server error'}`);
+      const errorMessage = err instanceof Error ? err.message : 'Server error';
+      alert(`⚠️ Cannot generate protocol:\n\n${errorMessage}`);
     } finally {
       setInspecting(false);
     }

@@ -11,7 +11,14 @@ export function OceanBackgroundCanvas({
   const turbulenceRef = useRef<SVGFETurbulenceElement | null>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 });
   const animFrameRef = useRef<number | null>(null);
+
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [prevBgUrl, setPrevBgUrl] = useState(bgImageUrl);
+
+  if (prevBgUrl !== bgImageUrl) {
+    setPrevBgUrl(bgImageUrl);
+    setImgLoaded(false);
+  }
 
   // Parallax tracking on mouse move
   useEffect(() => {
@@ -22,11 +29,6 @@ export function OceanBackgroundCanvas({
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
-
-  // Reset loaded state on image switch to trigger smooth crossfade
-  useEffect(() => {
-    setImgLoaded(false);
-  }, [bgImageUrl]);
 
   // Living marine snow particles, oceanic caustics, and water undulation
   useEffect(() => {
