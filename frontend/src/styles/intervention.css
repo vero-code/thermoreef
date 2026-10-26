@@ -5,35 +5,35 @@
   max-height: 90vh;
   box-shadow: 0 12px 32px rgba(2, 6, 23, 0.45), 0 0 24px rgba(56, 189, 248, 0.08);
 }
-.coords-sub {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  margin-top: 2px;
-  color: #94a3b8;
-  font-size: 14px;
-}
 .protocol-overview-row {
   display: flex;
-  align-items: stretch;
-  gap: 16px;
+  flex-direction: column;
+  gap: 10px;
   padding: 16px 24px 0;
 }
-.protocol-overview-row > .coords-sub {
-  flex: 0 0 36%;
-  margin-top: 0;
+.protocol-passport-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
-.protocol-overview-row > .urgency-summary-box {
-  flex: 1;
+.protocol-passport-row > .reef-card-title-group {
+  align-items: flex-start;
+  flex: 0 1 auto;
+  flex-direction: column;
+  gap: 6px;
   min-width: 0;
+  margin-right: 0;
 }
-.protocol-coords-row {
-  justify-content: flex-start;
+.protocol-metrics,
+.protocol-coordinate {
+  display: flex;
+  align-items: center;
   gap: 8px;
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: 0;
+}
+.protocol-metrics {
+  justify-content: flex-end;
+  flex-wrap: wrap;
 }
 /* Urgency Box */
 .urgency-summary-box {
@@ -55,7 +55,7 @@
 .urgency-badge { font-weight: 700; padding: 2px 8px; border-radius: 6px; }
 .urgency-window { font-weight: 600; color: #38bdf8; }
 .executive-summary-text {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
   color: #cbd5e1;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -64,12 +64,17 @@
 
 @media (max-width: 760px) {
   .protocol-overview-row {
-    flex-direction: column;
     padding: 12px 16px 0;
   }
 
-  .protocol-overview-row > .coords-sub {
-    flex-basis: auto;
+  .protocol-passport-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .protocol-metrics {
+    justify-content: flex-start;
   }
 }
 
@@ -357,4 +362,30 @@
 
 .intervention-footer-disclaimer strong {
   color: #cbd5e1;
+}
+
+.protocol-overview-row .reef-card-location,
+.protocol-overview-row .location-text {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  white-space: nowrap;
+}
+
+.protocol-overview-row .reef-card-title-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* 2. Чуть уплотняем отступы вкладок, чтобы "Web Intel (Tavily)" влезала целиком */
+.intervention-tab-items {
+  gap: 6px;
+}
+
+.intervention-tab-btn {
+  padding: 7px 12px;
+  font-size: 13.5px;
 }

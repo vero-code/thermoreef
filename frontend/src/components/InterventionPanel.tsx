@@ -11,10 +11,10 @@ import { useReefLocation } from '../utils/geocoding';
 import '../styles/intervention.css';
 
 const INTERVENTION_TABS = [
-  { id: 'shading', label: '🛡️ Shading' },
-  { id: 'triage', label: '🧬 Biological Triage' },
-  { id: 'monitoring', label: '📡 Monitoring' },
-  { id: 'webintel', label: '🌐 Web Intel (Tavily)' },
+  { id: 'shading', label: 'Shading' },
+  { id: 'triage', label: 'Biological Triage' },
+  { id: 'monitoring', label: 'Monitoring' },
+  { id: 'webintel', label: 'Web Intel (Tavily)' },
 ] as const;
 
 type TabId = (typeof INTERVENTION_TABS)[number]['id'];
@@ -72,7 +72,7 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
       </div>
 
       <div className="protocol-overview-row">
-        <div className="coords-sub">
+        <div className="protocol-passport-row">
           <div className="reef-card-title-group">
             <h2 className="reef-card-title">
               {protocol.reef_name || 'Reef #' + protocol.reef_id}
@@ -88,15 +88,17 @@ export function InterventionPanel({ data, onClose }: InterventionPanelProps) {
               </div>
             )}
           </div>
-          <div className="reef-card-coords-row protocol-coords-row">
-            <span className="coords-label">Coordinates:</span>
-            <span className="coords-val">
-              {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)}
+          <div className="protocol-metrics">
+            <div className="protocol-coordinate">
+              <span className="coords-label">Coordinates:</span>
+              <span className="coords-val">
+                {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)}
+              </span>
+            </div>
+            <span className="coords-label protocol-stress-line">
+              SST: {stress.sst}°C | Anomaly: {stress.tempAnomaly > 0 ? '+' : ''}{stress.tempAnomaly}°C | DHW: {stress.dhw}
             </span>
           </div>
-          <span className="coords-label protocol-stress-line">
-            SST: {stress.sst}°C | Anomaly: {stress.tempAnomaly > 0 ? '+' : ''}{stress.tempAnomaly}°C | DHW: {stress.dhw}
-          </span>
         </div>
 
         {/* Urgency summary */}
