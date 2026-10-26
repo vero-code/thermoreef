@@ -156,7 +156,7 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
           </div>
         ) : (
           <div className="settings-footer-links">
-            <span className="get-keys-label">Get keys:</span>
+            <span className="get-keys-label">GET KEYS:</span>
             <a
               href={NEBIUS_GET_KEY_URL}
               target="_blank"
@@ -164,7 +164,7 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
               className="settings-footer-link"
               title="Open Nebius Token Factory API keys"
             >
-              Nebius ↗
+              NEBIUS ↗
             </a>
             <a
               href={TAVILY_GET_KEY_URL}
@@ -173,7 +173,7 @@ export function SettingsPanel({ mode, onModeChange, onClose }: SettingsPanelProp
               className="settings-footer-link"
               title="Open Tavily Search API keys"
             >
-              Tavily ↗
+              TAVILY ↗
             </a>
           </div>
         )}

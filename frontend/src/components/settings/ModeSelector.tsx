@@ -4,7 +4,7 @@ import { MODE_BADGE_CONFIG } from '../../constants';
 export function ModeSelector({ activeTab, onSelectTab }: ModeSelectorProps) {
   return (
     <div>
-      <label className="info-label">
+      <label className="info-label-settings">
         Select your role
       </label>
 

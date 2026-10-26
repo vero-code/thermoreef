@@ -185,7 +185,7 @@ export default function ReefMap() {
       />
 
       {/* Showcase frame */}
-      <div className={`reef-map-frame ${isMapHidden && !isSettingsOpen ? 'is-hidden' : ''}`}>
+      <div className={`reef-map-frame ${isMapHidden && !isSettingsOpen ? 'is-hidden' : ''} ${isSettingsOpen ? 'settings-open' : ''}`}>
         <div className={`reef-map-viewport ${isSettingsOpen ? 'is-hidden' : ''}`}>
           <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="en">
             <Map
