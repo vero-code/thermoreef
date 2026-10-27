@@ -66,7 +66,7 @@ export function TermsModal({ isOpen, onClose }: ModalProps) {
                 (17,504 reef polygons)
               </li>
               <li>
-                <strong>AI Inference:</strong> NVIDIA Nemotron (Nemotron-3 Ultra 550B / Super 120B) on Nebius Token Factory
+                <strong>AI Inference:</strong> NVIDIA Nemotron models on Nebius Token Factory. Primary: <code>nvidia/Nemotron-3-Ultra-550b-a55b</code>; fallback: <code>nvidia/nemotron-3-super-120b-a12b</code>, attempted if the primary model call fails.
               </li>
               <li>
                 <strong>Web Intelligence:</strong> Tavily Search API
@@ -86,40 +86,43 @@ export function TermsModal({ isOpen, onClose }: ModalProps) {
               Ocean Background Imagery & Specimen Credits
             </div>
             <p style={{ margin: '0 0 8px', fontSize: 14, lineHeight: 1.5, color: '#e2e8f0' }}>
-              Atmospheric ocean specimens displayed in the observatory background are provided by community photographers on Unsplash under the Unsplash License:
+              Atmospheric ocean specimens displayed in the observatory background are sourced from Unsplash under the Unsplash License. Open an image:
             </p>
             <ul style={{ margin: 0, paddingLeft: 18, fontSize: 14, lineHeight: 1.6, color: '#cbd5e1' }}>
               <li>
                 <strong>Specimen {OCEAN_SPECIMEN_01.id} ({OCEAN_SPECIMEN_01.name} · {OCEAN_SPECIMEN_01.locale}):</strong>{' '}
+                <span>{OCEAN_SPECIMEN_01.photoCredit} · </span>
                 <a
-                  href={OCEAN_SPECIMEN_01.unsplashUrl}
+                  href={OCEAN_SPECIMEN_01.bgImageUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600 }}
                 >
-                  {OCEAN_SPECIMEN_01.photoCredit} ↗
+                  View image ↗
                 </a>
               </li>
               <li>
                 <strong>Specimen {OCEAN_SPECIMEN_02.id} ({OCEAN_SPECIMEN_02.name} · {OCEAN_SPECIMEN_02.locale}):</strong>{' '}
+                <span>{OCEAN_SPECIMEN_02.photoCredit} · </span>
                 <a
-                  href={OCEAN_SPECIMEN_02.unsplashUrl}
+                  href={OCEAN_SPECIMEN_02.bgImageUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600 }}
                 >
-                  {OCEAN_SPECIMEN_02.photoCredit} ↗
+                  View image ↗
                 </a>
               </li>
               <li>
                 <strong>Specimen {OCEAN_SPECIMEN_03.id} ({OCEAN_SPECIMEN_03.name} · {OCEAN_SPECIMEN_03.locale}):</strong>{' '}
+                <span>{OCEAN_SPECIMEN_03.photoCredit} · </span>
                 <a
-                  href={OCEAN_SPECIMEN_03.unsplashUrl}
+                  href={OCEAN_SPECIMEN_03.bgImageUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600 }}
                 >
-                  {OCEAN_SPECIMEN_03.photoCredit} ↗
+                  View image ↗
                 </a>
               </li>
             </ul>
@@ -153,7 +156,7 @@ export function TermsModal({ isOpen, onClose }: ModalProps) {
               >
                 Apache License 2.0 ↗
               </a>
-              . Free to inspect, adapt, and deploy.
+              . You may use, modify, and redistribute the project subject to the license terms. Redistributions must retain applicable copyright and license notices; modifications must be clearly marked, and any applicable NOTICE file must be included.
             </p>
           </div>
         </div>

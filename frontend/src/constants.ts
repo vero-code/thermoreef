@@ -33,8 +33,7 @@ export const OCEAN_SPECIMEN_01 = {
   locale: 'Great Barrier Reef · Lizard Island',
   depth: '11.4m',
   bgImageUrl: 'https://images.unsplash.com/photo-1546026423-cc4642628d2b?q=85&w=2400&auto=format&fit=crop',
-  tintRgba: 'rgba(7, 18, 25, 0.45)',
-  unsplashUrl: 'https://unsplash.com/photos/brown-and-black-underwater-coral-cc4642628d2b',
+  tintRgba: 'rgba(7, 18, 25, 0.25)',
   photoCredit: 'Francesco Ungaro on Unsplash',
 } as const;
 
@@ -45,8 +44,7 @@ export const OCEAN_SPECIMEN_02 = {
   locale: 'Belize Barrier Reef · Mesoamerican Shield',
   depth: '18.2m',
   bgImageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=85&w=2400&auto=format&fit=crop',
-  tintRgba: 'rgba(9, 14, 28, 0.45)',
-  unsplashUrl: 'https://unsplash.com/photos/gray-and-black-stone-fragment-46a013bb70d5',
+  tintRgba: 'rgba(9, 14, 28, 0.25)',
   photoCredit: 'David Clode on Unsplash',
 } as const;
 
@@ -57,8 +55,7 @@ export const OCEAN_SPECIMEN_03 = {
   locale: 'Coral Triangle · Raja Ampat Misool Arch',
   depth: '8.6m',
   bgImageUrl: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=85&w=2400&auto=format&fit=crop',
-  tintRgba: 'rgba(5, 12, 19, 0.40)',
-  unsplashUrl: 'https://unsplash.com/photos/1fe6229603b7',
+  tintRgba: 'rgba(5, 12, 19, 0.25)',
   photoCredit: 'Unsplash Marine Archive',
 } as const;
 
