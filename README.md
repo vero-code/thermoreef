@@ -1,5 +1,10 @@
 # ThermoReef
 
+![Python](https://img.shields.io/badge/Python-3.14+-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+
 AI-powered coral bleaching early warning system. Monitors ocean thermal stress using NOAA satellite data across 17,504 coral reef polygons from UNEP-WCMC and generates emergency rescue protocols via NVIDIA Nemotron models hosted on Nebius Token Factory.
 
 ## AI Models
@@ -7,6 +12,8 @@ AI-powered coral bleaching early warning system. Monitors ocean thermal stress u
 - **Platform:** Nebius Token Factory (`https://api.tokenfactory.nebius.com/v1`, OpenAI-compatible)
 - **Primary Model:** `nvidia/Nemotron-3-Ultra-550b-a55b` (MoE 550B / A55B, deep reasoning for complex ecological triage & rescue protocol synthesis)
 - **Fallback Model:** `nvidia/nemotron-3-super-120b-a12b` (MoE 120B / A12B, automatic high-availability failover)
+
+Using Nebius Token Factory accelerated development by letting me integrate hosted Nemotron inference into the FastAPI backend through an OpenAI-compatible API, without provisioning GPU instances or maintaining model-serving infrastructure. This let me focus on the application’s prompts, output validation, and user experience rather than model deployment.
 
 ## System Components
 
@@ -45,8 +52,9 @@ Protocol displayed in the app
 - **Global Reef Dataset:** [UNEP-WCMC Global Distribution of Coral Reefs](https://data.unep-wcmc.org/datasets/1) (17,504 polygons)
 - **Satellite Thermal Telemetry:** [NOAA Coral Reef Watch 5km](https://coralreefwatch.noaa.gov/) via [PacIOOS ERDDAP](https://pae-paha.pacioos.hawaii.edu/erddap/griddap/dhw_5km.html)
 - **Ocean Imagery:**
-  - *Specimen 01* (*Acropora millepora*, Great Barrier Reef · Lizard Island): by [Francesco Ungaro on Unsplash](https://unsplash.com/photos/brown-and-black-underwater-coral-cc4642628d2b).
-  - *Specimen 02* (*Diploria labyrinthiformis*, Belize Barrier Reef · Mesoamerican Shield): by [David Clode on Unsplash](https://unsplash.com/photos/gray-and-black-stone-fragment-46a013bb70d5).
+  - *Specimen 01* (*Acropora millepora*, Great Barrier Reef · Lizard Island): by [Francesco Ungaro on Unsplash](https://images.unsplash.com/photo-1546026423-cc4642628d2b?q=85&w=2400&auto=format&fit=crop).
+  - *Specimen 02* (*Diploria labyrinthiformis*, Belize Barrier Reef · Mesoamerican Shield): by [David Clode on Unsplash](https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=85&w=2400&auto=format&fit=crop).
+  - *Specimen 03* (*Pocillopora damicornis*, Coral Triangle · Raja Ampat Misool Arch): by [Unsplash Marine Archive](https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=85&w=2400&auto=format&fit=crop)
   - Both photographs are free under the [Unsplash License](https://unsplash.com/license).
 
 ## User Roles
