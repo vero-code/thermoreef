@@ -7,6 +7,10 @@
 
 AI-powered coral bleaching early warning system. Monitors ocean thermal stress using NOAA satellite data across 17,504 coral reef polygons from UNEP-WCMC and generates emergency rescue protocols via NVIDIA Nemotron models hosted on Nebius Token Factory.
 
+## Demo video
+
+[![ThermoReef demo video](https://img.youtube.com/vi/oGkLREkozOk/maxresdefault.jpg)](https://youtu.be/oGkLREkozOk)
+
 ## AI Models
 
 - **Platform:** Nebius Token Factory (`https://api.tokenfactory.nebius.com/v1`, OpenAI-compatible)
